@@ -43,8 +43,6 @@ hw1_update_leds	PROC
 	BX LR
 	ENDP
 		
-; TODO 	
-	
 ;**********************************************
 ; Converts A ASCII HEX character to its 
 ; numerical value.  Valid characters are 0-9,a-f,A-F.
@@ -59,20 +57,40 @@ hw1_update_leds	PROC
 hw1_ascii_to_hex	PROC
 	PUSH {R2}
 	
+	; Check for 0-9
 	SUB R2, R0, #0x30
-	MOV R0, #0x00000000
 	CMP R2, #0
-	MOVLT R0, #0xFFFFFFFF
+	MOVLT R2, #0xFFFFFFFF
 	CMP R2, #9
-	MOVGT R0, #0xFFFFFFFF
+	MOVGT R2, #0xFFFFFFFF
+	CMP R2, #0xFFFFFFFF
+	BNE DONE
 	
+	; Check for a-f
+	SUB R2, R0, #0x61
+	CMP R2, #0
+	MOVLT R2, #0xFFFFFFFF
+	CMP R2, #5
+	MOVGT R2, #0xFFFFFFFF
+	CMP R2, #0xFFFFFFFF
+	ADDNE R2, #10
+	BNE DONE
+	
+	; check for A-F
+	SUB R2, R0, #0x41
+	CMP R2, #0
+	MOVLT R2, #0xFFFFFFFF
+	CMP R2, #5
+	MOVGT R2, #0xFFFFFFFF
+	CMP R2, #0xFFFFFFFF
+	ADDNE R2, #10
+	BNE DONE
+		
+DONE MOV R0, R2 
 	POP {R2}
 	
 	BX LR	
 	ENDP
-
-
-; TEST
 
 ;**********************************************
 ; Converts A single ASCII Decimal character to its 
@@ -89,11 +107,10 @@ ascii_to_dec PROC
 	
 	PUSH {R2}
 	
-	SUB R2, R0, #0x30
-	MOV R0, #0x00000000
-	CMP R2, #0
+	SUB R0, R0, #0x30
+	CMP R0, #0
 	MOVLT R0, #0xFFFFFFFF
-	CMP R2, #9
+	CMP R0, #9
 	MOVGT R0, #0xFFFFFFFF
 	
 	POP {R2}
@@ -164,7 +181,7 @@ hw1_ledx	PROC
 	ENDP
 		
 	
-; TODO 
+; check with unsigned 
 ;**********************************************
 ; Delays the examination of the next memory address 
 ; by a variable amount of time.
@@ -179,12 +196,14 @@ hw1_ledx	PROC
 hw1_wait	PROC
 	PUSH {R1}
 	MOV R1, R0
-LOOP CMP R1, 0
+LOOP CMP R1, #0
 	SUB R1, R1, #1
 	BGT LOOP
 	POP {R1}
 	BX LR
 	ENDP
+
+; TODO
 
 ;**********************************************
 ; This function will search through memory a byte at a time looking for valid DISPLAY
@@ -198,27 +217,72 @@ LOOP CMP R1, 0
 ; Return
 ;	Nothing
 ;**********************************************	
-
 hw1_search_memory PROC
 	PUSH {R1}
 	
+	MOV R0, #0x2F	; false
+	BL hw1_ascii_to_hex
+	MOV R0, #0x30	; 0
+	BL hw1_ascii_to_hex
+	MOV R0, #0x31	; 1
+	BL hw1_ascii_to_hex
+	MOV R0, #0x38	; 8
+	BL hw1_ascii_to_hex	
+	MOV R0, #0x39	; 9
+	BL hw1_ascii_to_hex
+	MOV R0, #0x3A	; False
+	BL hw1_ascii_to_hex
+	MOV R0, #0x40	; False
+	BL hw1_ascii_to_hex
+	MOV R0, #0x41	; 10
+	BL hw1_ascii_to_hex
+	MOV R0, #0x46	; 15
+	BL hw1_ascii_to_hex
+	MOV R0, #0x47	; false
+	BL hw1_ascii_to_hex
+	MOV R0, #0x60	; false
+	BL hw1_ascii_to_hex
+	MOV R0, #0x61	; 10
+	BL hw1_ascii_to_hex
+	MOV R0, #0x66	; 15
+	BL hw1_ascii_to_hex
+	MOV R0, #0x67	; false
+	BL hw1_ascii_to_hex
+
 	BL hw1_init
 	BL hw1_update_leds
-	
+
+	MOV32 R0, #1000
+	MOV32 R1, #10000
+	MUL R0, R0, R1
+	BL hw1_wait
+		
 	MOV R0, #1
 	MOV32 R1, #0x00FF0000
 	BL hw1_ledx
 	BL hw1_update_leds
+	
+	MOV32 R0, #1000
+	MOV32 R1, #10000
+	MUL R0, R0, R1
+	BL hw1_wait
 	
 	MOV R0, #7
 	MOV32 R1, #0x00FFFF00
 	BL hw1_ledx
 	BL hw1_update_leds
 	
+	MOV32 R0, #1000
+	MOV32 R1, #10000
+	MUL R0, R0, R1
+	BL hw1_wait
+	
 	BL hw1_init
 	BL hw1_update_leds
 	
-	MOV R0, #10
+	MOV32 R0, #1000
+	MOV32 R1, #10000
+	MUL R0, R0, R1
 	BL hw1_wait
 	
 	POP {R1}
