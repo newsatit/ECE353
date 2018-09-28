@@ -1,0 +1,293 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; Filename:     main.s 
+    2 00000000         ; Author:       ece353 staff 
+    3 00000000         ; Description:  
+    4 00000000         
+    5 00000000                 export           __main
+    6 00000000         
+    7 00000000         
+    8 00000000         ; DEFINE the value required to check for 'WAIT'
+    9 00000000 54494157 
+                       WAIT_STR
+                               EQU              0x54494157
+   10 00000000         
+   11 00000000         ;**********************************************
+   12 00000000         ; SRAM
+   13 00000000         ;**********************************************
+   14 00000000                 AREA             SRAM, READWRITE
+   15 00000000                 align
+   16 00000000         
+   17 00000000         ;**********************************************
+   18 00000000         ; Constant Variables (FLASH) Segment
+   19 00000000         ;**********************************************
+   20 00000000                 AREA             FLASH, CODE, READONLY
+   21 00000000 57 61 49 
+              54 20 57 
+              41 49 54 
+              31 46 30 
+              30 20 57 
+              41 49 54 
+              30 35 30 
+              30       MEM_BLK DCB              "WaIT WAIT1F00 WAIT0500"
+   22 00000016 00 00           align
+   23 00000018         
+   24 00000018         
+   25 00000018         ;**********************************************
+   26 00000018         ; Check to see if an address holds the ASCII
+   27 00000018         ; string 'WAIT'.
+   28 00000018         ; 
+   29 00000018         ; Parameters
+   30 00000018         ;  R0 :  Address to examine
+   31 00000018         ; 
+   32 00000018         ; Returns
+   33 00000018         ;   R1 :  0x00000000 if WAIT was found
+   34 00000018         ;         0xFFFFFFFF if WAIT was NOT FOUND 
+   35 00000018         ;**********************************************
+   36 00000018         check_for_wait
+                               PROC
+   37 00000018         
+   38 00000018         ; Load the 4 character string starting at R0
+   39 00000018         ; into a register
+   40 00000018 6802            LDR              R2, [R0]
+   41 0000001A         
+   42 0000001A         ; Load 'WAIT' to R3
+   43 0000001A F244 1357 
+              F2C5 4349        MOV32            R3, WAIT_STR
+   44 00000022         
+   45 00000022         ; Check to see if the resulting value is 
+   46 00000022         ; equal to 'WAIT'
+   47 00000022 429A            CMP              R2, R3
+   48 00000024         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   49 00000024         ; Set the return value
+   50 00000024 BF0C 2100       MOVEQ            R1, #0x00000000
+   51 00000028 F04F 31FF       MOVNE            R1, #0xFFFFFFFF
+   52 0000002C         
+   53 0000002C         ; Return
+   54 0000002C 4770            BX               LR
+   55 0000002E         
+   56 0000002E                 ENDP
+   57 0000002E         
+   58 0000002E         ;**********************************************
+   59 0000002E         ; Converts A single ASCII Decimal character to its 
+   60 0000002E         ; numerical value.  Valid characters are 0-9.
+   61 0000002E         ; 
+   62 0000002E         ; Parameters
+   63 0000002E         ;  R5 : ASCII Char
+   64 0000002E         ;
+   65 0000002E         ; Returns
+   66 0000002E         ; R1 :  numerical value.  
+   67 0000002E         ;   If invalid, return 0xFFFFFFFF
+   68 0000002E         ;**********************************************
+   69 0000002E         ascii_to_dec
+                               PROC
+   70 0000002E         
+   71 0000002E F1A5 0230       SUB              R2, R5, #0x30
+   72 00000032 F04F 0100       MOV              R1, #0x00000000
+   73 00000036 2A00            CMP              R2, #0
+   74 00000038 BFB8 F04F 
+              31FF             MOVLT            R1, #0xFFFFFFFF
+   75 0000003E 2A09            CMP              R2, #9
+   76 00000040 BFC8 F04F 
+              31FF             MOVGT            R1, #0xFFFFFFFF
+   77 00000046 4770            BX               LR
+   78 00000048         ; Return
+   79 00000048         
+   80 00000048                 ENDP
+   81 00000048         
+   82 00000048         ;**********************************************
+   83 00000048         ; Code (FLASH) Segment
+   84 00000048         ; main assembly program
+   85 00000048         ;**********************************************
+   86 00000048         __main  PROC
+   87 00000048         
+   88 00000048         ; Load the starting address of MEM_BLK
+   89 00000048 480C            LDR              R0, =(MEM_BLK)
+   90 0000004A         
+   91 0000004A         WAIT_LOOP_START
+   92 0000004A         
+   93 0000004A         ; Check the current address for 'WAIT'
+   94 0000004A F7FF FFFE       BL               check_for_wait
+   95 0000004E         
+   96 0000004E         ; If WAIT was not found, advance the address 
+   97 0000004E         ; by 1 and check again
+   98 0000004E F1B1 3FFF       CMP              R1, #0xFFFFFFFF
+   99 00000052 BF08 1C40       ADDEQ            R0, R0, #1
+  100 00000056 D0F8            BEQ              WAIT_LOOP_START
+  101 00000058         
+  102 00000058         ; If WAIT was found, check the next
+  103 00000058         ; four characters to see if each character
+  104 00000058         ; is an DECIMAL ASCII number.  
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+  105 00000058         
+  106 00000058         ; Initialize a loop count to 4
+  107 00000058 F04F 0304       MOV              R3, #4
+  108 0000005C         
+  109 0000005C         ; Advance the address past the WAIT string
+  110 0000005C F100 0004       ADD              R0, R0, #4
+  111 00000060         
+  112 00000060         ; Stay in the loop until the loop count is 0.  If
+  113 00000060         ; the loop count gets to 0, branch to INFINITE_LOOP
+  114 00000060         
+  115 00000060         DEC_LOOP_START
+  116 00000060         
+  117 00000060 2B00            CMP              R3, #0
+  118 00000062 D00A            BEQ              INFINITE_LOOP
+  119 00000064         
+  120 00000064         ; Load the next character
+  121 00000064 7805            LDRB             R5, [R0]
+  122 00000066         ; Check to see if the next character is a DECIMAL
+  123 00000066         ; char.  If it is not, branch to WAIT_LOOP_START
+  124 00000066 F7FF FFFE       BL               ascii_to_dec
+  125 0000006A         
+  126 0000006A F1B1 3FFF       CMP              R1, #0xFFFFFFFF
+  127 0000006E D0EC            BEQ              WAIT_LOOP_START
+  128 00000070         
+  129 00000070         
+  130 00000070         ; decrement the loop count
+  131 00000070 F1A3 0301       SUB              R3, #1
+  132 00000074 F100 0001       ADD              R0, R0, #1
+  133 00000078         
+  134 00000078 E7F2            B                DEC_LOOP_START
+  135 0000007A         
+  136 0000007A         INFINITE_LOOP
+  137 0000007A E7FE            B                INFINITE_LOOP
+  138 0000007C         
+  139 0000007C                 ENDP
+  140 0000007C                 align
+  141 0000007C         
+  142 0000007C         
+  143 0000007C                 END
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\obj\ece353_main.d -o.\obj\ece353_main.o -I.\RTE\_ICE-05-ARM-F
+unctions -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v5\ARM\P
+ACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" --pr
+edefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefin
+e="_RTE_ SETA 1" --predefine="TM4C123GH6PM SETA 1" --list=.\lst\ece353_main.lst
+ ece353_main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+SRAM 00000000
+
+Symbol: SRAM
+   Definitions
+      At line 14 in file ece353_main.s
+   Uses
+      None
+Comment: SRAM unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+DEC_LOOP_START 00000060
+
+Symbol: DEC_LOOP_START
+   Definitions
+      At line 115 in file ece353_main.s
+   Uses
+      At line 134 in file ece353_main.s
+Comment: DEC_LOOP_START used once
+FLASH 00000000
+
+Symbol: FLASH
+   Definitions
+      At line 20 in file ece353_main.s
+   Uses
+      None
+Comment: FLASH unused
+INFINITE_LOOP 0000007A
+
+Symbol: INFINITE_LOOP
+   Definitions
+      At line 136 in file ece353_main.s
+   Uses
+      At line 118 in file ece353_main.s
+      At line 137 in file ece353_main.s
+
+MEM_BLK 00000000
+
+Symbol: MEM_BLK
+   Definitions
+      At line 21 in file ece353_main.s
+   Uses
+      At line 89 in file ece353_main.s
+Comment: MEM_BLK used once
+WAIT_LOOP_START 0000004A
+
+Symbol: WAIT_LOOP_START
+   Definitions
+      At line 91 in file ece353_main.s
+   Uses
+      At line 100 in file ece353_main.s
+      At line 127 in file ece353_main.s
+
+__main 00000048
+
+Symbol: __main
+   Definitions
+      At line 86 in file ece353_main.s
+   Uses
+      At line 5 in file ece353_main.s
+Comment: __main used once
+ascii_to_dec 0000002E
+
+Symbol: ascii_to_dec
+   Definitions
+      At line 69 in file ece353_main.s
+   Uses
+      At line 124 in file ece353_main.s
+Comment: ascii_to_dec used once
+check_for_wait 00000018
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+
+Symbol: check_for_wait
+   Definitions
+      At line 36 in file ece353_main.s
+   Uses
+      At line 94 in file ece353_main.s
+Comment: check_for_wait used once
+8 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+WAIT_STR 54494157
+
+Symbol: WAIT_STR
+   Definitions
+      At line 9 in file ece353_main.s
+   Uses
+      At line 43 in file ece353_main.s
+Comment: WAIT_STR used once
+1 symbol
+348 symbols in table

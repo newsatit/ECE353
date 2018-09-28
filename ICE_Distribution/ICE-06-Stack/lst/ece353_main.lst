@@ -1,0 +1,387 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; Filename:     main.s 
+    2 00000000         ; Author:       ece353 staff 
+    3 00000000         ; Description:  
+    4 00000000         
+    5 00000000                 export           __main
+    6 00000000                 import           matrixMultiply
+    7 00000000         
+    8 00000000 00000004 
+                       WORD    EQU              4
+    9 00000000 00000002 
+                       HALF_WORD
+                               EQU              2
+   10 00000000 00000001 
+                       BYTE    EQU              1
+   11 00000000         
+   12 00000000 00000000 
+                       NULL    EQU              0
+   13 00000000 00000000 
+                       SUCCESS EQU              0
+   14 00000000 FFFFFFFF 
+                       FAILED  EQU              -1
+   15 00000000         
+   16 00000000         ;**********************************************
+   17 00000000         ; SRAM
+   18 00000000         ;**********************************************
+   19 00000000                 AREA             SRAM, READWRITE
+   20 00000000 00000000 
+                       MATRIX_A
+                               DCD              0x00000000
+   21 00000004 00000000 
+                       MATRIX_B
+                               DCD              0x00000000
+   22 00000008 00000000 
+                       MATRIX_C
+                               DCD              0x00000000
+   23 0000000C                 align
+   24 0000000C         
+   25 0000000C         ;**********************************************
+   26 0000000C         ; Constant Variables (FLASH) Segment
+   27 0000000C         ;**********************************************
+   28 0000000C                 AREA             FLASH, CODE, READONLY
+   29 00000000         
+   30 00000000                 align
+   31 00000000         
+   32 00000000         ;**********************************************
+   33 00000000         ; Initializes a variable in SRAM
+   34 00000000         ; (Caller Saved)
+   35 00000000         ;
+   36 00000000         ; Paramters
+   37 00000000         ;   R0 - Address
+   38 00000000         ;   R1 - Bytes
+   39 00000000         ;   R2 - Value
+   40 00000000         ;
+   41 00000000         ; Returns
+   42 00000000         ;   R0 - 0 for success
+   43 00000000         ;      - -1 for error
+   44 00000000         ;**********************************************
+   45 00000000         initVar PROC
+   46 00000000         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   47 00000000         ; This is a caller saved function, so there
+   48 00000000         ; is no need to save any of the registers 
+   49 00000000         ; that are modifed.
+   50 00000000         
+   51 00000000         ; If the Address is equal to 0, return -1
+   52 00000000 2800            CMP              R0, #NULL
+   53 00000002 BF04 F04F 
+              30FF             MOVEQ            R0, #FAILED
+   54 00000008 4770            BXEQ             LR
+   55 0000000A         
+   56 0000000A         ; if ( Data Size == 4)
+   57 0000000A         ; Word Store
+   58 0000000A 2904            CMP              R1, #WORD
+   59 0000000C BF02 6002       STREQ            R2, [R0]
+   60 00000010 2000            MOVEQ            R0, #SUCCESS
+   61 00000012 4770            BXEQ             LR
+   62 00000014         
+   63 00000014         ; if ( Data Size == 2)
+   64 00000014         ; Half Word Store
+   65 00000014 2902            CMP              R1, #HALF_WORD
+   66 00000016 BF02 8002       STRHEQ           R2, [R0]
+   67 0000001A 2000            MOVEQ            R0, #SUCCESS
+   68 0000001C 4770            BXEQ             LR
+   69 0000001E         
+   70 0000001E         ; if (Data Size == 1)
+   71 0000001E         ; Byte Store
+   72 0000001E 2901            CMP              R1, #BYTE
+   73 00000020 BF02 7002       STRBEQ           R2, [R0]
+   74 00000024 2000            MOVEQ            R0, #SUCCESS
+   75 00000026 4770            BXEQ             LR
+   76 00000028         
+   77 00000028         ; Any other word size return -1
+   78 00000028 F04F 30FF       MOV              R0, #FAILED
+   79 0000002C 4770            BX               LR
+   80 0000002E         
+   81 0000002E                 ENDP
+   82 0000002E         
+   83 0000002E         
+   84 0000002E         ;**********************************************
+   85 0000002E         ; Code (FLASH) Segment
+   86 0000002E         ; main assembly program
+   87 0000002E         ;**********************************************
+   88 0000002E         __main  PROC
+   89 0000002E         
+   90 0000002E F04F 0104       MOV              R1, #4
+   91 00000032 4C19            LDR              R4, =(MATRIX_A)
+   92 00000034 4D19            LDR              R5, =(MATRIX_B)
+   93 00000036 4E1A            LDR              R6, =(MATRIX_C)
+   94 00000038         
+   95 00000038         ; Initialize MATRIX_A
+   96 00000038         ; <ADD CODE  1 >
+   97 00000038         ; MATRIX_A, 4, 0x03020100
+   98 00000038 4620            MOV              R0, R4
+   99 0000003A F04F 0104       MOV              R1, #4
+  100 0000003E F240 1200 
+              F2C0 3202        MOV32            R2, #0x03020100
+  101 00000046 B472            PUSH             {R1, R4-R6}
+  102 00000048 F7FF FFFE       BL               initVar
+  103 0000004C BC72            POP              {R1, R4-R6}
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+  104 0000004E         
+  105 0000004E         
+  106 0000004E         ; Initialize MATRIX_B
+  107 0000004E         ; <ADD CODE  2 >
+  108 0000004E 4628            MOV              R0, R5
+  109 00000050 F240 5204 
+              F2C0 7206        MOV32            R2, #0x07060504
+  110 00000058 B472            PUSH             {R1, R4-R6}
+  111 0000005A F7FF FFFE       BL               initVar
+  112 0000005E BC72            POP              {R1, R4-R6}
+  113 00000060         
+  114 00000060         
+  115 00000060         ; Initialize MATRIX_C
+  116 00000060         ; <ADD CODE  3 >
+  117 00000060 4630            MOV              R0, R6
+  118 00000062 F04F 0104       MOV              R1, #4
+  119 00000066 F240 0200 
+              F2C0 0200        MOV32            R2, #0x00000000
+  120 0000006E B472            PUSH             {R1, R4-R6}
+  121 00000070 F7FF FFFE       BL               initVar
+  122 00000074 BC72            POP              {R1, R4-R6}
+  123 00000076         
+  124 00000076         
+  125 00000076         ; Call matrixMultiply.  Pass the three paramters to usin
+                       g
+  126 00000076         ; the stack
+  127 00000076         ; <ADD CODE  4 >
+  128 00000076 4630            MOV              R0, R6
+  129 00000078 B431            PUSH             {R0, R4, R5}
+  130 0000007A F7FF FFFE       BL               matrixMultiply
+  131 0000007E BC31            POP              {R0, R4, R5}
+  132 00000080         
+  133 00000080         ; Verify that MATRIX_C has a value
+  134 00000080         ; of 0x1F1A0706.  If it does, branch to 
+  135 00000080         ; PASSED
+  136 00000080         ; <ADD CODE  10 >
+  137 00000080 F240 7006 
+              F6C1 701A        MOV32            R0, #0x1F1A0706
+  138 00000088 6831            LDR              R1, [R6]
+  139 0000008A 4288            CMP              R0, R1
+  140 0000008C D001            BEQ              PASSED
+  141 0000008E D1FF            BNE              FAIL
+  142 00000090         
+  143 00000090         
+  144 00000090         FAIL
+  145 00000090 E7FE            B                FAIL
+  146 00000092         
+  147 00000092         PASSED
+  148 00000092 E7FE            B                PASSED
+  149 00000094         
+  150 00000094         ; DO NOT MODIFY ANTHING BELOW THIS LINE!!!
+  151 00000094         
+  152 00000094         INFINITE_LOOP
+  153 00000094 E7FE            B                INFINITE_LOOP
+  154 00000096         
+  155 00000096                 ENDP
+  156 00000096         
+  157 00000096         
+  158 00000096         
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+  159 00000096 00 00           align
+  160 00000098         
+  161 00000098         
+  162 00000098                 END
+              00000000 
+              00000000 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\obj\ece353_main.d -o.\obj\ece353_main.o -I.\RTE\_Target_1 -IC
+:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\TM4
+C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" --predefine="__M
+ICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefine="_RTE_ SET
+A 1" --predefine="TM4C123GH6PM SETA 1" --list=.\lst\ece353_main.lst ece353_main
+.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+MATRIX_A 00000000
+
+Symbol: MATRIX_A
+   Definitions
+      At line 20 in file ece353_main.s
+   Uses
+      At line 91 in file ece353_main.s
+Comment: MATRIX_A used once
+MATRIX_B 00000004
+
+Symbol: MATRIX_B
+   Definitions
+      At line 21 in file ece353_main.s
+   Uses
+      At line 92 in file ece353_main.s
+Comment: MATRIX_B used once
+MATRIX_C 00000008
+
+Symbol: MATRIX_C
+   Definitions
+      At line 22 in file ece353_main.s
+   Uses
+      At line 93 in file ece353_main.s
+Comment: MATRIX_C used once
+SRAM 00000000
+
+Symbol: SRAM
+   Definitions
+      At line 19 in file ece353_main.s
+   Uses
+      None
+Comment: SRAM unused
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+FAIL 00000090
+
+Symbol: FAIL
+   Definitions
+      At line 144 in file ece353_main.s
+   Uses
+      At line 141 in file ece353_main.s
+      At line 145 in file ece353_main.s
+
+FLASH 00000000
+
+Symbol: FLASH
+   Definitions
+      At line 28 in file ece353_main.s
+   Uses
+      None
+Comment: FLASH unused
+INFINITE_LOOP 00000094
+
+Symbol: INFINITE_LOOP
+   Definitions
+      At line 152 in file ece353_main.s
+   Uses
+      At line 153 in file ece353_main.s
+Comment: INFINITE_LOOP used once
+PASSED 00000092
+
+Symbol: PASSED
+   Definitions
+      At line 147 in file ece353_main.s
+   Uses
+      At line 140 in file ece353_main.s
+      At line 148 in file ece353_main.s
+
+__main 0000002E
+
+Symbol: __main
+   Definitions
+      At line 88 in file ece353_main.s
+   Uses
+      At line 5 in file ece353_main.s
+Comment: __main used once
+initVar 00000000
+
+Symbol: initVar
+   Definitions
+      At line 45 in file ece353_main.s
+   Uses
+      At line 102 in file ece353_main.s
+      At line 111 in file ece353_main.s
+      At line 121 in file ece353_main.s
+
+6 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BYTE 00000001
+
+Symbol: BYTE
+   Definitions
+      At line 10 in file ece353_main.s
+   Uses
+      At line 72 in file ece353_main.s
+Comment: BYTE used once
+FAILED FFFFFFFF
+
+Symbol: FAILED
+   Definitions
+      At line 14 in file ece353_main.s
+   Uses
+      At line 53 in file ece353_main.s
+      At line 78 in file ece353_main.s
+
+HALF_WORD 00000002
+
+Symbol: HALF_WORD
+   Definitions
+      At line 9 in file ece353_main.s
+   Uses
+      At line 65 in file ece353_main.s
+Comment: HALF_WORD used once
+NULL 00000000
+
+Symbol: NULL
+   Definitions
+      At line 12 in file ece353_main.s
+   Uses
+      At line 52 in file ece353_main.s
+Comment: NULL used once
+SUCCESS 00000000
+
+Symbol: SUCCESS
+   Definitions
+      At line 13 in file ece353_main.s
+   Uses
+      At line 60 in file ece353_main.s
+      At line 67 in file ece353_main.s
+      At line 74 in file ece353_main.s
+
+WORD 00000004
+
+Symbol: WORD
+   Definitions
+      At line 8 in file ece353_main.s
+   Uses
+      At line 58 in file ece353_main.s
+Comment: WORD used once
+6 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+matrixMultiply 00000000
+
+Symbol: matrixMultiply
+   Definitions
+      At line 6 in file ece353_main.s
+   Uses
+      At line 130 in file ece353_main.s
+Comment: matrixMultiply used once
+1 symbol
+355 symbols in table

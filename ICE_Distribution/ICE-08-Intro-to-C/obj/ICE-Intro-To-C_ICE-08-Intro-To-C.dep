@@ -1,0 +1,30 @@
+Dependencies for Project 'ICE-Intro-To-C', Target 'ICE-08-Intro-To-C': (DO NOT MODIFY !)
+F (.\main.c)(0x59DB96B0)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I ..\drivers\include -I ..\peripherals\include-IC:\Users\joe.krachey\Documents\ece353-src\student_S18\ICE-08-Intro-to-C\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-D__UVISION_VERSION="521" -D_RTE_ -DTM4C123GH6PM-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x574EF4F6)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x574EF4F6)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x574EF4F6)
+I (C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123.h)(0x530F5566)
+I (C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123GH6PM.h)(0x5510449C)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x56266DDC)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x56265A20)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x56265A20)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x56265A20)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h)(0x56265A20)
+I (C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\system_TM4C123.h)(0x51B74676)
+I (..\drivers\include\driver_defines.h)(0x57518EA2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x574EF4F6)
+I (C:\Keil_v5\ARM\ARMCC\include\errno.h)(0x574EF4F6)
+I (..\peripherals\include\validate.h)(0x58224877)
+F (..\peripherals\c\ws2812b.s)(0x57A4BA89)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-IC:\Users\joe.krachey\Documents\ece353-src\student_S18\ICE-08-Intro-to-C\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123--pd "__UVISION_VERSION SETA 521" --pd "_RTE_ SETA 1" --pd "TM4C123GH6PM SETA 1"--list .\lst\ws2812b.lst --xref -o .\obj\ws2812b.o --depend .\obj\ws2812b.d)
+F (..\lib\ECE353-Validate.lib)(0x5874F689)()
+F (RTE\Device\TM4C123GH6PM\startup_TM4C123.s)(0x59920694)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-IC:\Users\joe.krachey\Documents\ece353-src\student_S18\ICE-08-Intro-to-C\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123--pd "__UVISION_VERSION SETA 521" --pd "_RTE_ SETA 1" --pd "TM4C123GH6PM SETA 1"--list .\lst\startup_tm4c123.lst --xref -o .\obj\startup_tm4c123.o --depend .\obj\startup_tm4c123.d)
+F (RTE\Device\TM4C123GH6PM\system_TM4C123.c)(0x550AC84A)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I ..\drivers\include -I ..\peripherals\include-IC:\Users\joe.krachey\Documents\ece353-src\student_S18\ICE-08-Intro-to-C\RTE-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-D__UVISION_VERSION="521" -D_RTE_ -DTM4C123GH6PM-o .\obj\system_tm4c123.o --omf_browse .\obj\system_tm4c123.crf --depend .\obj\system_tm4c123.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x574EF4F6)
+I (C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123.h)(0x530F5566)
+I (C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\TM4C123GH6PM.h)(0x5510449C)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x56266DDC)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x56265A20)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x56265A20)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x56265A20)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h)(0x56265A20)
+I (C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123\system_TM4C123.h)(0x51B74676)

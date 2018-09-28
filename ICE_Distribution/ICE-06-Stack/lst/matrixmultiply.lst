@@ -1,0 +1,128 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 export           matrixMultiply
+    2 00000000                 AREA             FLASH, CODE, READONLY
+    3 00000000                 ALIGN
+    4 00000000         
+    5 00000000         ;*******************************************************
+                       ***********************
+    6 00000000         ; Description
+    7 00000000         ; Parameters
+    8 00000000         ; 1st Parameter - Result Address
+    9 00000000         ; 2nd Parameter - Matrix A Address
+   10 00000000         ; 3rd Parameter - Matrix B Address
+   11 00000000         ;*******************************************************
+                       ***********************
+   12 00000000         matrixMultiply
+                               PROC
+   13 00000000         
+   14 00000000         ; Save registers modifed by this function
+   15 00000000         ; <ADD CODE 5 >
+   16 00000000 E92D 07FF       PUSH             {R0-R10}
+   17 00000004         
+   18 00000004         
+   19 00000004         ; Load the 1st parameter from the stack into R2
+   20 00000004         ; <ADD CODE  6 >
+   21 00000004 9A0B            LDR              R2, [SP, #44]
+   22 00000006         
+   23 00000006         
+   24 00000006         ; Load the 2nd parameter from the stack into R0
+   25 00000006         ; <ADD CODE  7 >
+   26 00000006 980C            LDR              R0, [SP, #48]
+   27 00000008         
+   28 00000008         
+   29 00000008         ; Load the 3rd parameter from the stack into R1
+   30 00000008         ; <ADD CODE  8 >
+   31 00000008 990D            LDR              R1, [SP, #52]
+   32 0000000A         
+   33 0000000A         
+   34 0000000A F990 3000       LDRSB            R3, [R0, #0] ; R3  - A00
+   35 0000000E F990 4001       LDRSB            R4, [R0, #1] ; R4  - A01
+   36 00000012 F990 5002       LDRSB            R5, [R0, #2] ; R5  - A10
+   37 00000016 F990 6003       LDRSB            R6, [R0, #3] ; R6  - A11
+   38 0000001A         
+   39 0000001A F991 7000       LDRSB            R7, [R1, #0] ; R7  - B00
+   40 0000001E F991 8001       LDRSB            R8, [R1, #1] ; R8  - B01
+   41 00000022 F991 9002       LDRSB            R9, [R1, #2] ; R9  - B10
+   42 00000026 F991 A003       LDRSB            R10,[R1, #3] ; R10 - B11
+   43 0000002A         
+   44 0000002A         ; After this point, we no longer use R0
+   45 0000002A         ; or R1, so we will use them in the calculations
+   46 0000002A         
+   47 0000002A         ; Calculate C00 = (A00 * B00) + (A01 * B10)
+   48 0000002A FB03 F007       MUL              R0, R3, R7
+   49 0000002E FB04 F109       MUL              R1, R4, R9
+   50 00000032 4408            ADD              R0, R1, R0
+   51 00000034         
+   52 00000034 7010            STRB             R0, [R2, #0]
+   53 00000036         
+   54 00000036         ; Calculate C01 = (A00 * B01) + (A01 * B11)
+   55 00000036 FB03 F008       MUL              R0, R3, R8
+   56 0000003A FB04 F10A       MUL              R1, R4, R10
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   57 0000003E 4408            ADD              R0, R1, R0
+   58 00000040         
+   59 00000040 7050            STRB             R0, [R2, #1]
+   60 00000042         
+   61 00000042         ; Calculate C10 = (A10 * B00) + (A11 * B10)
+   62 00000042 FB05 F007       MUL              R0, R5, R7
+   63 00000046 FB06 F109       MUL              R1, R6, R9
+   64 0000004A 4408            ADD              R0, R1, R0
+   65 0000004C         
+   66 0000004C 7090            STRB             R0, [R2, #2]
+   67 0000004E         
+   68 0000004E         ; Calculate C11 = (A10 * B01) + (A11 * B11)
+   69 0000004E FB05 F008       MUL              R0, R5, R8
+   70 00000052 FB06 F10A       MUL              R1, R6, R10
+   71 00000056 4408            ADD              R0, R1, R0
+   72 00000058         
+   73 00000058 70D0            STRB             R0, [R2, #3]
+   74 0000005A         
+   75 0000005A         ; Restore any saved registers from the stack
+   76 0000005A         ; <ADD CODE  9 >
+   77 0000005A E8BD 07FF       POP              {R0-R10}
+   78 0000005E         
+   79 0000005E 4770            BX               LR
+   80 00000060                 ENDP
+   81 00000060         
+   82 00000060                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\obj\matrixmultiply.d -o.\obj\matrixmultiply.o -I.\RTE\_Target
+_1 -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Ke
+il\TM4C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" --predefin
+e="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefine="_RT
+E_ SETA 1" --predefine="TM4C123GH6PM SETA 1" --list=.\lst\matrixmultiply.lst ma
+trixMultiply.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+FLASH 00000000
+
+Symbol: FLASH
+   Definitions
+      At line 2 in file matrixMultiply.s
+   Uses
+      None
+Comment: FLASH unused
+matrixMultiply 00000000
+
+Symbol: matrixMultiply
+   Definitions
+      At line 12 in file matrixMultiply.s
+   Uses
+      At line 1 in file matrixMultiply.s
+Comment: matrixMultiply used once
+2 symbols
+338 symbols in table

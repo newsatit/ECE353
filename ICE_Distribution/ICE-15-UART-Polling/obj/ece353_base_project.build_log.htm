@@ -1,0 +1,116 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.21.1.0
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Joe Krachey, UW-Madison, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.21a
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 3 (build 300)
+Assembler:       Armasm.exe V5.06 update 3 (build 300)
+Linker/Locator:  ArmLink.exe V5.06 update 3 (build 300)
+Library Manager: ArmAr.exe V5.06 update 3 (build 300)
+Hex Converter:   FromElf.exe V5.06 update 3 (build 300)
+CPU DLL:         SARMCM3.DLL V5.21a
+Dialog DLL:      DCM.DLL V1.13.8.0
+Target DLL:      lmidk-agdi.dll V???
+Dialog DLL:      TCM.DLL V1.14.14.0
+ 
+<h2>Project:</h2>
+C:\Users\joe.krachey\Documents\ece353-src\student_S18\ICE-15-UART-Polling\ICE-UART-Polling.uvprojx
+Project File Date:  08/14/2017
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 3 (build 300)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Rebuild target 'ICE-UART-Polling'
+assembling startup_TM4C123.s...
+compiling main.c...
+main.c(39): warning:  #177-D: variable "response" was declared but never referenced
+    char response[] = "\n\rYou entered:";
+main.c(40): warning:  #177-D: variable "exit_msg" was declared but never referenced
+    char exit_msg[] = "\n\r\n\rGoodbye.";
+main.c(41): warning:  #177-D: variable "rx_char" was declared but never referenced
+    char rx_char;
+main.c(42): warning:  #177-D: variable "rx_string" was declared but never referenced
+    char rx_string[5] = {0,0,0,0,0};
+main.c: 4 warnings, 0 errors
+compiling gpio_port.c...
+..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
+         return 0;
+..\drivers\c\gpio_port.c(126): warning:  #177-D: variable "rcgc_mask" was declared but never referenced
+    uint32_t rcgc_mask = 0;
+..\drivers\c\gpio_port.c(127): warning:  #177-D: variable "pr_mask" was declared but never referenced
+    uint32_t pr_mask = 0;
+..\drivers\c\gpio_port.c(213): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(235): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(257): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(278): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(297): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(310): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(322): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(335): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(349): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(375): warning:  #177-D: variable "gpioPort" was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(29): warning:  #177-D: function "verify_base_addr" was declared but never referenced
+  static bool verify_base_addr(uint32_t baseAddr)
+..\drivers\c\gpio_port.c: 14 warnings, 0 errors
+compiling system_TM4C123.c...
+compiling uart.c...
+..\drivers\c\uart.c(184): warning:  #188-D: enumerated type mixed with another type
+         return 0;
+..\drivers\c\uart.c(274): warning:  #177-D: variable "uart" was declared but never referenced
+      UART0_Type *uart = (UART0_Type *)(uart_base);
+..\drivers\c\uart.c(275): warning:  #550-D: variable "rcgc_mask" was set but never used
+      uint32_t rcgc_mask;
+..\drivers\c\uart.c(276): warning:  #550-D: variable "pr_mask" was set but never used
+      uint32_t pr_mask;
+..\drivers\c\uart.c: 4 warnings, 0 errors
+linking...
+Program Size: Code=13032 RO-data=744 RW-data=936 ZI-data=8192  
+".\obj\ece353_base_project.axf" - 0 Error(s), 22 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.4.5.0.pack
+                ARM::CMSIS:CORE:4.3.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 4.3.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.TM4C_DFP.1.1.0.pack
+                Keil::Device:Startup:1.0.1
+                Texas Instruments Tiva C Series Device Support and Examples
+   * Component: Startup Version: 1.0.1
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\joe.krachey\Documents\ece353-src\student_S18\ICE-15-UART-Polling\RTE
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
+  C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:4.3.0
+
+   * Component: Keil::Device:Startup:1.0.1
+      Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\ARM\startup_TM4C123.s
+      Source file:   Device\Source\system_TM4C123.c
+Build Time Elapsed:  00:00:02
+</pre>
+</body>
+</html>

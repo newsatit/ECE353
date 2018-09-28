@@ -1,0 +1,392 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; Copyright (c) 2016, Joe Krachey
+    2 00000000         ; All rights reserved.
+    3 00000000         ;
+    4 00000000         ; Redistribution and use in binary form, with or without
+                        modification, 
+    5 00000000         ; are permitted provided that the following conditions a
+                       re met:
+    6 00000000         ;
+    7 00000000         ; 1. Redistributions in binary form must reproduce the a
+                       bove copyright 
+    8 00000000         ;   notice, this list of conditions and the following di
+                       sclaimer in 
+    9 00000000         ;    the documentation and/or other materials provided w
+                       ith the distribution.
+   10 00000000         ;
+   11 00000000         ; THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+                        CONTRIBUTORS "AS IS" 
+   12 00000000         ; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT 
+                       NOT LIMITED TO, 
+   13 00000000         ; THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+                       FOR A PARTICULAR 
+   14 00000000         ; PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGH
+                       T HOLDER OR 
+   15 00000000         ; CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCID
+                       ENTAL, SPECIAL, 
+   16 00000000         ; EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NO
+                       T LIMITED TO, 
+   17 00000000         ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF U
+                       SE, DATA, OR PROFITS; 
+   18 00000000         ; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY TH
+                       EORY OF LIABILITY, 
+   19 00000000         ; WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUD
+                       ING 
+   20 00000000         ; NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+                        USE OF THIS SOFTWARE, 
+   21 00000000         ; EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+   22 00000000         
+   23 00000000 00000080 
+                       ONE     EQU              0x80
+   24 00000000 00000000 
+                       ZERO    EQU              0x00
+   25 00000000         
+   26 00000000         
+   27 00000000                 export           WS2812B_write
+   28 00000000         
+   29 00000000        0 
+                       GPIO_ADDR
+                               RN               R0
+   30 00000000        1 
+                       LED_ARRAY_ADDR
+                               RN               R1
+   31 00000000        2 
+                       NUM_LEDS
+                               RN               R2
+   32 00000000        3 
+                       COLOR_DATA
+                               RN               R3
+   33 00000000        4 
+                       BYTE_COUNT
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                               RN               R4
+   34 00000000        5 
+                       BIT_COUNT
+                               RN               R5
+   35 00000000        6 
+                       DATA_OUT
+                               RN               R6
+   36 00000000         
+   37 00000000         ;**********************************************
+   38 00000000         ; Constant Variables (FLASH) Segment
+   39 00000000         ;**********************************************
+   40 00000000                 AREA             FLASH, CODE, READONLY
+   41 00000000                 align
+   42 00000000         
+   43 00000000         ;*******************************************************
+                       ************************* 
+   44 00000000         ; Parameters
+   45 00000000         ; R1 - LED Array Address 
+   46 00000000         ; R2 - Number of LEDs 
+   47 00000000         ;*******************************************************
+                       *************************        
+   48 00000000         WS2812B_write
+                               PROC
+   49 00000000         ; R0 - GPIO Port Address 
+   50 00000000         ; R1 - LED Array Address 
+   51 00000000         ; R2 - Number of LEDs 
+   52 00000000         ; R3 - 24 bit count 
+   53 00000000         
+   54 00000000         ; Registers to save to the stack 
+   55 00000000         ; R4 - Value to write to GPIO Port 
+   56 00000000         ; R5 - Index of next LED 
+   57 00000000         ; R6 - Offset into byte array for next data 
+   58 00000000 B47F            PUSH             {R0-R6}
+   59 00000002         
+   60 00000002         ; Set the address of the GPIO Port
+   61 00000002 F247 30FC 
+              F2C4 0000        MOV32            R0, #0x400073FC
+   62 0000000A         
+   63 0000000A         ; Check to see if the last LED has been sent.
+   64 0000000A 2A00            CMP              NUM_LEDS, #0
+   65 0000000C         
+   66 0000000C         WS2812B_write_loop_start
+   67 0000000C         
+   68 0000000C         
+   69 0000000C D04A            BEQ              WS2812B_write_return
+   70 0000000E F04F 0403       MOV              BYTE_COUNT, #3
+   71 00000012         
+   72 00000012         WS2812B_write_get_byte_start
+   73 00000012         
+   74 00000012         ; Load the next LED data 
+   75 00000012 F811 3B01       LDRB             COLOR_DATA, [LED_ARRAY_ADDR], #
+1 
+                                                            ; 2 CLK / Total: 02
+                                                             
+   76 00000016 F04F 0508       MOV              BIT_COUNT,  #8
+   77 0000001A F04F 0680       MOV              DATA_OUT, #ONE
+   78 0000001E         
+   79 0000001E         WS2812B_write_set_pin_start
+   80 0000001E         ;************************************************
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   81 0000001E         ; Output a 1 for 20 CLK cycles                   
+   82 0000001E         ;************************************************
+   83 0000001E 6006            STR              DATA_OUT, [GPIO_ADDR] ; 02 CLK 
+                                                                               
+                                                               
+   84 00000020 F013 0F80       TST              COLOR_DATA, #ONE ; 03 CLK   
+   85 00000024 BF0C 2600       MOVEQ            DATA_OUT, #ZERO ; 04 CLK
+   86 00000028 2680            MOVNE            DATA_OUT, #ONE ; 05 CLK
+   87 0000002A EA4F 0343       LSL              COLOR_DATA, COLOR_DATA, #1 
+                                                            ; 06 CLK
+   88 0000002E BF00            NOP                          ; 07 CLK
+   89 00000030 BF00            NOP                          ; 08 CLK           
+                                                                               
+                                                                               
+                                                            
+   90 00000032 BF00            NOP                          ; 09 CLK
+   91 00000034 BF00            NOP                          ; 10 CLK
+   92 00000036 BF00            NOP                          ; 11 CLK
+   93 00000038 BF00            NOP                          ; 12 CLK           
+                                                                               
+                                                                               
+                                                            
+   94 0000003A BF00            NOP                          ; 13 CLK
+   95 0000003C BF00            NOP                          ; 14 CLK
+   96 0000003E BF00            NOP                          ; 15 CLK
+   97 00000040 BF00            NOP                          ; 16 CLK           
+                                                                               
+                                                                               
+                                                            
+   98 00000042 BF00            NOP                          ; 17 CLK
+   99 00000044 BF00            NOP                          ; 18 CLK
+  100 00000046         ;NOP                                                  ; 
+                       19 CLK
+  101 00000046         ;NOP                                                  ; 
+                       20 CLK                                                 
+  102 00000046         
+  103 00000046         ;************************************************
+  104 00000046         ; Output data for 20 CLK cycles                   
+  105 00000046         ;************************************************
+  106 00000046         
+  107 00000046         ; Write out the data to the GPIO PORT 
+  108 00000046 6006            STR              DATA_OUT, [GPIO_ADDR] 
+                                                            ; 2 CLK / Total 20 
+                                                            
+  109 00000048 F04F 0600       MOV              DATA_OUT, #ZERO ; 01 CLK
+  110 0000004C BF00            NOP                          ; 02 CLK
+  111 0000004E BF00            NOP                          ; 03 CLK           
+                                                                               
+                                                                               
+                                                            
+  112 00000050 BF00            NOP                          ; 04 CLK
+  113 00000052 BF00            NOP                          ; 05 CLK
+  114 00000054 BF00            NOP                          ; 06 CLK    
+  115 00000056 BF00            NOP                          ; 07 CLK
+  116 00000058 BF00            NOP                          ; 08 CLK           
+                                                                               
+                                                                               
+                                                            
+  117 0000005A BF00            NOP                          ; 09 CLK
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+  118 0000005C BF00            NOP                          ; 10 CLK
+  119 0000005E BF00            NOP                          ; 11 CLK
+  120 00000060 BF00            NOP                          ; 12 CLK           
+                                                                               
+                                                                               
+                                                            
+  121 00000062 BF00            NOP                          ; 13 CLK
+  122 00000064 BF00            NOP                          ; 14 CLK
+  123 00000066 BF00            NOP                          ; 15 CLK
+  124 00000068 BF00            NOP                          ; 16 CLK           
+                                                                               
+                                                                               
+                                                            
+  125 0000006A BF00            NOP                          ; 17 CLK
+  126 0000006C BF00            NOP                          ; 18 CLK
+  127 0000006E BF00            NOP                          ; 19 CLK
+  128 00000070 BF00            NOP                          ; 20 CLK
+  129 00000072         
+  130 00000072         ;************************************************
+  131 00000072         ; Output a 0 for 22 CLK cycles                   
+  132 00000072         ;************************************************
+  133 00000072         
+  134 00000072         ; Write out 0 to the GPIO PORT 
+  135 00000072 6006            STR              DATA_OUT, [GPIO_ADDR] 
+                                                            ; 2 CLK / Total 20 
+                                                            
+  136 00000074 1E6D            SUBS             BIT_COUNT, BIT_COUNT, #1 
+                                                            ; 01 CLK 
+  137 00000076 F04F 0680       MOV              DATA_OUT, #ONE ; 02 CLK
+  138 0000007A BF00            NOP                          ; 03 CLK
+  139 0000007C BF00            NOP                          ; 04 CLK
+  140 0000007E BF00            NOP                          ; 05 CLK
+  141 00000080 BF00            NOP                          ; 06 CLK    
+  142 00000082 BF00            NOP                          ; 07 CLK
+  143 00000084 BF00            NOP                          ; 08 CLK           
+                                                                               
+                                                                               
+                                                            
+  144 00000086 BF00            NOP                          ; 09 CLK
+  145 00000088 BF00            NOP                          ; 10 CLK
+  146 0000008A BF00            NOP                          ; 11 CLK
+  147 0000008C BF00            NOP                          ; 12 CLK           
+                                                                               
+                                                                               
+                                                            
+  148 0000008E BF00            NOP                          ; 13 CLK
+  149 00000090 BF00            NOP                          ; 14 CLK
+  150 00000092 BF00            NOP                          ; 15 CLK
+  151 00000094 BF00            NOP                          ; 16 CLK           
+                                                                               
+                                                                               
+                                                            
+  152 00000096 BF00            NOP                          ; 17 CLK
+  153 00000098 BF00            NOP                          ; 18 CLK    
+  154 0000009A DCC0            BGT              WS2812B_write_set_pin_start 
+                                                            ; 1 CLK / Total 20 
+                                                            
+  155 0000009C         
+  156 0000009C         WS2812B_write_set_pin_end
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+  157 0000009C 1E64            SUBS             BYTE_COUNT, BYTE_COUNT, #1
+  158 0000009E DCB8            BGT              WS2812B_write_get_byte_start
+  159 000000A0         
+  160 000000A0         WS2812B_write_get_byte_end
+  161 000000A0 1E52            SUBS             NUM_LEDS, NUM_LEDS, #1
+  162 000000A2 DCB3            BGT              WS2812B_write_loop_start
+  163 000000A4         
+  164 000000A4         
+  165 000000A4         WS2812B_write_return
+  166 000000A4 BC7F            POP              {R0-R6}
+  167 000000A6 4770            BX               LR
+  168 000000A8                 ENDP
+  169 000000A8                 align
+  170 000000A8         
+  171 000000A8                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\obj\hw1_ws2812b.d -o.\obj\hw1_ws2812b.o -I.\RTE\_HW1 -IC:\Kei
+l_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP
+\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" --predefine="__MICROL
+IB SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefine="_RTE_ SETA 1" 
+--predefine="TM4C123GH6PM SETA 1" --list=.\lst\hw1_ws2812b.lst hw1_ws2812b.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+FLASH 00000000
+
+Symbol: FLASH
+   Definitions
+      At line 40 in file hw1_ws2812b.s
+   Uses
+      None
+Comment: FLASH unused
+WS2812B_write 00000000
+
+Symbol: WS2812B_write
+   Definitions
+      At line 48 in file hw1_ws2812b.s
+   Uses
+      At line 27 in file hw1_ws2812b.s
+Comment: WS2812B_write used once
+WS2812B_write_get_byte_end 000000A0
+
+Symbol: WS2812B_write_get_byte_end
+   Definitions
+      At line 160 in file hw1_ws2812b.s
+   Uses
+      None
+Comment: WS2812B_write_get_byte_end unused
+WS2812B_write_get_byte_start 00000012
+
+Symbol: WS2812B_write_get_byte_start
+   Definitions
+      At line 72 in file hw1_ws2812b.s
+   Uses
+      At line 158 in file hw1_ws2812b.s
+Comment: WS2812B_write_get_byte_start used once
+WS2812B_write_loop_start 0000000C
+
+Symbol: WS2812B_write_loop_start
+   Definitions
+      At line 66 in file hw1_ws2812b.s
+   Uses
+      At line 162 in file hw1_ws2812b.s
+Comment: WS2812B_write_loop_start used once
+WS2812B_write_return 000000A4
+
+Symbol: WS2812B_write_return
+   Definitions
+      At line 165 in file hw1_ws2812b.s
+   Uses
+      At line 69 in file hw1_ws2812b.s
+Comment: WS2812B_write_return used once
+WS2812B_write_set_pin_end 0000009C
+
+Symbol: WS2812B_write_set_pin_end
+   Definitions
+      At line 156 in file hw1_ws2812b.s
+   Uses
+      None
+Comment: WS2812B_write_set_pin_end unused
+WS2812B_write_set_pin_start 0000001E
+
+Symbol: WS2812B_write_set_pin_start
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+   Definitions
+      At line 79 in file hw1_ws2812b.s
+   Uses
+      At line 154 in file hw1_ws2812b.s
+Comment: WS2812B_write_set_pin_start used once
+8 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+ONE 00000080
+
+Symbol: ONE
+   Definitions
+      At line 23 in file hw1_ws2812b.s
+   Uses
+      At line 77 in file hw1_ws2812b.s
+      At line 84 in file hw1_ws2812b.s
+      At line 86 in file hw1_ws2812b.s
+      At line 137 in file hw1_ws2812b.s
+
+ZERO 00000000
+
+Symbol: ZERO
+   Definitions
+      At line 24 in file hw1_ws2812b.s
+   Uses
+      At line 85 in file hw1_ws2812b.s
+      At line 109 in file hw1_ws2812b.s
+
+2 symbols
+353 symbols in table

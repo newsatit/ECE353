@@ -1,0 +1,482 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; hw1.s ECE353
+    2 00000000         
+    3 00000000         
+    4 00000000                 export           hw1_search_memory
+    5 00000000                 import           WS2812B_write
+    6 00000000         
+    7 00000000         ; String constants  
+    8 00000000 00000004 
+                       WORD    EQU              4
+    9 00000000 00000002 
+                       HALF    EQU              2
+   10 00000000 00000001 
+                       BYTE    EQU              1
+   11 00000000         
+   12 00000000         ;**********************************************
+   13 00000000         ; SRAM
+   14 00000000         ;**********************************************
+   15 00000000                 AREA             SRAM, READWRITE
+   16 00000000 00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 LED_ARRAY
+                               SPACE            BYTE*24     ; 3 byte color of e
+                                                            ach of the 8 LEDS
+   17 00000018                 align
+   18 00000018         
+   19 00000018         ;**********************************************
+   20 00000018         ; Constant Variables (FLASH) Segment
+   21 00000018         ;**********************************************
+   22 00000018                 AREA             FLASH, CODE, READONLY
+   23 00000000         
+   24 00000000         ;**********************************************
+   25 00000000         ; Updates the WS2812B LEDs with the current values in th
+                       e LED_ARRAY. Use the
+   26 00000000         ; supplied function WS2812B_write to update the colors. 
+                       
+   27 00000000         ; 
+   28 00000000         ; Parameters
+   29 00000000         ; NONE
+   30 00000000         ;
+   31 00000000         ; Return
+   32 00000000         ; Nothing
+   33 00000000         ;********************************************** 
+   34 00000000         hw1_update_leds
+                               PROC
+   35 00000000 B506            PUSH             {R1, R2, LR}
+   36 00000002         
+   37 00000002 493A            LDR              R1, =(LED_ARRAY)
+   38 00000004 F04F 0208       MOV              R2, #8
+   39 00000008 F7FF FFFE       BL               WS2812B_write
+   40 0000000C         
+   41 0000000C E8BD 4006       POP              {R1, R2, LR}
+   42 00000010         
+   43 00000010 4770            BX               LR
+   44 00000012                 ENDP
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   45 00000012         
+   46 00000012         ; TODO  
+   47 00000012         
+   48 00000012         ;**********************************************
+   49 00000012         ; Converts A ASCII HEX character to its 
+   50 00000012         ; numerical value.  Valid characters are 0-9,a-f,A-F.
+   51 00000012         ; 
+   52 00000012         ; Parameters
+   53 00000012         ;  R0 : ASCII Char
+   54 00000012         ;
+   55 00000012         ; Returns
+   56 00000012         ; R0 :  numerical value.  
+   57 00000012         ;   If invalid, return 0xFFFFFFFF
+   58 00000012         ;**********************************************  
+   59 00000012         hw1_ascii_to_hex
+                               PROC
+   60 00000012 B404            PUSH             {R2}
+   61 00000014         
+   62 00000014 F1A0 0230       SUB              R2, R0, #0x30
+   63 00000018 F04F 0000       MOV              R0, #0x00000000
+   64 0000001C 2A00            CMP              R2, #0
+   65 0000001E BFB8 F04F 
+              30FF             MOVLT            R0, #0xFFFFFFFF
+   66 00000024 2A09            CMP              R2, #9
+   67 00000026 BFC8 F04F 
+              30FF             MOVGT            R0, #0xFFFFFFFF
+   68 0000002C         
+   69 0000002C BC04            POP              {R2}
+   70 0000002E         
+   71 0000002E 4770            BX               LR
+   72 00000030                 ENDP
+   73 00000030         
+   74 00000030         
+   75 00000030         ; TEST
+   76 00000030         
+   77 00000030         ;**********************************************
+   78 00000030         ; Converts A single ASCII Decimal character to its 
+   79 00000030         ; numerical value.  Valid characters are 0-9.
+   80 00000030         ; 
+   81 00000030         ; Parameters
+   82 00000030         ;  R0 : ASCII Char
+   83 00000030         ;
+   84 00000030         ; Returns
+   85 00000030         ; R0 :  numerical value.  
+   86 00000030         ;   If invalid, return 0xFFFFFFFF
+   87 00000030         ;**********************************************
+   88 00000030         ascii_to_dec
+                               PROC
+   89 00000030         
+   90 00000030 B404            PUSH             {R2}
+   91 00000032         
+   92 00000032 F1A0 0230       SUB              R2, R0, #0x30
+   93 00000036 F04F 0000       MOV              R0, #0x00000000
+   94 0000003A 2A00            CMP              R2, #0
+   95 0000003C BFB8 F04F 
+              30FF             MOVLT            R0, #0xFFFFFFFF
+   96 00000042 2A09            CMP              R2, #9
+   97 00000044 BFC8 F04F 
+              30FF             MOVGT            R0, #0xFFFFFFFF
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   98 0000004A         
+   99 0000004A BC04            POP              {R2}
+  100 0000004C         
+  101 0000004C 4770            BX               LR
+  102 0000004E                 ENDP
+  103 0000004E         
+  104 0000004E         ;**********************************************
+  105 0000004E         ; Turns off all of the WSB28128 by writing 
+  106 0000004E         ; 0x000000 to each LED
+  107 0000004E         ;
+  108 0000004E         ; Parameters
+  109 0000004E         ; NONE
+  110 0000004E         ;
+  111 0000004E         ; Return
+  112 0000004E         ; Nothing
+  113 0000004E         ;**********************************************
+  114 0000004E         hw1_init
+                               PROC
+  115 0000004E B403            PUSH             {R0, R1}
+  116 00000050         
+  117 00000050 4826            LDR              R0, =(LED_ARRAY)
+  118 00000052 F240 0100 
+              F2C0 0100        MOV32            R1, #0
+  119 0000005A         ; initialyze 4 bytes of LED_ARRAY 6 TIMES
+  120 0000005A F840 1B04       STR              R1, [R0], #WORD
+  121 0000005E F840 1B04       STR              R1, [R0], #WORD
+  122 00000062 F840 1B04       STR              R1, [R0], #WORD
+  123 00000066 F840 1B04       STR              R1, [R0], #WORD
+  124 0000006A F840 1B04       STR              R1, [R0], #WORD
+  125 0000006E F840 1B04       STR              R1, [R0], #WORD
+  126 00000072         
+  127 00000072 BC03            POP              {R0, R1}
+  128 00000074         
+  129 00000074 4770            BX               LR
+  130 00000076                 ENDP
+  131 00000076         
+  132 00000076         ;**********************************************
+  133 00000076         ; Updates the color of the specified LED. 
+  134 00000076         ; All other LEDs should maintain their current
+  135 00000076         ; color. Makes use of the hw1_update_leds to 
+  136 00000076         ; update the color of the LEDs.
+  137 00000076         ;
+  138 00000076         ; Parameters
+  139 00000076         ; R0 – LED number to be updated
+  140 00000076         ; R1 – An unsigned 32bit number. Bits 31-24 are unused. 
+                       
+  141 00000076         ; Bits 23-0 represent the color value to write to the LE
+                       D.
+  142 00000076         ;
+  143 00000076         ; Return
+  144 00000076         ; Nothing
+  145 00000076         ;********************************************** 
+  146 00000076         hw1_ledx
+                               PROC
+  147 00000076         
+  148 00000076 B40E            PUSH             {R1-R3}
+  149 00000078         ; R2 Stores stores the adress of LED_ARRAY
+  150 00000078 4A1C            LDR              R2, =(LED_ARRAY)
+  151 0000007A F04F 0303       MOV              R3, #3
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+  152 0000007E         ; offset from LED_ARRAY
+  153 0000007E FB03 F300       MUL              R3, R3, R0
+  154 00000082 441A            ADD              R2, R2, R3
+  155 00000084         ; set bits 0-15
+  156 00000084 F822 1B02       STRH             R1, [R2], #HALF
+  157 00000088         ; set bits 16-23
+  158 00000088 EA4F 4111       LSR              R1, R1, #HALF*8
+  159 0000008C 7011            STRB             R1, [R2]
+  160 0000008E         
+  161 0000008E BC0E            POP              {R1-R3}
+  162 00000090         
+  163 00000090 4770            BX               LR
+  164 00000092                 ENDP
+  165 00000092         
+  166 00000092         
+  167 00000092         ; TODO 
+  168 00000092         ;**********************************************
+  169 00000092         ; Delays the examination of the next memory address 
+  170 00000092         ; by a variable amount of time.
+  171 00000092         ;
+  172 00000092         ; Parameters
+  173 00000092         ; R0 – A 32-bit unsigned number representing the number 
+                       of iterations 
+  174 00000092         ; of an empty for loop that must be executed.
+  175 00000092         ;
+  176 00000092         ; Return
+  177 00000092         ; Nothing
+  178 00000092         ;********************************************** 
+  179 00000092         hw1_wait
+                               PROC
+  180 00000092 B402            PUSH             {R1}
+  181 00000094 4601            MOV              R1, R0
+  182 00000096 2900    LOOP    CMP              R1, 0
+  183 00000098 F1A1 0101       SUB              R1, R1, #1
+  184 0000009C DCFB            BGT              LOOP
+  185 0000009E BC02            POP              {R1}
+  186 000000A0 4770            BX               LR
+  187 000000A2                 ENDP
+  188 000000A2         
+  189 000000A2         ;**********************************************
+  190 000000A2         ; This function will search through memory a byte at a t
+                       ime looking for valid DISPLAY
+  191 000000A2         ; commands. When a valid DISPLAY command is found, carry
+                        out the corresponding
+  192 000000A2         ; behavior. This function will examine memory until and 
+                       STOP command
+  193 000000A2         ; is found.
+  194 000000A2         ; Parameters
+  195 000000A2         ; R0 : The starting address of the memory that contains 
+                       the commands to update the
+  196 000000A2         ; LEDs.
+  197 000000A2         ;
+  198 000000A2         ; Return
+  199 000000A2         ; Nothing
+  200 000000A2         ;********************************************** 
+  201 000000A2         
+  202 000000A2         hw1_search_memory
+                               PROC
+  203 000000A2 B402            PUSH             {R1}
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+  204 000000A4         
+  205 000000A4 F7FF FFFE       BL               hw1_init
+  206 000000A8 F7FF FFFE       BL               hw1_update_leds
+  207 000000AC         
+  208 000000AC F04F 0001       MOV              R0, #1
+  209 000000B0 F240 0100 
+              F2C0 01FF        MOV32            R1, #0x00FF0000
+  210 000000B8 F7FF FFFE       BL               hw1_ledx
+  211 000000BC F7FF FFFE       BL               hw1_update_leds
+  212 000000C0         
+  213 000000C0 F04F 0007       MOV              R0, #7
+  214 000000C4 F64F 7100 
+              F2C0 01FF        MOV32            R1, #0x00FFFF00
+  215 000000CC F7FF FFFE       BL               hw1_ledx
+  216 000000D0 F7FF FFFE       BL               hw1_update_leds
+  217 000000D4         
+  218 000000D4 F7FF FFFE       BL               hw1_init
+  219 000000D8 F7FF FFFE       BL               hw1_update_leds
+  220 000000DC         
+  221 000000DC F04F 000A       MOV              R0, #10
+  222 000000E0 F7FF FFFE       BL               hw1_wait
+  223 000000E4         
+  224 000000E4 BC02            POP              {R1}
+  225 000000E6         
+  226 000000E6         INFINITE_LOOP
+  227 000000E6 E7FE            B                INFINITE_LOOP
+  228 000000E8         
+  229 000000E8 4770            BX               LR
+  230 000000EA                 ENDP
+  231 000000EA         
+  232 000000EA 00 00           align
+  233 000000EC         
+  234 000000EC                 END
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\obj\hw1.d -o.\obj\hw1.o -I.\RTE\_HW1 -IC:\Keil_v5\ARM\PACK\AR
+M\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\In
+clude\TM4C123 --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --pre
+define="__UVISION_VERSION SETA 524" --predefine="_RTE_ SETA 1" --predefine="TM4
+C123GH6PM SETA 1" --list=.\lst\hw1.lst hw1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+LED_ARRAY 00000000
+
+Symbol: LED_ARRAY
+   Definitions
+      At line 16 in file hw1.s
+   Uses
+      At line 37 in file hw1.s
+      At line 117 in file hw1.s
+      At line 150 in file hw1.s
+
+SRAM 00000000
+
+Symbol: SRAM
+   Definitions
+      At line 15 in file hw1.s
+   Uses
+      None
+Comment: SRAM unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+FLASH 00000000
+
+Symbol: FLASH
+   Definitions
+      At line 22 in file hw1.s
+   Uses
+      None
+Comment: FLASH unused
+INFINITE_LOOP 000000E6
+
+Symbol: INFINITE_LOOP
+   Definitions
+      At line 226 in file hw1.s
+   Uses
+      At line 227 in file hw1.s
+Comment: INFINITE_LOOP used once
+LOOP 00000096
+
+Symbol: LOOP
+   Definitions
+      At line 182 in file hw1.s
+   Uses
+      At line 184 in file hw1.s
+Comment: LOOP used once
+ascii_to_dec 00000030
+
+Symbol: ascii_to_dec
+   Definitions
+      At line 88 in file hw1.s
+   Uses
+      None
+Comment: ascii_to_dec unused
+hw1_ascii_to_hex 00000012
+
+Symbol: hw1_ascii_to_hex
+   Definitions
+      At line 59 in file hw1.s
+   Uses
+      None
+Comment: hw1_ascii_to_hex unused
+hw1_init 0000004E
+
+Symbol: hw1_init
+   Definitions
+      At line 114 in file hw1.s
+   Uses
+      At line 205 in file hw1.s
+      At line 218 in file hw1.s
+
+hw1_ledx 00000076
+
+Symbol: hw1_ledx
+   Definitions
+      At line 146 in file hw1.s
+   Uses
+      At line 210 in file hw1.s
+      At line 215 in file hw1.s
+
+hw1_search_memory 000000A2
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+
+Symbol: hw1_search_memory
+   Definitions
+      At line 202 in file hw1.s
+   Uses
+      At line 4 in file hw1.s
+Comment: hw1_search_memory used once
+hw1_update_leds 00000000
+
+Symbol: hw1_update_leds
+   Definitions
+      At line 34 in file hw1.s
+   Uses
+      At line 206 in file hw1.s
+      At line 211 in file hw1.s
+      At line 216 in file hw1.s
+      At line 219 in file hw1.s
+
+hw1_wait 00000092
+
+Symbol: hw1_wait
+   Definitions
+      At line 179 in file hw1.s
+   Uses
+      At line 222 in file hw1.s
+Comment: hw1_wait used once
+10 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BYTE 00000001
+
+Symbol: BYTE
+   Definitions
+      At line 10 in file hw1.s
+   Uses
+      At line 16 in file hw1.s
+Comment: BYTE used once
+HALF 00000002
+
+Symbol: HALF
+   Definitions
+      At line 9 in file hw1.s
+   Uses
+      At line 156 in file hw1.s
+      At line 158 in file hw1.s
+
+WORD 00000004
+
+Symbol: WORD
+   Definitions
+      At line 8 in file hw1.s
+   Uses
+      At line 120 in file hw1.s
+      At line 121 in file hw1.s
+      At line 122 in file hw1.s
+      At line 123 in file hw1.s
+      At line 124 in file hw1.s
+      At line 125 in file hw1.s
+
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+WS2812B_write 00000000
+
+Symbol: WS2812B_write
+   Definitions
+      At line 5 in file hw1.s
+   Uses
+      At line 39 in file hw1.s
+Comment: WS2812B_write used once
+1 symbol
+354 symbols in table
