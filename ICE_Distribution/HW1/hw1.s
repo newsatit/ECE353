@@ -7,7 +7,12 @@
 ; String constants		
 WORD	EQU	4
 HALF	EQU	2
-BYTE	EQU 1	
+BYTE	EQU 1
+
+; String constansts to check for commands
+INIT_STR EQU 0x54494E49
+WAIT_STR EQU 0x54494157
+STOP_STR EQU 0x504F5453
 	
 ;**********************************************
 ; SRAM
@@ -145,6 +150,7 @@ hw1_init	PROC
 	
 	BX LR
 	ENDP
+	
 		
 ;**********************************************
 ; Updates the color of the specified LED. 
@@ -196,12 +202,89 @@ hw1_ledx	PROC
 hw1_wait	PROC
 	PUSH {R1}
 	MOV R1, R0
-LOOP CMP R1, #0
+WAIT_LOOP CMP R1, #0
 	SUB R1, R1, #1
-	BGT LOOP
+	BGT WAIT_LOOP
 	POP {R1}
 	BX LR
 	ENDP
+		
+;**********************************************
+; Check to see if an address holds the Command
+; 'INIT'
+; 
+; Parameters
+; 	R0 :  Address to examine
+; 
+; Returns
+;   R1 : 	0x00000000 if INIT was found
+;        	0xFFFFFFFF if INIT was NOT FOUND 
+;**********************************************
+check_for_init PROC
+	
+	PUSH {R2, R3}
+	
+	; Load the 4 character string starting at R0
+	; into a register
+	LDR R2, [R0]
+
+	; Load 'INIT' to R3
+	MOV32 R3, INIT_STR
+
+	; Check to see if the resulting value is 
+	; equal to 'INIT'
+	CMP R2, R3
+	
+	; Set the return value
+	MOVEQ R1, #0x00000000
+	MOVNE R1, #0xFFFFFFFF
+	
+	POP {R2, R3}
+		
+	; Return
+	BX LR
+
+	ENDP
+		
+;**********************************************
+; Check to see if an address holds the Command
+; 'STOP' in which the program should enter
+; infinite loop
+; 
+; Parameters
+; 	R0 :  Address to examine
+; 
+; Returns
+;   R1 : 	0x00000000 if STOP was found
+;        	0xFFFFFFFF if STOP was NOT FOUND 
+;**********************************************
+check_for_stop PROC
+	
+	PUSH {R2, R3}
+	
+	; Load the 4 character string starting at R0
+	; into a register
+	LDR R2, [R0]
+
+	; Load 'INIT' to R3
+	MOV32 R3, STOP_STR
+
+	; Check to see if the resulting value is 
+	; equal to 'INIT'
+	CMP R2, R3
+	
+	; Set the return value
+	MOVEQ R1, #0x00000000
+	MOVNE R1, #0xFFFFFFFF
+	
+	POP {R2, R3}
+		
+	; Return
+	BX LR
+
+	ENDP
+		
+
 
 ; TODO
 
@@ -218,78 +301,35 @@ LOOP CMP R1, #0
 ;	Nothing
 ;**********************************************	
 hw1_search_memory PROC
-	PUSH {R1}
 	
-	MOV R0, #0x2F	; false
-	BL hw1_ascii_to_hex
-	MOV R0, #0x30	; 0
-	BL hw1_ascii_to_hex
-	MOV R0, #0x31	; 1
-	BL hw1_ascii_to_hex
-	MOV R0, #0x38	; 8
-	BL hw1_ascii_to_hex	
-	MOV R0, #0x39	; 9
-	BL hw1_ascii_to_hex
-	MOV R0, #0x3A	; False
-	BL hw1_ascii_to_hex
-	MOV R0, #0x40	; False
-	BL hw1_ascii_to_hex
-	MOV R0, #0x41	; 10
-	BL hw1_ascii_to_hex
-	MOV R0, #0x46	; 15
-	BL hw1_ascii_to_hex
-	MOV R0, #0x47	; false
-	BL hw1_ascii_to_hex
-	MOV R0, #0x60	; false
-	BL hw1_ascii_to_hex
-	MOV R0, #0x61	; 10
-	BL hw1_ascii_to_hex
-	MOV R0, #0x66	; 15
-	BL hw1_ascii_to_hex
-	MOV R0, #0x67	; false
-	BL hw1_ascii_to_hex
+	PUSH {R0-R2, LR}
+	
+	; R2 stores the current address of the command
+	MOV R2, R0
+	
+	; check for STOP
+LOOP	MOV R0, R2
+	BL check_for_stop
+	CMP R1, #0
+	BEQ STOP
+	
+	; check for INIT
+	MOV R0, R2
+	BL check_for_init
+	CMP R1, #0
+	BLEQ hw1_init
+	
+	; Increment the current address of the command
+	ADD R2, R2, #1
+	
+	B LOOP
+	
 
-	BL hw1_init
-	BL hw1_update_leds
-
-	MOV32 R0, #1000
-	MOV32 R1, #10000
-	MUL R0, R0, R1
-	BL hw1_wait
-		
-	MOV R0, #1
-	MOV32 R1, #0x00FF0000
-	BL hw1_ledx
-	BL hw1_update_leds
+STOP
+	B STOP
 	
-	MOV32 R0, #1000
-	MOV32 R1, #10000
-	MUL R0, R0, R1
-	BL hw1_wait
+	POP {R0-R2, LR}
 	
-	MOV R0, #7
-	MOV32 R1, #0x00FFFF00
-	BL hw1_ledx
-	BL hw1_update_leds
-	
-	MOV32 R0, #1000
-	MOV32 R1, #10000
-	MUL R0, R0, R1
-	BL hw1_wait
-	
-	BL hw1_init
-	BL hw1_update_leds
-	
-	MOV32 R0, #1000
-	MOV32 R1, #10000
-	MUL R0, R0, R1
-	BL hw1_wait
-	
-	POP {R1}
-
-INFINITE_LOOP
-	B INFINITE_LOOP
-
 	BX LR
 	ENDP
 		

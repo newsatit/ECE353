@@ -101,7 +101,9 @@
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
         <bEvRecOn>1</bEvRecOn>
-        <nTsel>8</nTsel>
+        <bSchkAxf>0</bSchkAxf>
+        <bTchkAxf>0</bTchkAxf>
+        <nTsel>9</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -149,34 +151,34 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>206</LineNumber>
+          <LineNumber>331</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>4028</Address>
+          <Address>4172</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\HW1\\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\HW1\hw1.s</Filename>
+          <Filename>\Mac\Home\Desktop\Homework\Fall 2018\ECE353\ICE_Distribution\HW1\\Mac\Home\Desktop\Homework\Fall 2018\ECE353\ICE_Distribution\HW1\hw1.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\ece353_base_project\/userspace.cae.wisc.edu/people/s/satitsumpun/ECE353/ICE_Distribution/HW1/hw1.s\206</Expression>
+          <Expression>\\ece353_base_project\hw1.s\331</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>208</LineNumber>
+          <LineNumber>137</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>4032</Address>
+          <Address>4002</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\HW1\\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\HW1\hw1.s</Filename>
+          <Filename>\Mac\Home\Desktop\Homework\Fall 2018\ECE353\ICE_Distribution\HW1\\Mac\Home\Desktop\Homework\Fall 2018\ECE353\ICE_Distribution\HW1\hw1.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\ece353_base_project\/userspace.cae.wisc.edu/people/s/satitsumpun/ECE353/ICE_Distribution/HW1/hw1.s\208</Expression>
+          <Expression>\\ece353_base_project\hw1.s\137</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -190,7 +192,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>0x200000b8</ItemText>
+          <ItemText>0x20000000</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -249,7 +251,7 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>1</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main.c</PathWithFileName>
