@@ -13,6 +13,7 @@ BYTE	EQU 1
 INIT_STR EQU 0x54494E49
 WAIT_STR EQU 0x54494157
 STOP_STR EQU 0x504F5453
+LED_STR EQU	0x0044454C
 	
 ;**********************************************
 ; SRAM
@@ -108,7 +109,7 @@ DONE MOV R0, R2
 ;	R0 : 	numerical value.  
 ;			If invalid, return 0xFFFFFFFF
 ;**********************************************
-ascii_to_dec PROC
+hw1_ascii_to_dec PROC
 	
 	PUSH {R2}
 	
@@ -134,7 +135,7 @@ ascii_to_dec PROC
 ;	Nothing
 ;**********************************************
 hw1_init	PROC
-	PUSH {R0, R1}
+	PUSH {R0, R1, LR}
 	
 	LDR R0, =(LED_ARRAY)
 	MOV32 R1, #0
@@ -146,7 +147,8 @@ hw1_init	PROC
 	STR R1, [R0], #WORD
 	STR R1, [R0], #WORD
 	
-	POP {R0, R1}
+	BL hw1_update_leds
+	POP {R0, R1, LR}
 	
 	BX LR
 	ENDP
@@ -168,7 +170,7 @@ hw1_init	PROC
 ;**********************************************	
 hw1_ledx	PROC
 	
-	PUSH {R1-R3}
+	PUSH {R1-R3, LR}
 	; R2 Stores stores the adress of LED_ARRAY
 	LDR R2, =(LED_ARRAY)
 	MOV R3, #3
@@ -181,7 +183,10 @@ hw1_ledx	PROC
 	LSR R1, R1, #HALF*8
 	STRB R1, [R2]
 	
-	POP {R1-R3}
+	; update colors of led
+	BL hw1_update_leds
+	
+	POP {R1-R3, LR}
 	
 	BX LR
 	ENDP
@@ -283,10 +288,140 @@ check_for_stop PROC
 	BX LR
 
 	ENDP
+
+;**********************************************
+; Check to see if an address holds the Command
+; 'WAIT(4-digit-decimal)' in which the program sould execute
+; 4-digit-decimal*10,000 iterations of empty loop
+; 
+; Parameters
+; 	R0 :  Address to examine
+; 
+; Returns
+;   R1 : 	4-digit-demimal in hex 
+;        	0xFFFFFFFF if WAIT was NOT FOUND or invalid number
+;**********************************************
+check_for_wait PROC
+	
+	PUSH {R0, R2-R5, LR}
+	
+	; Load the 4 character string starting at R0
+	; into a register
+	LDR R2, [R0]
+
+	; Load 'WAIT' to R3
+	MOV32 R3, WAIT_STR
+
+	; Check to see if the resulting value is 
+	; equal to 'WAIT'
+	CMP R2, R3
+	
+	; Set the return value
+	MOVNE R1, #0xFFFFFFFF
+	BLNE FINISH_WAIT
+	
+	; Check to see if there is 4-digit decimal after 'WAIT'
+	; R2 Stores address of number
+	ADD R2, R0, #BYTE*4
+	; R4 Stores counts of loop iteration
+	MOV R4, #4
+	; R1 Stores decimal value
+	MOV R1, #0
+LOOP_WAIT
+	CMP R4, #0
+	BEQ FINISH_WAIT
+	LDRB R0, [R2], #1
+	BL hw1_ascii_to_dec
+	CMP R0, #0xFFFFFFFF
+	; If it is not a valid number
+	MOVEQ R1, #0xFFFFFFFF
+	BEQ FINISH_WAIT
+	; If it is a valid number
+	MOV R5, #10
+	MUL R1, R1, R5
+	ADD R1, R1, R0
+	SUB R4, R4, #1
+	B LOOP_WAIT
+	
+FINISH_WAIT	POP {R0, R2-R5, LR}
+	BX LR
+
+	ENDP
 		
+;**********************************************
+; Check to see if an address holds the Command
+; LEDx, for example (‘LED2FF8800') in which the program should change the 
+; color of LED numbered 2 and to color FF8800
+; 
+; Parameters
+; 	R0 :  Address to examine
+; 
+; Returns
+;   R1 : 	number of the led
+;        	0xFFFFFFFF if LEDx was NOT FOUND or invalid led number or invalid color number
+;	R3 :	color to be changed
+;
+;**********************************************
+check_for_ledx PROC
+	
+	PUSH {R0, R2, R4-R5, LR}
+	
+	; Load the 4 character string starting at R0
+	; into a register
+	LDR R2, [R0]
+	AND R2, R2, #0x00FFFFFF
 
+	; Load 'LED' to R3
+	MOV32 R3, LED_STR
 
-; TODO
+	; Check to see if the resulting value is 
+	; equal to 'LED'
+	CMP R2, R3
+	
+	; Set the return value
+	MOVNE R1, #0xFFFFFFFF
+	BLNE FINISH_LED
+	
+	; R2 Stores address of LEDx	
+	MOV R2, R0
+	
+	; Check to see if there is valid led number after 'LED'
+	LDRB R0, [R2, #BYTE*3]
+	BL hw1_ascii_to_dec
+	CMP R0, #0xFFFFFFFF
+	; If it is not a valid LED number
+	MOVEQ R1, #0xFFFFFFFF
+	BEQ FINISH_LED
+	; If it is a valid LED number
+	MOV R1, R0
+	
+	; Check to see if there is valid hex color decimal after 'LEDx'
+	; R2 Stores address of Color hex
+	ADD R2, R2, #BYTE*9
+	; R4 Stores counts of loop iteration
+	MOV R4, #6
+	; R3 Stores hex value
+	MOV R3, #0
+LOOP_LED
+	CMP R4, #0
+	BEQ FINISH_LED
+	LDRB R0, [R2], #-1
+	BL hw1_ascii_to_hex
+	CMP R0, #0xFFFFFFFF
+	; If it is not a valid hex
+	MOVEQ R1, #0xFFFFFFFF
+	BEQ FINISH_LED
+	; If it is a valid hex
+	MOV R5, #16
+	MUL R3, R3, R5
+	ADD R3, R3, R0
+	SUB R4, R4, #1
+	B LOOP_LED
+	
+FINISH_LED	POP {R0, R2, R4-R5, LR}
+	BX LR
+
+	ENDP
 
 ;**********************************************
 ; This function will search through memory a byte at a time looking for valid DISPLAY
@@ -302,7 +437,7 @@ check_for_stop PROC
 ;**********************************************	
 hw1_search_memory PROC
 	
-	PUSH {R0-R2, LR}
+	PUSH {R0-R3, LR}
 	
 	; R2 stores the current address of the command
 	MOV R2, R0
@@ -319,6 +454,23 @@ LOOP	MOV R0, R2
 	CMP R1, #0
 	BLEQ hw1_init
 	
+	; check for WAIT
+	MOV R0, R2
+	BL check_for_wait
+	CMP R1, #0xFFFFFFFF
+	MOVNE R0, R1
+	MOVNE R3, #10000
+	MULNE R0, R0, R3
+	BLNE hw1_wait
+	
+	; check for LEDx
+	MOV R0, R2
+	BL check_for_ledx
+	CMP R1, #0xFFFFFFFF
+	MOVNE R0, R1
+	MOVNE R1, R3
+	BLNE hw1_ledx
+	
 	; Increment the current address of the command
 	ADD R2, R2, #1
 	
@@ -328,7 +480,7 @@ LOOP	MOV R0, R2
 STOP
 	B STOP
 	
-	POP {R0-R2, LR}
+	POP {R0-R3, LR}
 	
 	BX LR
 	ENDP

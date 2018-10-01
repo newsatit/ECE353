@@ -147,40 +147,7 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0TM4C123_256 -FS00 -FL040000 -FP0($$Device:TM4C123GH6PM$Flash\TM4C123_256.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>331</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>4172</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>\Mac\Home\Desktop\Homework\Fall 2018\ECE353\ICE_Distribution\HW1\\Mac\Home\Desktop\Homework\Fall 2018\ECE353\ICE_Distribution\HW1\hw1.s</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\ece353_base_project\hw1.s\331</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>137</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>4002</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>\Mac\Home\Desktop\Homework\Fall 2018\ECE353\ICE_Distribution\HW1\\Mac\Home\Desktop\Homework\Fall 2018\ECE353\ICE_Distribution\HW1\hw1.s</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\ece353_base_project\hw1.s\137</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -192,7 +159,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>0x20000000</ItemText>
+          <ItemText>0x2000009a</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
