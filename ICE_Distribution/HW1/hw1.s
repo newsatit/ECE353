@@ -478,7 +478,6 @@ LOOP	MOV R0, R2
 	
 
 STOP
-	B STOP
 	
 	POP {R0-R3, LR}
 	

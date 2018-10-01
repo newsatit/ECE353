@@ -1,4 +1,4 @@
-Component: ARM Compiler 5.06 update 6 (build 750) Tool: armlink [4d35ed]
+Component: ARM Compiler 5.06 update 5 (build 528) Tool: armlink [4d35e2]
 
 ==============================================================================
 
@@ -654,7 +654,7 @@ Image Symbol Table
     __scatterload                            0x00000e4d   Thumb Code    28  init.o(.text)
     __scatterload_rt2                        0x00000e4d   Thumb Code     0  init.o(.text)
     WS2812B_write                            0x00000e71   Thumb Code   168  hw1_ws2812b.o(FLASH)
-    hw1_search_memory                        0x000010f5   Thumb Code    88  hw1.o(FLASH)
+    hw1_search_memory                        0x000010f5   Thumb Code    86  hw1.o(FLASH)
     __0printf$bare                           0x00001151   Thumb Code     8  printfb.o(i.__0printf$bare)
     __1printf$bare                           0x00001151   Thumb Code     0  printfb.o(i.__0printf$bare)
     __2printf                                0x00001151   Thumb Code     0  printfb.o(i.__0printf$bare)
@@ -689,33 +689,33 @@ Memory Map of the image
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x00000000   0x00000000   0x0000026c   Data   RO          109    RESET               startup_tm4c123.o
-    0x0000026c   0x0000026c   0x00000000   Code   RO          282  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x0000026c   0x0000026c   0x00000004   Code   RO          574    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
-    0x00000270   0x00000270   0x00000004   Code   RO          577    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x00000274   0x00000274   0x00000000   Code   RO          579    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
-    0x00000274   0x00000274   0x00000000   Code   RO          581    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
-    0x00000274   0x00000274   0x00000008   Code   RO          582    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
-    0x0000027c   0x0000027c   0x00000000   Code   RO          584    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
-    0x0000027c   0x0000027c   0x00000000   Code   RO          586    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
-    0x0000027c   0x0000027c   0x00000004   Code   RO          575    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x00000000   0x00000000   0x0000026c   Data   RO          103    RESET               startup_tm4c123.o
+    0x0000026c   0x0000026c   0x00000000   Code   RO          292  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x0000026c   0x0000026c   0x00000004   Code   RO          584    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x00000270   0x00000270   0x00000004   Code   RO          587    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x00000274   0x00000274   0x00000000   Code   RO          589    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x00000274   0x00000274   0x00000000   Code   RO          591    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x00000274   0x00000274   0x00000008   Code   RO          592    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x0000027c   0x0000027c   0x00000000   Code   RO          594    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x0000027c   0x0000027c   0x00000000   Code   RO          596    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x0000027c   0x0000027c   0x00000004   Code   RO          585    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
     0x00000280   0x00000280   0x000000b4   Code   RO            4    .text               main.o
-    0x00000334   0x00000334   0x000000fc   Code   RO          110  * .text               startup_tm4c123.o
-    0x00000430   0x00000430   0x0000024c   Code   RO          117    .text               system_tm4c123.o
-    0x0000067c   0x0000067c   0x000002c4   Code   RO          147    .text               hw1_f18.lib(gpio_port.o)
-    0x00000940   0x00000940   0x0000021c   Code   RO          197    .text               hw1_f18.lib(serial_debug.o)
-    0x00000b5c   0x00000b5c   0x00000274   Code   RO          242    .text               hw1_f18.lib(uart.o)
-    0x00000dd0   0x00000dd0   0x0000007c   Code   RO          267    .text               hw1_f18.lib(pc_buffer.o)
-    0x00000e4c   0x00000e4c   0x00000024   Code   RO          609    .text               mc_w.l(init.o)
-    0x00000e70   0x00000e70   0x000000a8   Code   RO           98    FLASH               hw1_ws2812b.o
-    0x00000f18   0x00000f18   0x00000238   Code   RO          103    FLASH               hw1.o
-    0x00001150   0x00001150   0x00000010   Code   RO          287    i.__0printf$bare    mc_w.l(printfb.o)
-    0x00001160   0x00001160   0x0000000e   Code   RO          621    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x0000116e   0x0000116e   0x00000002   Code   RO          622    i.__scatterload_null  mc_w.l(handlers.o)
-    0x00001170   0x00001170   0x0000000e   Code   RO          623    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x0000117e   0x0000117e   0x00000022   Code   RO          294    i._printf_core      mc_w.l(printfb.o)
-    0x000011a0   0x000011a0   0x0000006c   Code   RO          547    i.malloc            mc_w.l(malloc.o)
-    0x0000120c   0x0000120c   0x00000020   Data   RO          619    Region$$Table       anon$$obj.o
+    0x00000334   0x00000334   0x000000fc   Code   RO          104  * .text               startup_tm4c123.o
+    0x00000430   0x00000430   0x0000024c   Code   RO          111    .text               system_tm4c123.o
+    0x0000067c   0x0000067c   0x000002c4   Code   RO          141    .text               hw1_f18.lib(gpio_port.o)
+    0x00000940   0x00000940   0x0000021c   Code   RO          204    .text               hw1_f18.lib(serial_debug.o)
+    0x00000b5c   0x00000b5c   0x00000274   Code   RO          252    .text               hw1_f18.lib(uart.o)
+    0x00000dd0   0x00000dd0   0x0000007c   Code   RO          277    .text               hw1_f18.lib(pc_buffer.o)
+    0x00000e4c   0x00000e4c   0x00000024   Code   RO          619    .text               mc_w.l(init.o)
+    0x00000e70   0x00000e70   0x000000a8   Code   RO           92    FLASH               hw1_ws2812b.o
+    0x00000f18   0x00000f18   0x00000238   Code   RO           97    FLASH               hw1.o
+    0x00001150   0x00001150   0x00000010   Code   RO          297    i.__0printf$bare    mc_w.l(printfb.o)
+    0x00001160   0x00001160   0x0000000e   Code   RO          631    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x0000116e   0x0000116e   0x00000002   Code   RO          632    i.__scatterload_null  mc_w.l(handlers.o)
+    0x00001170   0x00001170   0x0000000e   Code   RO          633    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x0000117e   0x0000117e   0x00000022   Code   RO          304    i._printf_core      mc_w.l(printfb.o)
+    0x000011a0   0x000011a0   0x0000006c   Code   RO          557    i.malloc            mc_w.l(malloc.o)
+    0x0000120c   0x0000120c   0x00000020   Data   RO          629    Region$$Table       anon$$obj.o
 
 
     Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x0000122c, Size: 0x000000d0, Max: 0xffffffff, ABSOLUTE)
@@ -724,23 +724,23 @@ Memory Map of the image
 
     0x20000000   0x0000122c   0x000000a2   Data   RW            5    .data               main.o
     0x200000a2   0x000012ce   0x00000002   PAD
-    0x200000a4   0x000012d0   0x00000004   Data   RW          118    .data               system_tm4c123.o
-    0x200000a8   0x000012d4   0x00000002   Data   RW          199    .data               hw1_f18.lib(serial_debug.o)
+    0x200000a4   0x000012d0   0x00000004   Data   RW          112    .data               system_tm4c123.o
+    0x200000a8   0x000012d4   0x00000002   Data   RW          206    .data               hw1_f18.lib(serial_debug.o)
     0x200000aa   0x000012d6   0x00000002   PAD
-    0x200000ac   0x000012d8   0x00000004   Data   RW          285    .data               mc_w.l(stdout.o)
-    0x200000b0   0x000012dc   0x00000004   Data   RW          596    .data               mc_w.l(mvars.o)
-    0x200000b4   0x000012e0   0x00000004   Data   RW          597    .data               mc_w.l(mvars.o)
-    0x200000b8   0x000012e4   0x00000018   Data   RW          102    SRAM                hw1.o
+    0x200000ac   0x000012d8   0x00000004   Data   RW          295    .data               mc_w.l(stdout.o)
+    0x200000b0   0x000012dc   0x00000004   Data   RW          606    .data               mc_w.l(mvars.o)
+    0x200000b4   0x000012e0   0x00000004   Data   RW          607    .data               mc_w.l(mvars.o)
+    0x200000b8   0x000012e4   0x00000018   Data   RW           96    SRAM                hw1.o
 
 
     Execution Region ER_ZI (Exec base: 0x200000d0, Load base: 0x000012fc, Size: 0x00000220, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x200000d0        -       0x0000001c   Zero   RW          198    .bss                hw1_f18.lib(serial_debug.o)
+    0x200000d0        -       0x0000001c   Zero   RW          205    .bss                hw1_f18.lib(serial_debug.o)
     0x200000ec   0x000012fc   0x00000004   PAD
-    0x200000f0        -       0x00000000   Zero   RW          108    HEAP                startup_tm4c123.o
-    0x200000f0        -       0x00000200   Zero   RW          107    STACK               startup_tm4c123.o
+    0x200000f0        -       0x00000000   Zero   RW          102    HEAP                startup_tm4c123.o
+    0x200000f0        -       0x00000200   Zero   RW          101    STACK               startup_tm4c123.o
 
 
 ==============================================================================
@@ -750,14 +750,14 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       568          4          0         24          0        944   hw1.o
-       168          0          0          0          0        460   hw1_ws2812b.o
-       180        102          0        162          0       5828   main.o
-       252         10        620          0        512       5448   startup_tm4c123.o
-       588        134          0          4          0       1573   system_tm4c123.o
+       568          6          0         24          0        908   hw1.o
+       168          0          0          0          0        424   hw1_ws2812b.o
+       180        102          0        162          0       5896   main.o
+       252         10        620          0        512       5416   startup_tm4c123.o
+       588        134          0          4          0       1501   system_tm4c123.o
 
     ----------------------------------------------------------------------
-      1756        250        652        192        512      14253   Object Totals
+      1756        252        652        192        512      14145   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          0          0          0          2          0          0   (incl. Padding)
 
@@ -765,7 +765,7 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Member Name
 
-       708         32          0          0          0      27258   gpio_port.o
+       708         32          0          0          0      30322   gpio_port.o
        124          0          0          0          0       1939   pc_buffer.o
        540         26          0          2         28       6029   serial_debug.o
        628         50          0          0          0      33099   uart.o
@@ -785,18 +785,18 @@ Image component sizes
          0          0          0          4          0          0   stdout.o
 
     ----------------------------------------------------------------------
-      2244        148          0         16         32      68629   Library Totals
+      2244        148          0         16         32      71693   Library Totals
          0          0          0          2          4          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
 
-      2000        108          0          2         28      68325   hw1_f18.lib
+      2000        108          0          2         28      71389   hw1_f18.lib
        244         40          0         12          0        304   mc_w.l
 
     ----------------------------------------------------------------------
-      2244        148          0         16         32      68629   Library Totals
+      2244        148          0         16         32      71693   Library Totals
 
     ----------------------------------------------------------------------
 
@@ -805,9 +805,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      4000        398        652        208        544      82034   Grand Totals
-      4000        398        652        208        544      82034   ELF Image Totals
-      4000        398        652        208          0          0   ROM Totals
+      4000        400        652        208        544      84990   Grand Totals
+      4000        400        652        208        544      84990   ELF Image Totals
+      4000        400        652        208          0          0   ROM Totals
 
 ==============================================================================
 

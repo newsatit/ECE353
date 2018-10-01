@@ -42,16 +42,53 @@
 addMultiply PROC
     
     ; Validate Parameters
+	CMP R0, #0
+	MOVEQ R0, #-1
+	BEQ DONE
+	
+	CMP R1, #0
+	MOVEQ R0, #-1
+	BEQ DONE
+	
+	CMP R2, #0
+	MOVEQ R0, #-1
+	BEQ DONE
+	
+	CMP R3, #0
+	MOVEQ R0, #-1
+	BEQ DONE
 
     ; Save required registers
+	PUSH {R4-R6}
+	LDR R4, [SP, #12]
+	CMP R4, #0
+	MOVLE R0, #-1
+	BLE DONE
     
     ; For each index in the arrays, compute  
     ; Array3[i] = (Array0[i] + Array1[i]) * Array2[i]
-  
+LOOP
+	CMP R4, #0
+	MOVEQ R0, #0
+	BEQ DONE
+	
+	LDRB R5, [R0], #1
+	LDRB R6, [R1], #1
+	ADD R5, R5, R6
+	LDRB R6, [R2], #1
+	MUL R5, R5, R6
+	STRB R5, [R3], #1
+		
+	SUB R4, R4, #1
+	B LOOP
+	
+ 
+DONE
     ; Restore registers saved to the stack
+	POP {R4-R6}
     
     ; Return from the loop
-
+	BX LR
     ENDP
 
 

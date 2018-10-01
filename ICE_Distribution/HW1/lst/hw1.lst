@@ -606,23 +606,22 @@ ARM Macro Assembler    Page 10
   478 0000022C         
   479 0000022C         
   480 0000022C         STOP
-  481 0000022C E7FE            B                STOP
-  482 0000022E         
-  483 0000022E E8BD 400F       POP              {R0-R3, LR}
-  484 00000232         
-  485 00000232 4770            BX               LR
-  486 00000234                 ENDP
-  487 00000234         
-  488 00000234                 align
-  489 00000234         
-  490 00000234                 END
+  481 0000022C         
+  482 0000022C E8BD 400F       POP              {R0-R3, LR}
+  483 00000230         
+  484 00000230 4770            BX               LR
+  485 00000232                 ENDP
+  486 00000232         
+  487 00000232 00 00           align
+  488 00000234         
+  489 00000234                 END
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\obj\hw1.d -o.\obj\hw1.o -I.\RTE\_HW1 -IC:\Keil_v5\ARM\PACK\AR
-M\CMSIS\5.4.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Devi
-ce\Include\TM4C123 --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" 
---predefine="__UVISION_VERSION SETA 526" --predefine="_RTE_ SETA 1" --predefine
-="TM4C123GH6PM SETA 1" --list=.\lst\hw1.lst hw1.s
+M\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\In
+clude\TM4C123 --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --pre
+define="__UVISION_VERSION SETA 524" --predefine="_RTE_ SETA 1" --predefine="TM4
+C123GH6PM SETA 1" --list=.\lst\hw1.lst hw1.s
 
 
 
@@ -730,8 +729,7 @@ Symbol: STOP
       At line 480 in file hw1.s
    Uses
       At line 449 in file hw1.s
-      At line 481 in file hw1.s
-
+Comment: STOP used once
 WAIT_LOOP 000000DE
 
 Symbol: WAIT_LOOP
@@ -778,13 +776,13 @@ Symbol: hw1_ascii_to_dec
    Definitions
       At line 112 in file hw1.s
    Uses
+      At line 334 in file hw1.s
 
 
 
 ARM Macro Assembler    Page 3 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 334 in file hw1.s
       At line 390 in file hw1.s
 
 hw1_ascii_to_hex 00000012
