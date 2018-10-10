@@ -281,11 +281,10 @@ ARM Macro Assembler    Page 5
   171 000000A8                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\obj\hw1_ws2812b.d -o.\obj\hw1_ws2812b.o -I.\RTE\_HW1 -IC:\Kei
-l_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\Keil\TM4
-C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" --predefine="__M
-ICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine="_RTE_ SET
-A 1" --predefine="TM4C123GH6PM SETA 1" --list=.\lst\hw1_ws2812b.lst hw1_ws2812b
-.s
+l_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP
+\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" --predefine="__MICROL
+IB SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefine="_RTE_ SETA 1" 
+--predefine="TM4C123GH6PM SETA 1" --list=.\lst\hw1_ws2812b.lst hw1_ws2812b.s
 
 
 
