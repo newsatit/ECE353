@@ -28,7 +28,10 @@
 #include <stdlib.h>
 
 typedef __packed struct {
-  uint32_t stuff;
+  volatile uint32_t produce_count;
+	volatile uint32_t consume_count;
+	uint16_t BUFFER_SIZE;
+	volatile char *array;
 } PC_Buffer ;
 
 //*****************************************************************************
