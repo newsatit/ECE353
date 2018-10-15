@@ -14,17 +14,19 @@
  * Includes
  *****************************************************************************/
 // ADD CODE 02
-
+#include "ws2812b.h"
 /******************************************************************************
  * MACROS
  *****************************************************************************/
 // ADD CODE 03
+#define NUM_LEDS 8
 
 
 /******************************************************************************
  * Global Variables
  *****************************************************************************/
 // ADD CODE 04
+WS2812B_t LEDs[NUM_LEDS];
 
 
 
@@ -72,18 +74,44 @@ main(void)
   put_string("**************************************\n\r");
 
   // ADD CODE 05
+	LEDs[0].blue = 0x80;
+	
+	LEDs[1].red = 0x80;
+	
+	LEDs[2].red = 0x80;
+	LEDs[2].blue = 0x80;
+	
+	LEDs[3].green = 0x80;
+	
+	LEDs[4].green = 0x80;
+	LEDs[4].blue = 0x80;
+	
+	LEDs[5].green = 0x80;
+	LEDs[5].red = 0x80;
+	
+	LEDs[6].red = 0x80;
+	LEDs[6].green = 0x80;
+	LEDs[6].blue = 0x80;
+	
+	LEDs[7].green = 0x40;
+	LEDs[7].red = 0x20;
+	LEDs[7].blue = 0x80;
  
   // ADD CODE 06
+	WS2812B_write(WS2812B_GPIO_ADDR, (uint8_t *)LEDs, NUM_LEDS);
   
   // Infinite Loop
-  while(1){
+  while(1) {
+
     
     // ADD CODE 07
+		ws2812b_rotate(LEDs, NUM_LEDS); 
 
     // ADD CODE 08
+		for(i = 0; i < 500000; i++) {}
 
     // ADD CODE 08
-
+		WS2812B_write(WS2812B_GPIO_ADDR, (uint8_t *)LEDs, NUM_LEDS);
     
   };
 }
