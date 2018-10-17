@@ -37,11 +37,11 @@ main(void)
   lcd_config_screen();
   
   // Run validation code
-  if( validate_ice(ICE_GPIO_PORT) == false)
+/*  if( validate_ice(ICE_GPIO_PORT) == false)
   {
     while(1){
     };
-  }
+  }*/
   
   lcd_clear_screen(LCD_COLOR_BLACK);
   lcd_draw_image(

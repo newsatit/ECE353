@@ -21,30 +21,38 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-I:\ECE353\ICE_Distribution\ICE-10-GPIOF\ICE-GPIOF.uvprojx
-Project File Date:  10/15/2018
+I:\ECE353\ICE_Distribution\ICE-11-GPIO\ICE-GPIO.uvprojx
+Project File Date:  10/17/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Rebuild target 'ICE-10-GPIOF-Dist'
-assembling startup_TM4C123.s...
-compiling launchpad_io.c...
-compiling system_TM4C123.c...
+Rebuild target 'ICE-11-GPIO'
+compiling gpio_port.c...
+..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
+         return 0;
+..\drivers\c\gpio_port.c(311): warning:  #550-D: variable "gpioPort"  was set but never used
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(337): warning:  #550-D: variable "gpioPort"  was set but never used
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(356): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(368): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(381): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(395): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c(421): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c: 8 warnings, 0 errors
 compiling main.c...
-main.c(151): warning:  #188-D: enumerated type mixed with another type
-  						state = RED_ON;
-main.c(159): warning:  #188-D: enumerated type mixed with another type
-  						state = BLUE_ON;
-main.c(167): warning:  #188-D: enumerated type mixed with another type
-  						state = GREEN_ON;
-main.c(175): warning:  #188-D: enumerated type mixed with another type
-  						state = ALL_OFF;
-main.c(139): warning:  #177-D: variable "state"  was declared but never referenced
-  	static LED_STATES state = ALL_OFF;
-main.c: 5 warnings, 0 errors
+compiling lcd.c...
+compiling lcd_images.c...
+assembling startup_TM4C123.s...
+compiling system_TM4C123.c...
 linking...
-Program Size: Code=13024 RO-data=744 RW-data=940 ZI-data=8196  
-".\obj\ece353_base_project.axf" - 0 Error(s), 5 Warning(s).
+Program Size: Code=5276 RO-data=5608 RW-data=4 ZI-data=8196  
+".\obj\ece353_base_project.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -61,7 +69,7 @@ Package Vendor: Keil
    * Component: Startup Version: 1.0.1
 
 <h2>Collection of Component include folders:</h2>
-  .\RTE\_ICE-10-GPIOF-Dist
+  .\RTE\_ICE-11-GPIO
   C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include
   C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123
 
@@ -73,7 +81,7 @@ Package Vendor: Keil
       Include file:  Device\Include\TM4C123\TM4C123.h
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

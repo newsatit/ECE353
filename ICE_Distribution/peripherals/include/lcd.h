@@ -168,11 +168,11 @@ typedef enum {
 #define LCD_DATA_PORT                GPIOB
 
 // ADD CODE
-#define LCD_CSX                     (*((volatile unsigned long *)0x00000000))
-#define LCD_DCX                     (*((volatile unsigned long *)0x00000000))
-#define LCD_WRX                     (*((volatile unsigned long *)0x00000000))
-#define LCD_RDX                     (*((volatile unsigned long *)0x00000000))
-#define LCD_DATA                    (*((volatile unsigned long *)0x00000000))
+#define LCD_CSX                     (*((volatile unsigned long *)0x40006040))
+#define LCD_DCX                     (*((volatile unsigned long *)0x40006080))
+#define LCD_WRX                     (*((volatile unsigned long *)0x40006100))
+#define LCD_RDX                     (*((volatile unsigned long *)0x40006200))
+#define LCD_DATA                    (*((volatile unsigned long *)0x400053FC))
 
 /*******************************************************************************
 * Function Name: lcd_write_data_u16

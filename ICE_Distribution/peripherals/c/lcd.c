@@ -28,20 +28,26 @@ __INLINE static void lcd_write_cmd_u8(uint8_t DL)
   // ADD CODE
   
   // Start a transaction to the LCD by setting LCD_CSX low
+	LCD_CSX = 0x00;
 
   // Indicate this is a command by setting the value on the LCD_DCX GPIO Pin
+	LCD_DCX = 0x00;
 
   
   // Send the 8 bits of the command
+	LCD_DATA = DL;
 
   
   // Set the write signal LCD_WRX low
+	LCD_WRX = 0x00;
 
 
   // Set the write signal LCD_WRX high
+	LCD_WRX = 0xFF;
 
 
   // End the transaction to the LCD by setting LCD_CSX high
+	LCD_CSX = 0xFF;
 }
 
 /*******************************************************************************
@@ -56,20 +62,26 @@ __INLINE static void  lcd_write_data_u8 (uint8_t x)
   // ADD CODE
   
   // Start a transaction to the LCD by setting LCD_CSX low
+	LCD_CSX = 0x00;
 
   // Indicate this is a data packet by setting the value on the LCD_DCX GPIO Pin
+	LCD_DCX = 0xFF;
 
   
   // Send the 8 bits of data
+	LCD_DATA = x;
 
     
   // Set the write signal LCD_WRX low
+	LCD_WRX = 0x00;
 
 
   // Set the write signal LCD_WRX high
+	LCD_WRX = 0xFF;
 
 
   // End the transaction to the LCD by setting LCD_CSX high
+	LCD_CSX = 0xFF;
 
 }
 
@@ -87,22 +99,31 @@ __INLINE void lcd_write_data_u16(uint16_t y)
   uint8_t DL = y;        // Bits 7-0 of the pixel color
 
   // Start a transaction to the LCD by setting LCD_CSX low
+	LCD_CSX = 0x00;
   
   // Indicate this is a data packet by setting the value on the LCD_DCX GPIO Pin
+	LCD_DCX = 0xFF;
   
   // Send the upper 8 bits of the current pixel's color 
+	LCD_DATA = DH;
 
   // Set the write signal LCD_WRX low
+	LCD_WRX = 0x00;
 
   // Set the write signal LCD_WRX high
+	LCD_WRX = 0xFF;
 
   // Send the lower 8 bits of the current pixel's color
+	LCD_DATA = DL;
 
   // Set the write signal LCD_WRX low
+	LCD_WRX = 0x00;
 
   // Set the write signal LCD_WRX high
+	LCD_WRX = 0xFF;
 
   // End the transaction to the LCD by setting LCD_CSX high
+	LCD_CSX = 0xFF;
 }
 
 /*******************************************************************************
