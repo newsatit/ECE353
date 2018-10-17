@@ -30,6 +30,13 @@ typedef enum
   DEBOUNCE_PRESSED
 } DEBOUNCE_STATES;
 
+typedef enum {
+	ALL_OFF,
+	RED_ON,
+	BLUE_ON,
+	GREEN_ON
+} LED_STATES;
+
 
 
 // ADD CODE
@@ -129,11 +136,54 @@ bool sw1_debounce_fsm(void)
 //*****************************************************************************
 void ice_port_f_fsm(void)
 {
+	static LED_STATES state = ALL_OFF;
   while(1)
   {
+			static DEBOUNCE_STATES state = DEBOUNCE_ONE;
       // Delay before entering the code to determine which FSM state to 
       // transistion to.
       debounce_wait();
+			bool pressed = sw1_debounce_fsm();
+			switch(state) {
+				case ALL_OFF:
+				{
+					if(pressed){
+						state = RED_ON;
+						lp_io_set_pin(RED_BIT);
+					}
+					break;
+				}
+				case RED_ON:
+				{
+					if(pressed){
+						state = BLUE_ON;
+						lp_io_set_pin(BLUE_BIT);
+					}
+					break;
+				}
+				case BLUE_ON:
+				{
+					if(pressed){
+						state = GREEN_ON;
+						lp_io_set_pin(GREEN_BIT);
+					}	
+					break;
+				}
+				case GREEN_ON:
+				{
+					if(pressed){
+						state = ALL_OFF;
+						lp_io_clear_pin(RED_BIT);
+						lp_io_clear_pin(BLUE_BIT);
+						lp_io_clear_pin(GREEN_BIT);
+					}
+					break;
+				}
+				default:
+				{
+					while(1){};
+				}
+			}
   }
 }
 
