@@ -43,9 +43,11 @@ bool initialize_adc(  uint32_t adc_base )
       
       // ADD CODE
       // set rcgc_adc_mask
+			rcgc_adc_mask = SYSCTL_RCGCADC_R0;
               
       // ADD CODE
       // Set pr_mask 
+			pr_mask = SYSCTL_PRADC_R0;
       
       break;
     }
@@ -53,12 +55,15 @@ bool initialize_adc(  uint32_t adc_base )
     {
       // ADD CODE
       // set rcgc_adc_mask
+			rcgc_adc_mask = SYSCTL_RCGCADC_R1;
       
       // ADD CODE
       // Set pr_mask 
+			pr_mask = SYSCTL_PRADC_R1;
       
       break;
     }
+		
     
     default:
       return false;
@@ -76,13 +81,16 @@ bool initialize_adc(  uint32_t adc_base )
   // ADD CODE
   // disable sample sequencer #3 by writing a 0 to the 
   // corresponding ASENn bit in the ADCACTSS register 
+	myADC->ACTSS &= ~ADC_ACTSS_ASEN3;
 
   // ADD CODE
   // Set the event multiplexer to trigger conversion on a processor trigger
   // for sample sequencer #3.
+	myADC->EMUX &= ~ADC_EMUX_EM3_M;
 
   // ADD CODE
   // Set IE0 and END0 in SSCTL3
+	myADC->SSCTL3 = ADC_SSCTL3_IE0 | ADC_SSCTL3_END0;
   
   return true;
 }
