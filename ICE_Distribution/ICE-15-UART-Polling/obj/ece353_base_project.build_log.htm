@@ -30,11 +30,12 @@ Rebuild target 'ICE-UART-Polling'
 compiling gpio_port.c...
 ..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
          return 0;
-..\drivers\c\gpio_port.c(416): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+..\drivers\c\gpio_port.c(414): warning:  #177-D: variable "gpioPort"  was declared but never referenced
     GPIOA_Type  *gpioPort;
-..\drivers\c\gpio_port.c(442): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+..\drivers\c\gpio_port.c(440): warning:  #177-D: variable "gpioPort"  was declared but never referenced
     GPIOA_Type  *gpioPort;
 ..\drivers\c\gpio_port.c: 3 warnings, 0 errors
+compiling main.c...
 compiling uart.c...
 ..\drivers\c\uart.c(184): warning:  #188-D: enumerated type mixed with another type
          return 0;
@@ -43,15 +44,11 @@ compiling uart.c...
 ..\drivers\c\uart.c(276): warning:  #550-D: variable "pr_mask"  was set but never used
       uint32_t pr_mask;
 ..\drivers\c\uart.c: 3 warnings, 0 errors
-compiling main.c...
-main.c(31): warning:  #177-D: variable "myUart"  was declared but never referenced
-    UART0_Type *myUart =((UART0_Type *) UART0_BASE);
-main.c: 1 warning, 0 errors
 assembling startup_TM4C123.s...
 compiling system_TM4C123.c...
 linking...
-Program Size: Code=13812 RO-data=744 RW-data=936 ZI-data=8192  
-".\obj\ece353_base_project.axf" - 0 Error(s), 7 Warning(s).
+Program Size: Code=13860 RO-data=744 RW-data=936 ZI-data=8192  
+".\obj\ece353_base_project.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -76,11 +73,11 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:1.0.1
       Source file:   Device\Source\system_TM4C123.c
-      Source file:   Device\Source\ARM\startup_TM4C123.s
       Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\ARM\startup_TM4C123.s
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

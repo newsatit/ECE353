@@ -28,7 +28,12 @@
 void uart0_config_gpio(void)
 {
   // ADD CODE
-
+	// Enable the clock for GPIOA 
+	// Wait until GPIOx is ready
+	gpio_enable_port(GPIOA_BASE);
+	// Configure the Tx and Rx pins as a digital pin (DEN)
+	gpio_config_digital_enable(GPIOA_BASE, 0);
+	gpio_config_digital_enable(GPIOA_BASE, 1);
 	// Configure the Tx and Rx port control pins to route the UART interface to the pins
 	// PA0 is the receive line of UART0
 	gpio_config_alternate_function(GPIOA_BASE, 0);

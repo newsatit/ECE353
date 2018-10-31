@@ -234,7 +234,7 @@ bool  gpio_config_digital_enable(uint32_t baseAddr, uint8_t pins)
 		return false;
 	}
 	gpioPort = (GPIOA_Type *)baseAddr;
-	gpioPort->DEN |= pins;
+	gpioPort->DEN |= (1<<pins);
 
     
   return true;
@@ -262,7 +262,7 @@ bool  gpio_config_enable_output(uint32_t baseAddr, uint8_t pins)
 		return false;
 	}
 	gpioPort = (GPIOA_Type *)baseAddr;
-	gpioPort->DIR |= pins;
+	gpioPort->DIR |= (1<<pins);
 	
 
   return true;
@@ -291,7 +291,7 @@ bool  gpio_config_enable_input(uint32_t baseAddr, uint8_t pins)
 		return false;
 	}
 	gpioPort = (GPIOA_Type *)baseAddr;
-	gpioPort->DIR &= ~pins;
+	gpioPort->DIR &= ~(1<<pins);
   
   return true;
   
@@ -318,7 +318,7 @@ bool  gpio_config_enable_pullup(uint32_t baseAddr, uint8_t pins)
 		return false;
 	}
 	gpioPort = (GPIOA_Type *)baseAddr;	
-	gpioPort->PUR = pins;
+	gpioPort->PUR = (1<<pins);
 	
   
   return true;
@@ -344,7 +344,7 @@ bool  gpio_config_enable_pulldown(uint32_t baseAddr, uint8_t pins)
 		return false;
 	}
 	gpioPort = (GPIOA_Type *)baseAddr;	
-	gpioPort->PDR = pins;
+	gpioPort->PDR = (1<<pins);
   
   return true;
 }
@@ -363,7 +363,7 @@ bool  gpio_config_analog_enable(uint32_t baseAddr, uint8_t pins)
 		return false;
 	}
 	gpioPort = (GPIOA_Type *)baseAddr;
-	gpioPort->AMSEL |= pins;
+	gpioPort->AMSEL |= (1<<pins);
 	
   
   return true;
@@ -382,9 +382,7 @@ bool  gpio_config_alternate_function(uint32_t baseAddr, uint8_t pins)
 		return false;
 	}
 	gpioPort = (GPIOA_Type *)baseAddr;
-	gpioPort->AFSEL |= pins;
-	
-    
+	gpioPort->AFSEL |= (1<<pins);
   return true;
 }
 
