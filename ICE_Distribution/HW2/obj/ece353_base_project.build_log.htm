@@ -21,12 +21,14 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-\\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\HW2\HW2.uvprojx
+I:\ECE353\ICE_Distribution\HW2\HW2.uvprojx
 Project File Date:  10/17/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'HW2'
+compiling main.c...
+compiling lcd.c...
 compiling gpio_port.c...
 ..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
          return 0;
@@ -37,10 +39,8 @@ compiling gpio_port.c...
 ..\drivers\c\gpio_port.c(435): warning:  #177-D: variable "gpioPort"  was declared but never referenced
     GPIOA_Type  *gpioPort;
 ..\drivers\c\gpio_port.c: 4 warnings, 0 errors
-compiling lcd.c...
-compiling main.c...
-assembling startup_TM4C123.s...
 compiling hw2_images.c...
+assembling startup_TM4C123.s...
 compiling system_TM4C123.c...
 linking...
 Program Size: Code=4000 RO-data=1128 RW-data=56 ZI-data=512  
@@ -68,9 +68,9 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: Keil::Device:Startup:1.0.1
-      Source file:   Device\Source\ARM\startup_TM4C123.s
-      Source file:   Device\Source\system_TM4C123.c
       Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\system_TM4C123.c
+      Source file:   Device\Source\ARM\startup_TM4C123.s
 
    * Component: ARM::CMSIS:CORE:5.0.1
 Build Time Elapsed:  00:00:03

@@ -61,7 +61,7 @@ void ps2_initialize(void)
 uint16_t ps2_get_x(void)
 {
 	uint16_t adc_val;
-	adc_val = (PS2_ADC_BASE, PS2_X_ADC_CHANNEL);
+	adc_val = get_adc_value(PS2_ADC_BASE, PS2_X_ADC_CHANNEL);
   return adc_val;
 }
 
@@ -74,7 +74,7 @@ uint16_t ps2_get_x(void)
 uint16_t ps2_get_y(void)
 {
   uint16_t adc_val;
-	adc_val = (PS2_ADC_BASE, PS2_Y_ADC_CHANNEL);
+	adc_val = get_adc_value(PS2_ADC_BASE, PS2_Y_ADC_CHANNEL);
   
   return adc_val;
 }

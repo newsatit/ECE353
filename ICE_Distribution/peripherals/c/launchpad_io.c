@@ -67,7 +67,7 @@ static __inline void  port_f_enable_port(void)
 {
   SYSCTL->RCGCGPIO |= SYSCTL_RCGCGPIO_R5;
 	
-	while(!(SYSCTL->RCGCGPIO & SYSCTL_RCGCGPIO_R5)){}
+	while(!(SYSCTL-> PRGPIO & SYSCTL_RCGCGPIO_R5)){}
 		
 	GPIOF->LOCK = 0x4C4F434B;
 		

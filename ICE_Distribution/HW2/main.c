@@ -55,11 +55,13 @@ void init_saucer(void)
 {
 	int i;
 	int j;
+	// number of commands
 	int command_len = sizeof(COMMANDS)/sizeof(COMMANDS[0]);	
 	int pause = 0;
 
 	uint16_t x = 120;
 	uint16_t y = 160;
+	// draw starting image at centered
 	lcd_draw_image(
 								x,                 // X Pos
 								space_shipWidthPixels,   // Image Horizontal Width
@@ -82,6 +84,7 @@ void init_saucer(void)
 		int x1;
 		int y0;
 		int y1;
+		// determine the command
 		switch(*cmd){
 			case 'U':
 			{
@@ -115,20 +118,28 @@ void init_saucer(void)
 			}
 			
 		}
+		
+		// move until reaches position specified by the command
 		while(new_x != x || new_y != y) 
 		{
+			// x0 stores left x-position of the image
 			x0 = x - (space_shipWidthPixels/2);
+			// x1 stores right x-position of the image
 			x1 = x + (space_shipWidthPixels/2);
 			if( (space_shipWidthPixels & 0x01) == 0x00)
 			{
 				x1--;
 			}
+			// y0 stores top y-position of the image
 			y0 = y  - (space_shipHeightPixels/2);
+			// y1 stores bottom y-position of the image
 			y1 = y  + (space_shipHeightPixels/2) ;
 			if( (space_shipWidthPixels & 0x01) == 0x00)
 			{
 				y1--;
 			}
+			
+			// draw image
 			lcd_draw_image(
 										(uint16_t) x,                 // X Pos
 										space_shipWidthPixels,   // Image Horizontal Width
@@ -138,6 +149,7 @@ void init_saucer(void)
 										LCD_COLOR_RED,      // Foreground Color
 										LCD_COLOR_BLACK     // Background Color
 			);
+			
 			// check if reaches edges
 			if(x0 == 0 && dx == -1)
 				break;
@@ -147,8 +159,12 @@ void init_saucer(void)
 				break;
 			if(y1 == 319 && dy == 1)
 				break;
+			
+			// move the object
 			x += dx;
 			y += dy;
+			
+			// pause
 			for(j = 0; j < pause; j++){}
 		}
 	}

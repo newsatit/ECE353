@@ -284,6 +284,23 @@ bool uart_init(uint32_t uart_base, bool enable_rx_irq, bool enable_tx_irq)
     pr_mask = uart_get_pr_mask(uart_base);
     
     // ADD CODE
+		SYSCTL->RCGCUART |= SYSCTL_RCGCUART_R0;
+		while(!(SYSCTL->PRUART & SYSCTL_RCGCUART_R0)){}
+			
+		// disable UART
+		uart->CTL &= ~UART_CTL_UARTEN;
+			
+		// Set the Baud Rate of the UARTS (IBRD and FBRD) to 115200
+		uart->IBRD = 27;
+		uart->FBRD = 8;
+			
+		// Configure the UART for 8N1, disable hardware FIFOs
+		uart->LCRH |= UART_LCRH_WLEN_8;
+		
+		// Enable the UART  for both receiving and transmitting data
+		uart->CTL = UART_CTL_RXE|UART_CTL_TXE|UART_CTL_UARTEN;
+		
+		
     
     return true;
 

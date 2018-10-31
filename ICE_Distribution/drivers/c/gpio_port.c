@@ -397,6 +397,13 @@ bool  gpio_config_port_control(uint32_t baseAddr, uint32_t mask, uint32_t pctl)
   // ADD CODE
   // Verify that the base address is a valid GPIO base address
   // using the verify_base_addr function provided above
+	if(!verify_base_addr(baseAddr)) 
+	{
+		return false;
+	}
+	gpioPort = (GPIOA_Type *)baseAddr;
+	gpioPort->PCTL &= ~mask;
+	gpioPort->PCTL |= pctl;
     
   return true;
 }

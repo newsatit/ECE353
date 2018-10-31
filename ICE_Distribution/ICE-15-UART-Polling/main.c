@@ -28,6 +28,14 @@
 void uart0_config_gpio(void)
 {
   // ADD CODE
+
+	// Configure the Tx and Rx port control pins to route the UART interface to the pins
+	// PA0 is the receive line of UART0
+	gpio_config_alternate_function(GPIOA_BASE, 0);
+	gpio_config_port_control(GPIOA_BASE, GPIO_PCTL_PA0_M, GPIO_PCTL_PA0_U0RX);
+	// PA1 is the transmit line of UART0	
+	gpio_config_alternate_function(GPIOA_BASE, 1);
+	gpio_config_port_control(GPIOA_BASE, GPIO_PCTL_PA1_M, GPIO_PCTL_PA1_U0TX);
 }
 
 //*****************************************************************************
@@ -41,7 +49,6 @@ main(void)
   char rx_char;
   char rx_string[5] = {0,0,0,0,0};
   uint8_t rx_count = 0;  
-  
   // Configure the GPIO pins by calling uart0_config_gpio()
   uart0_config_gpio();
   
@@ -51,7 +58,7 @@ main(void)
   if( !validate_ice(ICE_UART_POLLING))
   {
     while(1){};
-    }
+  }
   
   // Print greeting[] string above using uartTxPoll
   uart_tx_poll_string(UART0_BASE, greeting);
@@ -60,17 +67,23 @@ main(void)
   {
      // ADD CODE
     // User input can be recieved using the uart_rx_poll()
+		rx_char = uart_rx_poll(UART0_BASE, true);
 
     // Echo each character using uart_tx_poll
+		uart_tx_poll(UART0_BASE, rx_char);
 
     // Add the current char to rx_string.
+		rx_string[rx_count] = rx_char;
   }
 
   // Print response[] using uart_tx_poll_string
+	uart_tx_poll_string(UART0_BASE, response);
 
   // Print rx_string[] using uart_tx_poll_string
+	uart_tx_poll_string(UART0_BASE, rx_string);
 
   // Print exit_msg[]
+	uart_tx_poll_string(UART0_BASE, exit_msg);
 
   
   while(1)

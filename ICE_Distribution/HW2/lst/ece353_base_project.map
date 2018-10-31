@@ -448,15 +448,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       572         34          0          0          0       4978   gpio_port.o
-         0          0        254          0          0        645   hw2_images.o
-      1248         38          0          0          0       3861   lcd.o
-       572        106         88         48          0      28796   main.o
-       252         10        620          0        512       5456   startup_tm4c123.o
-       588        134          0          4          0       1589   system_tm4c123.o
+       572         34          0          0          0       4894   gpio_port.o
+         0          0        254          0          0        561   hw2_images.o
+      1248         38          0          0          0       3729   lcd.o
+       572        106         88         48          0      28672   main.o
+       252         10        620          0        512       5416   startup_tm4c123.o
+       588        134          0          4          0       1501   system_tm4c123.o
 
     ----------------------------------------------------------------------
-      3232        322        994         52        512      45325   Object Totals
+      3232        322        994         52        512      44773   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          0          0          0          0          0          0   (incl. Padding)
 
@@ -503,8 +503,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      4000        364       1128         56        512      46924   Grand Totals
-      4000        364       1128         56        512      46924   ELF Image Totals
+      4000        364       1128         56        512      46372   Grand Totals
+      4000        364       1128         56        512      46372   ELF Image Totals
       4000        364       1128         56          0          0   ROM Totals
 
 ==============================================================================

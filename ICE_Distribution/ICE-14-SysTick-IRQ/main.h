@@ -36,6 +36,6 @@
 
 extern void initialize_serial_debug(void);
 
-#define SYSTICK_LOAD_VAL 0
+#define SYSTICK_LOAD_VAL 5000
 
 #endif
