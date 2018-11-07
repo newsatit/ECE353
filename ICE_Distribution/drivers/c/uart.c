@@ -293,15 +293,35 @@ bool uart_init(uint32_t uart_base, bool enable_rx_irq, bool enable_tx_irq)
 		// Set the Baud Rate of the UARTS (IBRD and FBRD) to 115200
 		uart->IBRD = 27;
 		uart->FBRD = 8;
-			
-		// Configure the UART for 8N1, disable hardware FIFOs
-		uart->LCRH |= UART_LCRH_WLEN_8;
 		
+    // Configure the Line Control for 8N1, FIFOs
+    uart->LCRH =   UART_LCRH_WLEN_8 | UART_LCRH_FEN;
+			
+		if( enable_rx_irq)
+		{
+			// <ADD CODE> Turn on the UART Interrupts for Rx, and Rx Timeout
+			uart->IM |= UART_IM_RXIM | UART_IM_RTIM;
+		}
+
+		if( enable_tx_irq)
+		{
+			// ADD Code to enable TX Empty IRQs
+			uart->IM |= UART_IM_TXIM;
+		}
+
+		if ( enable_rx_irq || enable_tx_irq )
+		{
+			// <ADD CODE> Set the priority to 0.  Be sure to call uart_get_irq_num(uart_base) to   
+			// get the correct IRQn_Type
+			NVIC_SetPriority(uart_get_irq_num(uart_base), 0);
+			// <ADD CODE> Enable the NVIC.  Be sure to call uart_get_irq_num(uart_base) to get
+			// the correct IRQn_Type
+			NVIC_EnableIRQ(uart_get_irq_num(uart_base));
+		}
+
 		// Enable the UART  for both receiving and transmitting data
 		uart->CTL = UART_CTL_RXE|UART_CTL_TXE|UART_CTL_UARTEN;
-		
-		
-    
+
     return true;
 
 }

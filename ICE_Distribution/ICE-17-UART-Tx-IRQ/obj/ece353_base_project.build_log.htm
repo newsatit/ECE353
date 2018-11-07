@@ -21,8 +21,8 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-\\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-16-UART-Rx-IRQ\ICE-UART-Rx-IRQ.uvprojx
-Project File Date:  11/05/2018
+\\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-17-UART-Tx-IRQ\ICE-UART-Tx-IRQ.uvprojx
+Project File Date:  11/07/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
@@ -37,7 +37,6 @@ compiling gpio_port.c...
     GPIOA_Type  *gpioPort;
 ..\drivers\c\gpio_port.c: 3 warnings, 0 errors
 compiling main.c...
-assembling startup_TM4C123.s...
 compiling uart.c...
 ..\drivers\c\uart.c(184): warning:  #188-D: enumerated type mixed with another type
          return 0;
@@ -46,20 +45,17 @@ compiling uart.c...
 ..\drivers\c\uart.c(276): warning:  #550-D: variable "pr_mask"  was set but never used
       uint32_t pr_mask;
 ..\drivers\c\uart.c: 3 warnings, 0 errors
-compiling serial_debug.c...
-..\peripherals\c\serial_debug.c(176): warning:  #177-D: variable "uart_base"  was declared but never referenced
-     uint32_t uart_base;
-..\peripherals\c\serial_debug.c(177): warning:  #177-D: variable "tx_buffer"  was declared but never referenced
-     PC_Buffer *tx_buffer;
-..\peripherals\c\serial_debug.c(236): warning:  #177-D: variable "uart"  was declared but never referenced
-      UART0_Type *uart = (UART0_Type *)(uart_base);    
-..\peripherals\c\serial_debug.c(237): warning:  #177-D: variable "c"  was declared but never referenced
-      char c;
-..\peripherals\c\serial_debug.c: 4 warnings, 0 errors
+assembling startup_TM4C123.s...
 compiling system_TM4C123.c...
+compiling serial_debug.c...
+..\peripherals\c\serial_debug.c(177): warning:  #177-D: variable "uart_base"  was declared but never referenced
+     uint32_t uart_base;
+..\peripherals\c\serial_debug.c(178): warning:  #177-D: variable "tx_buffer"  was declared but never referenced
+     PC_Buffer *tx_buffer;
+..\peripherals\c\serial_debug.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=15808 RO-data=808 RW-data=960 ZI-data=8224  
-".\obj\ece353_base_project.axf" - 0 Error(s), 10 Warning(s).
+Program Size: Code=15912 RO-data=808 RW-data=960 ZI-data=8224  
+".\obj\ece353_base_project.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 
