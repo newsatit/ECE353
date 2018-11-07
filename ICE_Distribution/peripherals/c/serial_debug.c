@@ -100,7 +100,7 @@ void serial_debug_tx(uint32_t uart_base, PC_Buffer *tx_buffer, int data)
   // ADD/MODIFY CODE
   
   // Determine if the hw fifo is full
-  fifo_full = (uart->FR & UART_FR_TXFF) == 1; /*MODIFY*/
+  fifo_full = uart->FR & UART_FR_TXFF /*MODIFY*/
   
   // Determine if the pc_buffer is empty
   tx_buffer_empty = pc_buffer_empty(&UART0_Tx_Buffer); /*MODIFY*/
