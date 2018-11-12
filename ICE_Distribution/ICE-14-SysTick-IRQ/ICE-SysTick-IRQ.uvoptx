@@ -117,10 +117,6 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
-          <Key>DLGUARM</Key>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -158,7 +154,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-14-SysTick-IRQ\\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-14-SysTick-IRQ\main.c</Filename>
+          <Filename>\\userspace.cae.wisc.edu\people\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-14-SysTick-IRQ\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-14-SysTick-IRQ\main.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\ece353_base_project\/userspace.cae.wisc.edu/people/s/satitsumpun/ECE353/ICE_Distribution/ICE-14-SysTick-IRQ/main.c\104</Expression>
         </Bp>

@@ -52,6 +52,56 @@ void ps2_initialize(void)
 	initialize_adc(PS2_ADC_BASE);
 }
 
+
+/*******************************************************************************
+* Function Name: ps2_hw3_initialize
+********************************************************************************
+* Initializes the GPIO pins connected to the PS2 Joystick.  It also configures
+* ADC0 to use Sample Sequencer #2 ???? to convert a programmable channel number.
+*******************************************************************************/
+void ps2_hw3_initialize(void)
+{
+	ADC0_Type  *myADC;
+  uint32_t rcgc_adc_mask;
+  uint32_t pr_mask;
+	
+	initialize_adc_gpio_pins();
+    
+  // Turn on the ADC0 Clock
+  SYSCTL->RCGCADC |= SYSCTL_RCGCADC_R0;
+  
+  // Wait for ADC0 to become ready
+  while(!(SYSCTL_PRADC_R0 & SYSCTL->PRADC)){}
+  
+  // ADD CODE
+  // disable sample sequencer #2 by writing a 0 to the 
+  // corresponding ASENn bit in the ADCACTSS register 
+	ADC0->ACTSS &= ~ADC_ACTSS_ASEN2;
+	
+  // ADD CODE
+  // Set the event multiplexer to trigger conversion on a processor trigger
+  // for sample sequencer #2.
+	ADC0->EMUX &= ~ADC_EMUX_EM2_M;
+
+	
+  // ADD CODE
+  // Set IE0, IE1, IE2, IE3, and END0 in SSCTL2
+	ADC0->SSCTL2 = ADC_SSCTL2_IE0 | ADC_SSCTL2_IE1 | ADC_SSCTL2_IE2 | ADC_SSCTL2_IE2 | ADC_SSCTL2_END3;
+	
+	// Enable the Interrupt Mask for SS2		
+	ADC0->IM |= ADC_IM_MASK2;
+	
+	// Set the Priority
+  NVIC_SetPriority(ADC0SS2_IRQn, 3);
+ 
+  // Enable the Interrupt in the NVIC
+  NVIC_EnableIRQ(ADC0SS2_IRQn);
+	
+	// Enable the sample sequencer #2
+	ADC0->ACTSS |= ADC_ACTSS_ASEN2;
+ 
+}
+
 /*******************************************************************************
 * Function Name: ps2_get_x
 ********************************************************************************

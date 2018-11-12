@@ -412,7 +412,12 @@ bool  gpio_config_port_control(uint32_t baseAddr, uint32_t mask, uint32_t pctl)
 bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
 {
   GPIOA_Type  *gpioPort;
-
+	if(!verify_base_addr(gpioBase)) 
+	{
+		return false;
+	}
+	gpioPort = (GPIOA_Type *)gpioBase;
+	
   // ADD CODE
   // Verify that the base address is a valid GPIO base address
   // using the verify_base_addr function provided above

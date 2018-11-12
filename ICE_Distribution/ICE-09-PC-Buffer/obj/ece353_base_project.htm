@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\obj\ece353_base_project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\obj\ece353_base_project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Oct 10 10:20:18 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun Nov 11 16:15:18 2018
 <BR><P>
 <H3>Maximum Stack Usage =        384 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -292,11 +292,11 @@ Global Symbols
 <P><STRONG><a name="[7d]"></a>pc_buffer_test_0</STRONG> (Thumb, 116 bytes, Stack size 24 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = pc_buffer_test_0 &rArr; pc_buffer_remove
 </UL>
-<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_remove
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rand
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_remove
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_full
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_empty
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_add
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rand
 </UL>
 <BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -304,11 +304,11 @@ Global Symbols
 <P><STRONG><a name="[83]"></a>pc_buffer_test_1</STRONG> (Thumb, 154 bytes, Stack size 24 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = pc_buffer_test_1 &rArr; malloc
 </UL>
-<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_remove
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rand
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_remove
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_full
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_empty
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pc_buffer_add
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rand
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
 </UL>
@@ -1210,7 +1210,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[88]"></a>put_string</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, validate_uart.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
+<BR><BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
+<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_pin_status
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_gp_timer_status
@@ -1229,19 +1233,19 @@ Global Symbols
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpio_port
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_adc
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
-<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
-<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
-<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 </UL>
 
 <P><STRONG><a name="[9b]"></a>validate_print_ice_validation_info_start</STRONG> (Thumb, 68 bytes, Stack size 112 bytes, validate_uart.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = validate_print_ice_validation_info_start &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
+<BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
+<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_pin_status
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_systick_load
@@ -1254,15 +1258,11 @@ Global Symbols
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_spi_nordic
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_lcd
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpiof
-<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
-<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
-<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
-<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 </UL>
 
 <P><STRONG><a name="[9d]"></a>validate_print_ice_validation_info_end</STRONG> (Thumb, 68 bytes, Stack size 112 bytes, validate_uart.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<BR><BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
 </UL>
 
 <P><STRONG><a name="[a1]"></a>staff_uart_config_gpio</STRONG> (Thumb, 82 bytes, Stack size 0 bytes, validate_uart.o(.text))
@@ -1323,10 +1323,14 @@ Global Symbols
 <P><STRONG><a name="[a3]"></a>print_test_status</STRONG> (Thumb, 52 bytes, Stack size 112 bytes, validate_uart.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
+<BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
+<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_pin_status
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_systick_load
@@ -1339,10 +1343,6 @@ Global Symbols
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_spi_nordic
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_lcd
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpiof
-<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
-<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
-<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
-<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 </UL>
 
 <P><STRONG><a name="[a4]"></a>validate_uart</STRONG> (Thumb, 126 bytes, Stack size 24 bytes, validate_uart.o(.text))
@@ -1417,12 +1417,12 @@ Global Symbols
 <P><STRONG><a name="[91]"></a>ice_validate_adc</STRONG> (Thumb, 112 bytes, Stack size 96 bytes, ice_adc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 328<LI>Call Chain = ice_validate_adc &rArr; print_adc_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_adc
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_pin_status
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_ice
 </UL>
@@ -1430,11 +1430,11 @@ Global Symbols
 <P><STRONG><a name="[90]"></a>ice_validate_gpio_port</STRONG> (Thumb, 228 bytes, Stack size 136 bytes, ice_gpio_port.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 368<LI>Call Chain = ice_validate_gpio_port &rArr; print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initialize_serial_debug
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_ice
 </UL>
@@ -1454,10 +1454,10 @@ Global Symbols
 <P><STRONG><a name="[bb]"></a>print_gp_timer_status</STRONG> (Thumb, 166 bytes, Stack size 96 bytes, ice_gpt.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_gp_timer_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpt
 </UL>
@@ -1475,14 +1475,14 @@ Global Symbols
 <P><STRONG><a name="[93]"></a>ice_validate_systick</STRONG> (Thumb, 122 bytes, Stack size 104 bytes, ice_systick.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 336<LI>Call Chain = ice_validate_systick &rArr; print_adc_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_pin_status
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_systick_load
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_adc
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_ice
 </UL>
@@ -1558,11 +1558,11 @@ Global Symbols
 <P><STRONG><a name="[94]"></a>ice_validate_uart_polling</STRONG> (Thumb, 80 bytes, Stack size 24 bytes, ice_uart_polling.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 256<LI>Call Chain = ice_validate_uart_polling &rArr; print_uart_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
+<BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
+<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_uart
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initialize_serial_debug
-<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
-<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 </UL>
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_ice
 </UL>
@@ -1570,8 +1570,8 @@ Global Symbols
 <P><STRONG><a name="[c5]"></a>ice_validate_i2c_pins</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, ice_i2c_eeprom.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = ice_validate_i2c_pins &rArr; print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
-<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<BR>[Calls]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c_eeprom
 </UL>
@@ -1579,8 +1579,8 @@ Global Symbols
 <P><STRONG><a name="[9a]"></a>ice_validate_i2c_eeprom</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, ice_i2c_eeprom.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = ice_validate_i2c_eeprom &rArr; ice_validate_i2c_pins &rArr; print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_tx
-<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c_pins
+<BR>[Calls]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c_pins
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_tx
 </UL>
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_ice
 </UL>
@@ -1588,8 +1588,8 @@ Global Symbols
 <P><STRONG><a name="[c7]"></a>ice_validate_i2c</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, ice_i2c_ft6206.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = ice_validate_i2c &rArr; print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
-<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pin
 </UL>
 <BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_ft6206
 </UL>
@@ -1597,9 +1597,9 @@ Global Symbols
 <P><STRONG><a name="[99]"></a>ice_validate_ft6206</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, ice_i2c_ft6206.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = ice_validate_ft6206 &rArr; ice_validate_i2c &rArr; print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_tx
+<BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_tx
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpt
-<LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c
 </UL>
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_ice
 </UL>
@@ -1619,11 +1619,11 @@ Global Symbols
 <P><STRONG><a name="[b9]"></a>validate_adc</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, validate_adc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = validate_adc &rArr; validate_adc_rcgc
 </UL>
-<BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_adc_rcgc
-<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_adc_ssctl3
+<BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_adc_ssctl3
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_adc_ssmux3
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_adc_emux
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;verify_base_addr
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_adc_rcgc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_systick
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_adc
@@ -1660,10 +1660,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b8]"></a>validate_gpio_pin</STRONG> (Thumb, 198 bytes, Stack size 16 bytes, validate_gpio.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = validate_gpio_pin &rArr; validate_gpio_rcgc
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = validate_gpio_pin &rArr; validate_gpio_port_control
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_rcgc
-<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_port_control
+<BR>[Calls]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_port_control
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_alternate_function_select
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_analog_mode_select
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_pullup
@@ -1671,8 +1670,11 @@ Global Symbols
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_output
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_input
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;verify_base_addr
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_rcgc
 </UL>
-<BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_tx
+<BR>[Called By]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c
+<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c_pins
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_tx
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_rx
 <LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_polling
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_systick
@@ -1681,19 +1683,17 @@ Global Symbols
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpiof
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpio_port
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_adc
-<LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c
-<LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c_pins
 </UL>
 
 <P><STRONG><a name="[bc]"></a>validate_gp_timer</STRONG> (Thumb, 98 bytes, Stack size 8 bytes, validate_gp_timer.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = validate_gp_timer &rArr; validate_gpt_rcgc
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpt_rcgc
-<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpt_size_32
+<BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpt_size_32
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gtp_interrupts
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpio_gpt_direction
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpt_mode
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;verify_base_addr
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_gpt_rcgc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpt
 </UL>
@@ -1721,12 +1721,12 @@ Global Symbols
 <P><STRONG><a name="[c1]"></a>validate_spi</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, validate_spi.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = validate_spi &rArr; validate_spi_rcgc
 </UL>
-<BR>[Calls]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_spi_rcgc
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_spi_enabled
+<BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_spi_enabled
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_spi_mode
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_spi_cpsr
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_spi_format
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_spi_data_len
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_spi_rcgc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_spi_nordic
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_lcd
@@ -1767,7 +1767,11 @@ Global Symbols
 <P><STRONG><a name="[9c]"></a>__2sprintf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf6.o(i.__0sprintf$6))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2sprintf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
+<BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
+<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_status
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_adc_pin_status
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_systick_load
@@ -1781,10 +1785,6 @@ Global Symbols
 <LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_systick
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpio_port
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_adc
-<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
-<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
-<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_uart_status
-<LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_pin_status
 </UL>
 
 <P><STRONG><a name="[f4]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
@@ -1848,10 +1848,10 @@ Local Symbols
 <P><STRONG><a name="[b6]"></a>print_adc_pin_status</STRONG> (Thumb, 144 bytes, Stack size 96 bytes, ice_adc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_adc_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_adc
 </UL>
@@ -1859,10 +1859,10 @@ Local Symbols
 <P><STRONG><a name="[b7]"></a>print_adc_status</STRONG> (Thumb, 144 bytes, Stack size 96 bytes, ice_adc.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_adc_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_adc
 </UL>
@@ -1870,10 +1870,10 @@ Local Symbols
 <P><STRONG><a name="[ba]"></a>print_pin_status</STRONG> (Thumb, 122 bytes, Stack size 96 bytes, ice_gpio_port.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_gpio_port
 </UL>
@@ -1881,9 +1881,9 @@ Local Symbols
 <P><STRONG><a name="[bd]"></a>print_systick_load</STRONG> (Thumb, 86 bytes, Stack size 88 bytes, ice_systick.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = print_systick_load &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_systick
 </UL>
@@ -1891,10 +1891,10 @@ Local Symbols
 <P><STRONG><a name="[be]"></a>print_pin_status</STRONG> (Thumb, 122 bytes, Stack size 96 bytes, ice_systick.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_systick
 </UL>
@@ -1902,10 +1902,10 @@ Local Symbols
 <P><STRONG><a name="[bf]"></a>print_adc_pin_status</STRONG> (Thumb, 144 bytes, Stack size 96 bytes, ice_systick.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_adc_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_systick
 </UL>
@@ -1913,10 +1913,10 @@ Local Symbols
 <P><STRONG><a name="[c0]"></a>print_adc_status</STRONG> (Thumb, 144 bytes, Stack size 96 bytes, ice_systick.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_adc_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_systick
 </UL>
@@ -1924,10 +1924,10 @@ Local Symbols
 <P><STRONG><a name="[c2]"></a>print_pin_status</STRONG> (Thumb, 144 bytes, Stack size 96 bytes, ice_uart_polling.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_polling
 </UL>
@@ -1935,10 +1935,10 @@ Local Symbols
 <P><STRONG><a name="[c3]"></a>print_uart_status</STRONG> (Thumb, 178 bytes, Stack size 96 bytes, ice_uart_polling.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_uart_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_uart_polling
 </UL>
@@ -1946,10 +1946,10 @@ Local Symbols
 <P><STRONG><a name="[c4]"></a>print_pin_status</STRONG> (Thumb, 144 bytes, Stack size 96 bytes, ice_i2c_eeprom.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c_pins
 </UL>
@@ -1957,10 +1957,10 @@ Local Symbols
 <P><STRONG><a name="[c6]"></a>print_pin_status</STRONG> (Thumb, 144 bytes, Stack size 96 bytes, ice_i2c_ft6206.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = print_pin_status &rArr; print_test_status &rArr; __2sprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
+<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_test_status
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;validate_print_ice_validation_info_start
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;put_string
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ice_validate_i2c
 </UL>

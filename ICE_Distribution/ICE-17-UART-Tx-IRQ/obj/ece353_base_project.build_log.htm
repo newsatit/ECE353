@@ -31,9 +31,9 @@ compiling pc_buffer.c...
 compiling gpio_port.c...
 ..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
          return 0;
-..\drivers\c\gpio_port.c(414): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+..\drivers\c\gpio_port.c(414): warning:  #550-D: variable "gpioPort"  was set but never used
     GPIOA_Type  *gpioPort;
-..\drivers\c\gpio_port.c(440): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+..\drivers\c\gpio_port.c(445): warning:  #177-D: variable "gpioPort"  was declared but never referenced
     GPIOA_Type  *gpioPort;
 ..\drivers\c\gpio_port.c: 3 warnings, 0 errors
 compiling main.c...
@@ -54,7 +54,7 @@ compiling serial_debug.c...
      PC_Buffer *tx_buffer;
 ..\peripherals\c\serial_debug.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=15912 RO-data=808 RW-data=960 ZI-data=8224  
+Program Size: Code=15928 RO-data=808 RW-data=960 ZI-data=8224  
 ".\obj\ece353_base_project.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -79,12 +79,12 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: Keil::Device:Startup:1.0.1
-      Source file:   Device\Source\ARM\startup_TM4C123.s
       Source file:   Device\Source\system_TM4C123.c
+      Source file:   Device\Source\ARM\startup_TM4C123.s
       Include file:  Device\Include\TM4C123\TM4C123.h
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:06
 </pre>
 </body>
 </html>

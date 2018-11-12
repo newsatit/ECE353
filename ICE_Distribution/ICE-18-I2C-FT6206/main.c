@@ -95,7 +95,15 @@ main(void)
     // Determine how many active touch events there are.  If there are more than
     // 0, then read the x and y coordinates and print them out to the serial debug
     // teriminal using printf.
-    
+		touch_event = ft6x06_read_td_status();
+		printf("touch event: %d\n", touch_event);
+		if(1) {
+			x = ft6x06_read_x();
+			y = ft6x06_read_y();		
+			printf("x=%d, y=%d\n", x, y);
+		}
+
+		
     gp_timer_wait(TIMER0_BASE, 5000000);
   
   
