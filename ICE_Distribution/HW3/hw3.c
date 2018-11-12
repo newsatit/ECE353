@@ -74,16 +74,9 @@ void init_hardware(void)
   lcd_clear_screen(LCD_COLOR_BLACK);   
     
   // Initialize ADC and Timer used to provide analog data from the PS2
-	// ADC0_BASE
-	gpio_enable_port(PS2_GPIO_BASE);
-	gpio_config_enable_input(PS2_GPIO_BASE, PS2_X_DIR_MASK|PS2_Y_DIR_MASK);
-	gpio_config_analog_enable(PS2_GPIO_BASE, PS2_X_DIR_MASK|PS2_Y_DIR_MASK);
-	gpio_config_alternate_function(PS2_GPIO_BASE, PS2_X_DIR_MASK|PS2_Y_DIR_MASK);
-	
-	initialize_adc(PS2_ADC_BASE);
+	ps2_hw3_initialize();
   
   // Initialize Timer 2
-  
   // Initialize Timer 3
 
 }

@@ -33,3 +33,5 @@ void ADC0SS2_Handler(void)
 {
 
 }
+	// the ADC will average 8 samples of each channel before generating an interrupt
+//	ADC0->SAC = ADC_SAC_AVG_8X;
