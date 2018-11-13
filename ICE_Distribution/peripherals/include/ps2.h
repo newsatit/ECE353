@@ -67,14 +67,6 @@
 void ps2_initialize(void);
 
 /*******************************************************************************
-* Function Name: ps2_hw3_initialize
-********************************************************************************
-* Initializes the GPIO pins connected to the PS2 Joystick.  It also configures
-* ADC0 to use Sample Sequencer #2 ???? to convert a programmable channel number.
-*******************************************************************************/
-void ps2_hw3_initialize(void);
-
-/*******************************************************************************
 * Function Name: ps2_get_x
 ********************************************************************************
 *Returns the most current reading of the X direction  Only the lower 12-bits

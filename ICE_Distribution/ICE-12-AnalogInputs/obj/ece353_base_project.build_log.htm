@@ -21,27 +21,27 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-\\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-12-AnalogInputs\ICE-AnalogInputs.uvprojx
+I:\ECE353\ICE_Distribution\ICE-12-AnalogInputs\ICE-AnalogInputs.uvprojx
 Project File Date:  10/22/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'ICE-12-Analog-Inputs'
-compiling main.c...
 compiling adc.c...
+compiling main.c...
 compiling gpio_port.c...
 ..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
          return 0;
-..\drivers\c\gpio_port.c(414): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+..\drivers\c\gpio_port.c(414): warning:  #550-D: variable "gpioPort"  was set but never used
     GPIOA_Type  *gpioPort;
-..\drivers\c\gpio_port.c(440): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+..\drivers\c\gpio_port.c(445): warning:  #177-D: variable "gpioPort"  was declared but never referenced
     GPIOA_Type  *gpioPort;
 ..\drivers\c\gpio_port.c: 3 warnings, 0 errors
 assembling startup_TM4C123.s...
 compiling system_TM4C123.c...
 compiling ps2.c...
 linking...
-Program Size: Code=13904 RO-data=744 RW-data=936 ZI-data=8192  
+Program Size: Code=14096 RO-data=744 RW-data=936 ZI-data=8192  
 ".\obj\ece353_base_project.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -66,12 +66,12 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: Keil::Device:Startup:1.0.1
-      Source file:   Device\Source\system_TM4C123.c
-      Source file:   Device\Source\ARM\startup_TM4C123.s
       Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\ARM\startup_TM4C123.s
+      Source file:   Device\Source\system_TM4C123.c
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>

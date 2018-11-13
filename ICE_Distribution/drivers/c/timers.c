@@ -99,13 +99,15 @@ bool gp_timer_wait(uint32_t base_addr, uint32_t ticks)
   //*********************    
   // ADD CODE
   //*********************
+	gp_timer->CTL &= ~(TIMER_CTL_TAEN | TIMER_CTL_TBEN);
+	
 	gp_timer->TAILR = ticks;
 	
 	gp_timer->ICR |= TIMER_ICR_TATOCINT;
 	
 	gp_timer->CTL |= TIMER_CTL_TAEN;
 	
-	while((gp_timer->RIS & TIMER_RIS_TATORIS)==0){}
+	while(!(gp_timer->RIS & TIMER_RIS_TATORIS)){}
   
   return true;
 }
@@ -161,8 +163,15 @@ bool gp_timer_config_32(uint32_t base_addr, uint32_t mode, bool count_up, bool e
 		
 	gp_timer->TAMR &= ~(TIMER_TAMR_TAMR_M);
 	gp_timer->TAMR |= (TIMER_TAMR_TAMR_M & mode);
+	if(count_up)
+	{
+		gp_timer->TAMR |= TIMER_TAMR_TACDIR;
+	}
+	else 
+	{
+		gp_timer->TAMR &= ~TIMER_TAMR_TACDIR;
+	}
 	
-	gp_timer->TAMR |= (TIMER_TAMR_TACDIR & mode);
 		
 	if(enable_interrupts)
 	{

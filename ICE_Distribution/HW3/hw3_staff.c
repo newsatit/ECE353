@@ -11,6 +11,7 @@ static const PS2_DIR_t  MOV_DIR[] = {PS2_DIR_UP, PS2_DIR_DOWN, PS2_DIR_LEFT, PS2
 uint16_t generate_random_number(
 )
 {   
+		
     static uint16_t lfsr = START_STATE;
     uint16_t bit;
     bit  = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5) ) & 1;

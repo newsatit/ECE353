@@ -57,8 +57,7 @@ void SysTick_Handler(void)
 	uint32_t val;
 	static int count = 0;
 	
-	// Clear the interrupt
-	val = SysTick->VAL;
+
 	if(count == 0)
 	{
 		ALERT_ADC_UPDATE = true;
@@ -79,7 +78,9 @@ void SysTick_Handler(void)
 	
 	// Reset count every 100ms
 	count = (count + 1) % 100;
-	
+		
+	// Clear the interrupt
+	val = SysTick->VAL;
 }
 
 /*******************************************************************************

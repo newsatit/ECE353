@@ -21,7 +21,7 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-\\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-18-I2C-FT6206\ICE-I2C-FT6206.uvprojx
+I:\ECE353\ICE_Distribution\ICE-18-I2C-FT6206\ICE-I2C-FT6206.uvprojx
 Project File Date:  11/12/2018
 
 <h2>Output:</h2>
@@ -45,6 +45,7 @@ main.c(77): warning:  #177-D: variable "y_status"  was declared but never refere
     i2c_status_t y_status;
 main.c: 3 warnings, 0 errors
 compiling pc_buffer.c...
+compiling timers.c...
 compiling uart.c...
 ..\drivers\c\uart.c(184): warning:  #188-D: enumerated type mixed with another type
          return 0;
@@ -53,7 +54,6 @@ compiling uart.c...
 ..\drivers\c\uart.c(276): warning:  #550-D: variable "pr_mask"  was set but never used
       uint32_t pr_mask;
 ..\drivers\c\uart.c: 3 warnings, 0 errors
-compiling timers.c...
 compiling serial_debug.c...
 ..\peripherals\c\serial_debug.c(177): warning:  #177-D: variable "uart_base"  was declared but never referenced
      uint32_t uart_base;
@@ -64,7 +64,7 @@ assembling startup_TM4C123.s...
 compiling ft6x06.c...
 compiling system_TM4C123.c...
 linking...
-Program Size: Code=15984 RO-data=744 RW-data=952 ZI-data=8224  
+Program Size: Code=15976 RO-data=744 RW-data=952 ZI-data=8224  
 ".\obj\ece353_base_project.axf" - 0 Error(s), 11 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -89,12 +89,12 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: Keil::Device:Startup:1.0.1
-      Source file:   Device\Source\system_TM4C123.c
       Source file:   Device\Source\ARM\startup_TM4C123.s
+      Source file:   Device\Source\system_TM4C123.c
       Include file:  Device\Include\TM4C123\TM4C123.h
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:06
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>

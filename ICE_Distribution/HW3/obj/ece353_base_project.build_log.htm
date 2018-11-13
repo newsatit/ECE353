@@ -27,45 +27,33 @@ Project File Date:  11/11/2018
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'HW3'
+compiling hw3_staff.c...
 compiling main.c...
 compiling hw3.c...
-hw3.c(25): warning:  #940-D: missing return statement at end of non-void function "contact_edge" 
-  }
-hw3.c(64): warning:  #940-D: missing return statement at end of non-void function "check_game_over" 
-  }
+hw3.c(159): warning:  #223-D: function "ps2_hw3_initialize" declared implicitly
+  	ps2_hw3_initialize();
+hw3.c(208): warning:  #177-D: variable "i"  was declared but never referenced
+  		int i;
 hw3.c: 2 warnings, 0 errors
-compiling hw3_staff.c...
 compiling hw3_images.c...
 compiling gpio_port.c...
 ..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
          return 0;
-..\drivers\c\gpio_port.c(414): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+..\drivers\c\gpio_port.c(414): warning:  #550-D: variable "gpioPort"  was set but never used
     GPIOA_Type  *gpioPort;
-..\drivers\c\gpio_port.c(440): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+..\drivers\c\gpio_port.c(445): warning:  #177-D: variable "gpioPort"  was declared but never referenced
     GPIOA_Type  *gpioPort;
 ..\drivers\c\gpio_port.c: 3 warnings, 0 errors
 compiling hw3_interrupts.c...
-hw3_interrupts.c(16): warning:  #177-D: variable "current_dir"  was declared but never referenced
-      static PS2_DIR_t current_dir = PS2_DIR_CENTER;
-hw3_interrupts.c(17): warning:  #177-D: variable "move_count"  was declared but never referenced
-      static uint16_t move_count = 0;  
-hw3_interrupts.c: 2 warnings, 0 errors
 compiling timers.c...
 compiling adc.c...
 compiling lcd.c...
-assembling startup_TM4C123.s...
 compiling ps2.c...
-..\peripherals\c\ps2.c(64): warning:  #177-D: variable "myADC"  was declared but never referenced
-  	ADC0_Type  *myADC;
-..\peripherals\c\ps2.c(65): warning:  #177-D: variable "rcgc_adc_mask"  was declared but never referenced
-    uint32_t rcgc_adc_mask;
-..\peripherals\c\ps2.c(66): warning:  #177-D: variable "pr_mask"  was declared but never referenced
-    uint32_t pr_mask;
-..\peripherals\c\ps2.c: 3 warnings, 0 errors
+assembling startup_TM4C123.s...
 compiling system_TM4C123.c...
 linking...
-Program Size: Code=3892 RO-data=672 RW-data=36 ZI-data=516  
-".\obj\ece353_base_project.axf" - 0 Error(s), 10 Warning(s).
+Program Size: Code=6444 RO-data=1600 RW-data=40 ZI-data=512  
+".\obj\ece353_base_project.axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -90,11 +78,11 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:1.0.1
       Include file:  Device\Include\TM4C123\TM4C123.h
-      Source file:   Device\Source\system_TM4C123.c
       Source file:   Device\Source\ARM\startup_TM4C123.s
+      Source file:   Device\Source\system_TM4C123.c
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:06
 </pre>
 </body>
 </html>
