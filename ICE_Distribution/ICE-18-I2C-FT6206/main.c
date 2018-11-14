@@ -97,7 +97,7 @@ main(void)
     // teriminal using printf.
 		touch_event = ft6x06_read_td_status();
 		printf("touch event: %d\n", touch_event);
-		if(1) {
+		if(touch_event > 0) {
 			x = ft6x06_read_x();
 			y = ft6x06_read_y();		
 			printf("x=%d, y=%d\n", x, y);

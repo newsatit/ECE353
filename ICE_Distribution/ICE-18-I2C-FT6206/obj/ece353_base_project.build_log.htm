@@ -21,21 +21,13 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-I:\ECE353\ICE_Distribution\ICE-18-I2C-FT6206\ICE-I2C-FT6206.uvprojx
+\\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-18-I2C-FT6206\ICE-I2C-FT6206.uvprojx
 Project File Date:  11/12/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'ICE-I2C-FT6206'
 compiling i2c.c...
-compiling gpio_port.c...
-..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
-         return 0;
-..\drivers\c\gpio_port.c(414): warning:  #550-D: variable "gpioPort"  was set but never used
-    GPIOA_Type  *gpioPort;
-..\drivers\c\gpio_port.c(445): warning:  #177-D: variable "gpioPort"  was declared but never referenced
-    GPIOA_Type  *gpioPort;
-..\drivers\c\gpio_port.c: 3 warnings, 0 errors
 compiling main.c...
 main.c(75): warning:  #177-D: variable "td_status"  was declared but never referenced
     i2c_status_t td_status;
@@ -44,8 +36,13 @@ main.c(76): warning:  #177-D: variable "x_status"  was declared but never refere
 main.c(77): warning:  #177-D: variable "y_status"  was declared but never referenced
     i2c_status_t y_status;
 main.c: 3 warnings, 0 errors
+compiling gpio_port.c...
+..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
+         return 0;
+..\drivers\c\gpio_port.c(446): warning:  #177-D: variable "gpioPort"  was declared but never referenced
+    GPIOA_Type  *gpioPort;
+..\drivers\c\gpio_port.c: 2 warnings, 0 errors
 compiling pc_buffer.c...
-compiling timers.c...
 compiling uart.c...
 ..\drivers\c\uart.c(184): warning:  #188-D: enumerated type mixed with another type
          return 0;
@@ -60,12 +57,13 @@ compiling serial_debug.c...
 ..\peripherals\c\serial_debug.c(178): warning:  #177-D: variable "tx_buffer"  was declared but never referenced
      PC_Buffer *tx_buffer;
 ..\peripherals\c\serial_debug.c: 2 warnings, 0 errors
+compiling timers.c...
 assembling startup_TM4C123.s...
-compiling ft6x06.c...
 compiling system_TM4C123.c...
+compiling ft6x06.c...
 linking...
-Program Size: Code=15976 RO-data=744 RW-data=952 ZI-data=8224  
-".\obj\ece353_base_project.axf" - 0 Error(s), 11 Warning(s).
+Program Size: Code=15996 RO-data=744 RW-data=952 ZI-data=8224  
+".\obj\ece353_base_project.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -90,8 +88,8 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:1.0.1
       Source file:   Device\Source\ARM\startup_TM4C123.s
-      Source file:   Device\Source\system_TM4C123.c
       Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\system_TM4C123.c
 
    * Component: ARM::CMSIS:CORE:5.0.1
 Build Time Elapsed:  00:00:05

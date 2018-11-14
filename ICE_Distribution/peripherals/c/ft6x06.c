@@ -127,7 +127,7 @@ uint16_t ft6x06_read_x(void)
 	ft6x06_set_addr(FT6X06_I2C_BASE, FT6X06_P1_XL_R);
 	ft6x06_read_data(FT6X06_I2C_BASE, &xl);
 	
-	return 239 - ((xh << 8) + xl);
+	return 239 - (xl);
 
 } 
 
@@ -147,7 +147,7 @@ uint16_t ft6x06_read_y(void)
 	ft6x06_set_addr(FT6X06_I2C_BASE, FT6X06_P1_YL_R);
 	ft6x06_read_data(FT6X06_I2C_BASE, &yl);
 	
-	return 319 - ((yh << 8) + yl);
+	return 319 - (yl);
 } 
 
 //*****************************************************************************

@@ -421,6 +421,7 @@ bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
   // ADD CODE
   // Verify that the base address is a valid GPIO base address
   // using the verify_base_addr function provided above
+	gpioPort->ODR |= pins;
     
   return true;
 }

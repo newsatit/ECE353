@@ -16,6 +16,24 @@ volatile bool MOVE_SHIP = true;
 char STUDENT_NAME[] = "Dawanit Satitsumpun";
 
 //*****************************************************************************
+//*****************************************************************************
+void DisableInterrupts(void)
+{
+  __asm {
+         CPSID  I
+  }
+}
+
+//*****************************************************************************
+//*****************************************************************************
+void EnableInterrupts(void)
+{
+  __asm {
+    CPSIE  I
+  }
+}
+
+//*****************************************************************************
 // If any part of the image would be off the screen if the image
 // is moved in the specified direction, return true.  If the image would not
 // be in contact with the edge of the screen, return false.
@@ -230,6 +248,7 @@ void hw3_main(void)
 					LCD_COLOR_BLACK     
 				);
 				MOVE_INVADER = false;
+				EnableInterrupts();
 			}
 			
 			// have to display new saucer
@@ -245,6 +264,7 @@ void hw3_main(void)
 					LCD_COLOR_BLACK     
 				);
 				MOVE_SHIP = false;
+				EnableInterrupts();
 			}
 		}
 }
