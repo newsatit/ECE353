@@ -22,6 +22,8 @@
 
 #include "spi.h"
 
+#define CORE_CLOCK 50000000
+
 /****************************************************************************
  * This routine transmits a character out the SPI1 port.
  ****************************************************************************/
@@ -84,7 +86,15 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
     }
     
     // ************* ADD CODE *********************** //
+		
+		// Turn on the SPI clock
+    SYSCTL->RCGCSSI |= SYSCTL_RCGCSSI_R0;
+ 
+    // wait until SSI is ready 
+    while ((SYSCTL->PRSSI & SYSCTL_PRSSI_R0) == 0){}   
+		
     // Disable the SSI interface (Set entire register to 0).
+		mySSI->CR1 = 0;
 
     
     // ************* ADD CODE *********************** //
@@ -92,40 +102,43 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
     // FSSIClk = FSysClk / (CPSDVSR * (1 + SCR))
     // Use the cpsr parameter passed into the function to set the CPSDVSR bits.  
     // Set the SCR CR0 to 0.
+		mySSI->CPSR = CORE_CLOCK/cpsr;
+		mySSI->CR0 &= ~SSI_CR0_SCR_M;
 
 
     // ************* ADD CODE *********************** //
     // Configure SPI control for freescale format, data width of 8 bits
+		mySSI->CR0 =   (SSI_CR0_DSS_8 | SSI_CR0_FRF_MOTO);
 
-    
     // ************* ADD CODE *********************** //
     // Configure the SPI MODE in CR0
     switch (spi_mode)
     {
       case 0:
       {
-        mySSI->CR0 |=  0;
+        mySSI->CR0 |=  ((SSI_SPO_LOW<<6) | (SSI_SPH_FIRST<<7));
         break;
       }
       case 1:
       {
-        mySSI->CR0 |=  0;
+        mySSI->CR0 |=  ((SSI_SPO_LOW<<6) | (SSI_SPH_SECOND<<7));
         break;
       }
       case 2:
       {
-        mySSI->CR0 |=  0;
+        mySSI->CR0 |=  ((SSI_SPO_HIGH<<6) | (SSI_SPH_FIRST<<7));
         break;
       }
       case 3:
       {
-        mySSI->CR0 |=  0;
+        mySSI->CR0 |=  ((SSI_SPO_HIGH<<6) | (SSI_SPH_SECOND<<7));
         break;
       }
     }
     
     // ************* ADD CODE *********************** //
     //Enable SSI peripheral in master mode
+		SSI0->CR1 |= SSI_CR1_SSE;
     
 
   return true;
