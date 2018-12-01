@@ -20,3 +20,6 @@
 .\obj\main.o: ..\peripherals\include\launchpad_io.h
 .\obj\main.o: ..\peripherals\include\eeprom.h
 .\obj\main.o: ..\drivers\include\i2c.h
+.\obj\main.o: init_hardware.h
+.\obj\main.o: ..\drivers\include\spi.h
+.\obj\main.o: ..\drivers\include\timers.h

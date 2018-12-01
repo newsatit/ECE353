@@ -143,13 +143,6 @@ void debounce_wait(void)
     i--;
   }
 }
-void initializeBoard(void)
-{
-  DisableInterrupts();
-  init_serial_debug(true, true);
-  eeprom_init();
-  EnableInterrupts();
-}
 //*****************************************************************************
 //*****************************************************************************
 int 
@@ -162,25 +155,26 @@ main(void)
  
   lp_io_init();
 	initializeBoard();
-	while(1){
-      // Delay before entering the code to determine which FSM state to 
-      // transistion to.
-      debounce_wait();
-			pressed = sw1_debounce_fsm();		
-	if(pressed){
-		  for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
-  {
-      values[ addr - ADDR_START] = rand();
-      printf("Writing %i\n\r",values[addr-ADDR_START]);
-      eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START]);
-  }
-		  for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
-  {
-      eeprom_byte_read(I2C1_BASE,addr, &read_val);
-			printf("Reading %i\n\r",read_val);
-	}
-}
-}	
+	init_timer1();
+//	while(1){
+//      // Delay before entering the code to determine which FSM state to 
+//      // transistion to.
+//      debounce_wait();
+//			pressed = sw1_debounce_fsm();		
+//	if(pressed){
+//		  for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
+//  {
+//      values[ addr - ADDR_START] = rand();
+//      printf("Writing %i\n\r",values[addr-ADDR_START]);
+//      eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START]);
+//  }
+//		  for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
+//  {
+//      eeprom_byte_read(I2C1_BASE,addr, &read_val);
+//			printf("Reading %i\n\r",read_val);
+//	}
+//}
+//}	
   // Reach infinite loop after the game is over.
   while(1){};
 }

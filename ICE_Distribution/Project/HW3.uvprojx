@@ -386,14 +386,14 @@
               <FilePath>.\main.c</FilePath>
             </File>
             <File>
-              <FileName>interrupts.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\interrupts.h</FilePath>
-            </File>
-            <File>
               <FileName>interrupts.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\interrupts.c</FilePath>
+            </File>
+            <File>
+              <FileName>init_hardware.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\init_hardware.c</FilePath>
             </File>
           </Files>
         </Group>

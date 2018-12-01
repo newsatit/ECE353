@@ -34,6 +34,8 @@
 
 #include "eeprom.h"
 
+#include "init_hardware.h"
+
 #define ADDR_START    256
 #define NUM_BYTES      20
 

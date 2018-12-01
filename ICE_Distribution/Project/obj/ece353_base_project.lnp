@@ -1,6 +1,7 @@
 --cpu=Cortex-M4.fp
 ".\obj\main.o"
 ".\obj\interrupts.o"
+".\obj\init_hardware.o"
 ".\obj\gpio_port.o"
 ".\obj\i2c.o"
 ".\obj\pc_buffer.o"
