@@ -27,8 +27,7 @@
 /****************************************************************************
  * This routine transmits a character out the SPI1 port.
  ****************************************************************************/
-bool 
-spiVerifyBaseAddr(uint32_t base)
+bool spiVerifyBaseAddr(uint32_t base)
 {
   if ( base == SSI0_BASE ||
         base == SSI1_BASE ||

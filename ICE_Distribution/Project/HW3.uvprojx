@@ -10,7 +10,7 @@
       <TargetName>Project</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -384,6 +384,116 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>interrupts.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\interrupts.h</FilePath>
+            </File>
+            <File>
+              <FileName>interrupts.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\interrupts.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers</GroupName>
+          <Files>
+            <File>
+              <FileName>gpio_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\c\gpio_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\c\i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>pc_buffer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\c\pc_buffer.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\c\spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>timers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\c\timers.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\c\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>driver_defines.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\drivers\include\driver_defines.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>New Group</GroupName>
+          <Files>
+            <File>
+              <FileName>accel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\accel.c</FilePath>
+            </File>
+            <File>
+              <FileName>ece353_images.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\ece353_images.c</FilePath>
+            </File>
+            <File>
+              <FileName>eeprom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\eeprom.c</FilePath>
+            </File>
+            <File>
+              <FileName>ft6x06.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\ft6x06.c</FilePath>
+            </File>
+            <File>
+              <FileName>launchpad_io.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\launchpad_io.c</FilePath>
+            </File>
+            <File>
+              <FileName>lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\lcd.c</FilePath>
+            </File>
+            <File>
+              <FileName>lcd_images.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\lcd_images.c</FilePath>
+            </File>
+            <File>
+              <FileName>serial_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\serial_debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi_select.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\spi_select.c</FilePath>
+            </File>
+            <File>
+              <FileName>ws2812b_ice.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\peripherals\c\ws2812b_ice.c</FilePath>
+            </File>
+            <File>
+              <FileName>IO_Expander.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\IO_Expander.c</FilePath>
             </File>
           </Files>
         </Group>

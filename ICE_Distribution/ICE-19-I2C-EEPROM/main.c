@@ -83,6 +83,7 @@ void eeprom_test(void)
   for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
   {
       eeprom_byte_read(I2C1_BASE,addr, &read_val);
+			printf("Reading %i\n\r",read_val);
       if( read_val != values[addr-ADDR_START])
       {
         printf("ERROR: addr: %i write: %i read %i\n\r",addr,values[addr-ADDR_START], read_val);

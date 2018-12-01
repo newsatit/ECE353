@@ -22,11 +22,165 @@
 
 #include "main.h"
 
+/******************************************************************************
+ * Global Variables
+ *****************************************************************************/
+typedef enum 
+{
+  DEBOUNCE_ONE,
+  DEBOUNCE_1ST_ZERO,
+  DEBOUNCE_2ND_ZERO,
+  DEBOUNCE_PRESSED
+} DEBOUNCE_STATES;
+
+typedef enum {
+	ALL_OFF,
+	RED_ON,
+	BLUE_ON,
+	GREEN_ON
+} LED_STATES;
+static LED_STATES state = ALL_OFF;
+//*****************************************************************************
+//*****************************************************************************
+void DisableInterrupts(void)
+{
+  __asm {
+         CPSID  I
+  }
+}
+
+//*****************************************************************************
+//*****************************************************************************
+void EnableInterrupts(void)
+{
+  __asm {
+    CPSIE  I
+  }
+}
+
+
+
+//*****************************************************************************
+//*****************************************************************************
+bool sw1_debounce_fsm(void)
+{
+  static DEBOUNCE_STATES state = DEBOUNCE_ONE;
+  bool pin_logic_level;
+  
+  pin_logic_level = lp_io_read_pin(SW1_BIT);
+  
+  switch (state)
+  {
+    case DEBOUNCE_ONE:
+    {
+      if(pin_logic_level)
+      {
+        state = DEBOUNCE_ONE;
+      }
+      else
+      {
+        state = DEBOUNCE_1ST_ZERO;
+      }
+      break;
+    }
+    case DEBOUNCE_1ST_ZERO:
+    {
+      if(pin_logic_level)
+      {
+        state = DEBOUNCE_ONE;
+      }
+      else
+      {
+        state = DEBOUNCE_2ND_ZERO;
+      }
+      break;
+    }
+    case DEBOUNCE_2ND_ZERO:
+    {
+      if(pin_logic_level)
+      {
+        state = DEBOUNCE_ONE;
+      }
+      else
+      {
+        state = DEBOUNCE_PRESSED;
+      }
+      break;
+    }
+    case DEBOUNCE_PRESSED:
+    {
+      if(pin_logic_level)
+      {
+        state = DEBOUNCE_ONE;
+      }
+      else
+      {
+        state = DEBOUNCE_PRESSED;
+      }
+      break;
+    }
+    default:
+    {
+      while(1){};
+    }
+  }
+  
+  if(state == DEBOUNCE_2ND_ZERO )
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+void debounce_wait(void) 
+{
+  int i = 10000;
+  // Delay
+  while(i > 0)
+  {
+    i--;
+  }
+}
+void initializeBoard(void)
+{
+  DisableInterrupts();
+  init_serial_debug(true, true);
+  eeprom_init();
+  EnableInterrupts();
+}
 //*****************************************************************************
 //*****************************************************************************
 int 
 main(void)
-{                  
+{
+	uint16_t addr;
+  uint8_t values[20];
+  uint8_t read_val;
+	bool pressed = false;
+ 
+  lp_io_init();
+	initializeBoard();
+	while(1){
+      // Delay before entering the code to determine which FSM state to 
+      // transistion to.
+      debounce_wait();
+			pressed = sw1_debounce_fsm();		
+	if(pressed){
+		  for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
+  {
+      values[ addr - ADDR_START] = rand();
+      printf("Writing %i\n\r",values[addr-ADDR_START]);
+      eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START]);
+  }
+		  for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
+  {
+      eeprom_byte_read(I2C1_BASE,addr, &read_val);
+			printf("Reading %i\n\r",read_val);
+	}
+}
+}	
   // Reach infinite loop after the game is over.
   while(1){};
 }

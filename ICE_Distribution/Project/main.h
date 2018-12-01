@@ -29,5 +29,12 @@
 
 
 #include "TM4C123.h"
+#include "serial_debug.h"
+#include "launchpad_io.h"
+
+#include "eeprom.h"
+
+#define ADDR_START    256
+#define NUM_BYTES      20
 
 #endif
