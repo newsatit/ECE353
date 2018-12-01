@@ -35,7 +35,7 @@ static __INLINE uint8_t accel_reg_read(uint8_t reg)
 	
 	tx_data[0] = reg | ACCEL_SPI_READ;
 	tx_data[1] = 0;
-	spiTx(SSI0_BASE, tx_data, 2, rx_data);
+	spiTx(ACCEL_SPI_BASE, tx_data, 2, rx_data);
 
   return rx_data[1]; // Modify to return the register value
 }
@@ -51,7 +51,7 @@ static __INLINE void accel_reg_write(uint8_t reg, uint8_t data)
 	
 	tx_data[0] = reg | ACCEL_SPI_WRITE_N;
 	tx_data[1] = data;
-	spiTx(SSI0_BASE, tx_data, 2, rx_data);
+	spiTx(ACCEL_SPI_BASE, tx_data, 2, rx_data);
 }
 
 

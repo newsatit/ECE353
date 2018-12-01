@@ -53,9 +53,9 @@ main(void)
         sprintf(msg,"X: %d\n\r",x);
         put_string(msg);
         sprintf(msg,"Y: %d\n\r",y);
-        //put_string(msg);
+       // put_string(msg);
         sprintf(msg,"Z: %d\n\r",z);
-        //put_string(msg);
+        // put_string(msg);
             
   }
 }

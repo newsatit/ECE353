@@ -1232,16 +1232,16 @@ ARM Macro Assembler    Page 19
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\obj\startup_tm4c123.d -o.\obj\startup_tm4c123.o -I.\RTE\_ICE-
 UART-Rx-IRQ -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include -IC:\Keil_v5\AR
-M\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" -
+M\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__MICROLIB SETA 
 
 
 
 ARM Macro Assembler    Page 20 
 
 
--predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 524" --prede
-fine="_RTE_ SETA 1" --predefine="TM4C123GH6PM SETA 1" --list=.\lst\startup_tm4c
-123.lst RTE\Device\TM4C123GH6PM\startup_TM4C123.s
+1" --predefine="__UVISION_VERSION SETA 524" --predefine="_RTE_ SETA 1" --predef
+ine="TM4C123GH6PM SETA 1" --list=.\lst\startup_tm4c123.lst RTE\Device\TM4C123GH
+6PM\startup_TM4C123.s
 
 
 
@@ -2585,4 +2585,4 @@ Symbol: __main
       At line 237 in file RTE\Device\TM4C123GH6PM\startup_TM4C123.s
 Comment: __main used once
 2 symbols
-472 symbols in table
+471 symbols in table

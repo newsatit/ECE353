@@ -28,8 +28,8 @@
 typedef enum {
   NORDIC    = 0,
   SD_CARD   = 1,
-  MODULE_1  = 2,
-  MODULE_2  = 3
+  MODULE_0  = 2,
+  MODULE_1  = 3
 } spi_device_t;
 
 #define   SPI_SELECT_0_GPIO_BASE  GPIOD_BASE
