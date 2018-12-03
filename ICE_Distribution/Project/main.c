@@ -156,6 +156,7 @@ main(void)
   lp_io_init();
 	initializeBoard();
 	init_timer1();
+	init_timer4();
 //	while(1){
 //      // Delay before entering the code to determine which FSM state to 
 //      // transistion to.

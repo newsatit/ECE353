@@ -21,7 +21,7 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-\\userspace.cae.wisc.edu\people\j\jmnewman\ECE 353\Final\ECE353\ICE_Distribution\Project\HW3.uvprojx
+I:\ECE 353\Final\ECE353\ICE_Distribution\Project\HW3.uvprojx
 Project File Date:  12/01/2018
 
 <h2>Output:</h2>
@@ -30,12 +30,12 @@ Rebuild target 'Project'
 compiling interrupts.c...
 interrupts.h(15): warning:  #1-D: last line of file ends without a newline
   #endif
-interrupts.c(14): warning:  #1-D: last line of file ends without a newline
+interrupts.c(27): warning:  #1-D: last line of file ends without a newline
   }
 interrupts.c: 2 warnings, 0 errors
 compiling main.c...
-init_hardware.h(29): warning:  #1-D: last line of file ends without a newline
-  void init_timer1(void);
+init_hardware.h(31): warning:  #1-D: last line of file ends without a newline
+  void init_timer4(void);
 main.c(151): warning:  #177-D: variable "addr"  was declared but never referenced
   	uint16_t addr;
 main.c(152): warning:  #177-D: variable "values"  was declared but never referenced
@@ -48,11 +48,9 @@ main.c(42): warning:  #177-D: variable "state"  was declared but never reference
   static LED_STATES state = ALL_OFF;
 main.c: 6 warnings, 0 errors
 compiling init_hardware.c...
-init_hardware.h(29): warning:  #1-D: last line of file ends without a newline
-  void init_timer1(void);
-init_hardware.c(38): warning:  #1-D: last line of file ends without a newline
-  }
-init_hardware.c: 2 warnings, 0 errors
+init_hardware.h(31): warning:  #1-D: last line of file ends without a newline
+  void init_timer4(void);
+init_hardware.c: 1 warning, 0 errors
 compiling pc_buffer.c...
 compiling gpio_port.c...
 ..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
@@ -80,8 +78,8 @@ compiling accel.c...
 ..\peripherals\c\accel.c: 2 warnings, 0 errors
 compiling eeprom.c...
 compiling ft6x06.c...
-compiling launchpad_io.c...
 compiling lcd_images.c...
+compiling launchpad_io.c...
 compiling lcd.c...
 compiling spi_select.c...
 compiling serial_debug.c...
@@ -100,8 +98,8 @@ IO_Expander.c(3): warning:  #177-D: function "I0_Expander_init"  was declared bu
 IO_Expander.c: 2 warnings, 0 errors
 compiling system_TM4C123.c...
 linking...
-Program Size: Code=4964 RO-data=652 RW-data=20 ZI-data=540  
-".\obj\ece353_base_project.axf" - 0 Error(s), 21 Warning(s).
+Program Size: Code=5172 RO-data=652 RW-data=20 ZI-data=540  
+".\obj\ece353_base_project.axf" - 0 Error(s), 20 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -125,12 +123,12 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: Keil::Device:Startup:1.0.1
-      Source file:   Device\Source\ARM\startup_TM4C123.s
-      Source file:   Device\Source\system_TM4C123.c
       Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\system_TM4C123.c
+      Source file:   Device\Source\ARM\startup_TM4C123.s
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:09
+Build Time Elapsed:  00:00:10
 </pre>
 </body>
 </html>

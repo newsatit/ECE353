@@ -27,3 +27,5 @@
 void initializeBoard(void);
 
 void init_timer1(void);
+
+void init_timer4(void);
