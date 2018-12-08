@@ -27,6 +27,18 @@ Project File Date:  12/08/2018
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Project'
+compiling interrupts.c...
+init_hardware.h(33): warning:  #1-D: last line of file ends without a newline
+  void initializeBoard(void);
+hockey_main.h(26): warning:  #1295-D: Deprecated declaration hockey_main - give arg types
+  void hockey_main();
+hockey_main.h(28): warning:  #1-D: last line of file ends without a newline
+  #endif
+interrupts.h(27): warning:  #1-D: last line of file ends without a newline
+  #endif
+interrupts.c(49): warning:  #1-D: last line of file ends without a newline
+  }
+interrupts.c: 5 warnings, 0 errors
 compiling main.c...
 init_hardware.h(33): warning:  #1-D: last line of file ends without a newline
   void initializeBoard(void);
@@ -45,24 +57,17 @@ hockey_main.h(28): warning:  #1-D: last line of file ends without a newline
 init_hardware.h(33): warning:  #1-D: last line of file ends without a newline
   void initializeBoard(void);
 init_hardware.c: 4 warnings, 0 errors
-compiling interrupts.c...
-init_hardware.h(33): warning:  #1-D: last line of file ends without a newline
-  void initializeBoard(void);
-hockey_main.h(26): warning:  #1295-D: Deprecated declaration hockey_main - give arg types
-  void hockey_main();
-hockey_main.h(28): warning:  #1-D: last line of file ends without a newline
-  #endif
-interrupts.h(27): warning:  #1-D: last line of file ends without a newline
-  #endif
-interrupts.c(49): warning:  #1-D: last line of file ends without a newline
-  }
-interrupts.c: 5 warnings, 0 errors
+compiling i2c.c...
+compiling gpio_port.c...
+..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
+         return 0;
+..\drivers\c\gpio_port.c: 1 warning, 0 errors
 compiling hockey_main.c...
 hockey_main.h(26): warning:  #1295-D: Deprecated declaration hockey_main - give arg types
   void hockey_main();
 hockey_main.h(28): warning:  #1-D: last line of file ends without a newline
   #endif
-hockey_main.c(156): warning:  #1-D: last line of file ends without a newline
+hockey_main.c(153): warning:  #1-D: last line of file ends without a newline
   }
 hockey_main.c(110): warning:  #177-D: variable "push_val"  was declared but never referenced
   	uint8_t push_val;
@@ -79,11 +84,6 @@ hockey_main.c(116): warning:  #177-D: variable "msg"  was declared but never ref
 hockey_main.c(20): warning:  #177-D: variable "state"  was declared but never referenced
   static LED_STATES state = ALL_OFF;
 hockey_main.c: 10 warnings, 0 errors
-compiling i2c.c...
-compiling gpio_port.c...
-..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
-         return 0;
-..\drivers\c\gpio_port.c: 1 warning, 0 errors
 compiling pc_buffer.c...
 compiling spi.c...
 compiling timers.c...
@@ -95,19 +95,19 @@ compiling ece353_images.c...
 compiling accel.c...
 compiling eeprom.c...
 compiling ft6x06.c...
-compiling lcd_images.c...
 compiling launchpad_io.c...
+compiling lcd_images.c...
 compiling lcd.c...
+compiling spi_select.c...
 compiling serial_debug.c...
 ..\peripherals\c\serial_debug.c(177): warning:  #177-D: variable "uart_base"  was declared but never referenced
      uint32_t uart_base;
 ..\peripherals\c\serial_debug.c(178): warning:  #177-D: variable "tx_buffer"  was declared but never referenced
      PC_Buffer *tx_buffer;
 ..\peripherals\c\serial_debug.c: 2 warnings, 0 errors
-compiling spi_select.c...
-compiling ws2812b_ice.c...
 assembling startup_TM4C123.s...
 compiling IO_Expander.c...
+compiling ws2812b_ice.c...
 compiling system_TM4C123.c...
 linking...
 Program Size: Code=9172 RO-data=652 RW-data=28 ZI-data=540  
@@ -140,7 +140,7 @@ Package Vendor: Keil
       Source file:   Device\Source\system_TM4C123.c
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:13
+Build Time Elapsed:  00:00:12
 </pre>
 </body>
 </html>
