@@ -10,7 +10,7 @@ extern bool spiVerifyBaseAddr(uint32_t base);
 static __INLINE void  accel_CSN_low(void)
 {
   // ADD CODE
-	ACCEL_CS_PORT->DATA &= ~ACCEL_CLK_PIN;
+	ACCEL_CS_PORT->DATA &= ~ACCEL_CS_PIN;
 }
 
 //*****************************************************************************
@@ -19,7 +19,7 @@ static __INLINE void  accel_CSN_low(void)
 static __INLINE void  accel_CSN_high(void)
 {
   // ADD CODE
-	ACCEL_CS_PORT->DATA |= ACCEL_CLK_PIN;
+	ACCEL_CS_PORT->DATA |= ACCEL_CS_PIN;
 }
 
 
@@ -35,8 +35,10 @@ static __INLINE uint8_t accel_reg_read(uint8_t reg)
 	
 	tx_data[0] = reg | ACCEL_SPI_READ;
 	tx_data[1] = 0;
+	accel_CSN_low();
 	spiTx(ACCEL_SPI_BASE, tx_data, 2, rx_data);
-
+	accel_CSN_high();
+	
   return rx_data[1]; // Modify to return the register value
 }
 
@@ -51,7 +53,9 @@ static __INLINE void accel_reg_write(uint8_t reg, uint8_t data)
 	
 	tx_data[0] = reg | ACCEL_SPI_WRITE_N;
 	tx_data[1] = data;
+	accel_CSN_low();
 	spiTx(ACCEL_SPI_BASE, tx_data, 2, rx_data);
+	accel_CSN_high();
 }
 
 

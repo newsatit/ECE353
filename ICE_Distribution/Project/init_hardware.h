@@ -17,6 +17,8 @@
 #include "uart.h"
 
 #include "eeprom.h"
+#include "accel.h"
+#include "lcd.h"
 
 #define ADDR_START    256
 #define NUM_BYTES      20
@@ -29,3 +31,7 @@ void initializeBoard(void);
 void init_timer1(void);
 
 void init_timer4(void);
+
+void init_accel(void);
+
+void init_lcd(void);

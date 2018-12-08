@@ -117,6 +117,10 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGUARM</Key>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -145,22 +149,6 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>39</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>642</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>I:\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-20-SPI-ACCEL\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-20-SPI-ACCEL\main.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\ece353_base_project\/userspace.cae.wisc.edu/people/s/satitsumpun/ECE353/ICE_Distribution/ICE-20-SPI-ACCEL/main.c\39</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
           <LineNumber>40</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>646</Address>
@@ -170,9 +158,57 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>I:\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-20-SPI-ACCEL\userspace.cae.wisc.edu\people\s\satitsumpun\ECE353\ICE_Distribution\ICE-20-SPI-ACCEL\main.c</Filename>
+          <Filename>.\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\ece353_base_project\/userspace.cae.wisc.edu/people/s/satitsumpun/ECE353/ICE_Distribution/ICE-20-SPI-ACCEL/main.c\40</Expression>
+          <Expression>\\ece353_base_project\main.c\40</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>145</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>2232</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\peripherals\c\accel.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\ece353_base_project\../peripherals/c/accel.c\145</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>149</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>2256</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\peripherals\c\accel.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\ece353_base_project\../peripherals/c/accel.c\149</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>153</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\peripherals\c\accel.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <Tracepoint>

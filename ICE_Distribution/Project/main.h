@@ -39,4 +39,6 @@
 #define ADDR_START    256
 #define NUM_BYTES      20
 
+extern volatile uint8_t x_data;
+
 #endif

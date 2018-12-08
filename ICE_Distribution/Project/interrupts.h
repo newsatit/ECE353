@@ -11,5 +11,7 @@
 #include "ps2.h"
 #include "lcd.h"
 #include "timers.h"
+#include "main.h"
+
 
 #endif

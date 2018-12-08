@@ -414,7 +414,7 @@ Removing Unused input sections from the image.
     Removing timers.o(.rev16_text), (4 bytes).
     Removing timers.o(.revsh_text), (4 bytes).
     Removing timers.o(.rrx_text), (6 bytes).
-    Removing timers.o(.text), (396 bytes).
+    Removing timers.o(.text), (540 bytes).
     Removing serial_debug.o(.rev16_text), (4 bytes).
     Removing serial_debug.o(.revsh_text), (4 bytes).
     Removing serial_debug.o(.rrx_text), (6 bytes).
@@ -497,7 +497,7 @@ Removing Unused input sections from the image.
     Removing cdrcmple.o(.text), (48 bytes).
     Removing depilogue.o(.text), (186 bytes).
 
-97 unused section(s) (total 1882 bytes) removed from the image.
+97 unused section(s) (total 2026 bytes) removed from the image.
 
 ==============================================================================
 

@@ -18,3 +18,14 @@
 .\obj\interrupts.o: ..\drivers\include\adc.h
 .\obj\interrupts.o: ..\peripherals\include\lcd.h
 .\obj\interrupts.o: ..\drivers\include\timers.h
+.\obj\interrupts.o: main.h
+.\obj\interrupts.o: ..\peripherals\include\serial_debug.h
+.\obj\interrupts.o: ..\drivers\include\pc_buffer.h
+.\obj\interrupts.o: ..\drivers\include\uart.h
+.\obj\interrupts.o: ..\peripherals\include\launchpad_io.h
+.\obj\interrupts.o: ..\peripherals\include\eeprom.h
+.\obj\interrupts.o: ..\drivers\include\i2c.h
+.\obj\interrupts.o: init_hardware.h
+.\obj\interrupts.o: ..\drivers\include\spi.h
+.\obj\interrupts.o: ..\peripherals\include\accel.h
+.\obj\interrupts.o: ..\peripherals\include\spi_select.h

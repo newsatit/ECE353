@@ -7,8 +7,6 @@ void TIMER1A_Handler(void)
 		//set gp timer to timer2 base
 		gp_timer = (TIMER0_Type *)TIMER1_BASE;
 	
-		//printf("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-		
 		//clear interupt
 		gp_timer -> ICR |= 0x00000001;
 }
@@ -20,8 +18,16 @@ void TIMER4A_Handler(void)
 		//set gp timer to timer2 base
 		gp_timer = (TIMER0_Type *)TIMER4_BASE;
 	
-		//printf("timer4");
-		
+		//x_data = accel_read_x();
+			
 		//clear interupt
 		gp_timer -> ICR |= 0x00000001;
+}
+
+void TIMER2A_Handler(void)
+{	 
+
+		
+	
+	TIMER2->ICR |= TIMER_ICR_TATOCINT; // Clear Interrupt
 }

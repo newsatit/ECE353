@@ -40,6 +40,8 @@ typedef enum {
 	GREEN_ON
 } LED_STATES;
 static LED_STATES state = ALL_OFF;
+
+volatile uint8_t x_data = 0;
 //*****************************************************************************
 //*****************************************************************************
 void DisableInterrupts(void)
@@ -152,11 +154,16 @@ main(void)
   uint8_t values[20];
   uint8_t read_val;
 	bool pressed = false;
+	int i;
+	int16_t x,y,z;
+	char msg[80];
  
   lp_io_init();
 	initializeBoard();
 	init_timer1();
 	init_timer4();
+	//init_accel();
+	init_lcd();
 //	while(1){
 //      // Delay before entering the code to determine which FSM state to 
 //      // transistion to.
@@ -177,5 +184,8 @@ main(void)
 //}
 //}	
   // Reach infinite loop after the game is over.
-  while(1){};
-}
+  while(1){
+			
+			
+  }
+};
