@@ -128,7 +128,7 @@ void MCP23017_write_leds(uint8_t pins)
 
 
 // Config MCP23017 
-void MCP23017_config(void)
+void MCP23017_init(void)
 {
 	// config GPIOA as output
 	MCP23017_byte_write(IO_EXPANDER_I2C_BASE, IO_EXPANDER_IODIRA, 0x00);
@@ -138,25 +138,19 @@ void MCP23017_config(void)
 	// config GPB pull-up
 	MCP23017_byte_write(IO_EXPANDER_I2C_BASE, IO_EXPANDER_GPPUB, 0xFF);
 
-
-
 	// config GPIOF pin 0 for INTB
 	gpio_enable_port(GPIOF_BASE);
-	gpio_config_digital_enable(GPIOF_BASE, SW2_IO_EXPANDER_INT);
-	gpio_config_enable_input(GPIOF_BASE, SW2_IO_EXPANDER_INT);
-	gpio_config_enable_pullup(GPIOF_BASE, SW2_IO_EXPANDER_INT);
-	// gpio_config_alternate_function(GPIOF_BASE, SW2_IO_EXPANDER_INT);
-// 	gpio_config_port_control(GPIOF_BASE, 
-	gpio_config_falling_edge_irq(GPIOF_BASE, SW2_IO_EXPANDER_INT);         
+	gpio_config_digital_enable(IO_EXPANDE_IRQ_GPIO_BASE, IO_EXPANDE_IRQ_PIN_NUM);
+	gpio_config_enable_input(IO_EXPANDE_IRQ_GPIO_BASE, IO_EXPANDE_IRQ_PIN_NUM);
+	gpio_config_enable_pullup(IO_EXPANDE_IRQ_GPIO_BASE, IO_EXPANDE_IRQ_PIN_NUM);
+	gpio_config_falling_edge_irq(IO_EXPANDE_IRQ_GPIO_BASE, IO_EXPANDE_IRQ_PIN_NUM);         
   // Set the Priority
   NVIC_SetPriority(GPIOF_IRQn, 1);
   // Enable the Interrupt in the NVIC
   NVIC_EnableIRQ(GPIOF_IRQn);
 	
 	// config interrupt INTB
-	 MCP23017_byte_write(IO_EXPANDER_I2C_BASE, IO_EXPANDER_GPINTENB, IO_EXPANDER_BUTTONS_M);
-	 MCP23017_byte_write(IO_EXPANDER_I2C_BASE, IO_EXPANDER_INTCONB, 0);	
-
-	
+	MCP23017_byte_write(IO_EXPANDER_I2C_BASE, IO_EXPANDER_GPINTENB, IO_EXPANDER_BUTTONS_M);
+	MCP23017_byte_write(IO_EXPANDER_I2C_BASE, IO_EXPANDER_INTCONB, 0);	
 	
 }

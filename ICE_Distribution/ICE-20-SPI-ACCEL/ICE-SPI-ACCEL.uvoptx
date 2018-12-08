@@ -117,6 +117,10 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGUARM</Key>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -145,9 +149,42 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+<<<<<<< HEAD
           <LineNumber>114</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>2162</Address>
+=======
+          <LineNumber>40</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>646</Address>
+>>>>>>> e8fbb8a20cdd1169ff780aa4a89c9acbab7fd57c
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+<<<<<<< HEAD
+          <Filename>..\peripherals\c\accel.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\ece353_base_project\../peripherals/c/accel.c\114</Expression>
+=======
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\ece353_base_project\main.c\40</Expression>
+>>>>>>> e8fbb8a20cdd1169ff780aa4a89c9acbab7fd57c
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+<<<<<<< HEAD
+          <LineNumber>137</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>2306</Address>
+=======
+          <LineNumber>145</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>2232</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -156,14 +193,15 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\peripherals\c\accel.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\ece353_base_project\../peripherals/c/accel.c\114</Expression>
+          <Expression>\\ece353_base_project\../peripherals/c/accel.c\145</Expression>
         </Bp>
         <Bp>
-          <Number>1</Number>
+          <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>137</LineNumber>
+          <LineNumber>149</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>2306</Address>
+          <Address>2256</Address>
+>>>>>>> e8fbb8a20cdd1169ff780aa4a89c9acbab7fd57c
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -171,6 +209,7 @@
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\peripherals\c\accel.c</Filename>
+<<<<<<< HEAD
           <ExecCommand></ExecCommand>
           <Expression>\\ece353_base_project\../peripherals/c/accel.c\137</Expression>
         </Bp>
@@ -300,6 +339,25 @@
           <BreakIfRCount>0</BreakIfRCount>
           <Filename>..\peripherals\c\accel.c</Filename>
           <ExecCommand></ExecCommand>
+=======
+          <ExecCommand></ExecCommand>
+          <Expression>\\ece353_base_project\../peripherals/c/accel.c\149</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>153</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\peripherals\c\accel.c</Filename>
+          <ExecCommand></ExecCommand>
+>>>>>>> e8fbb8a20cdd1169ff780aa4a89c9acbab7fd57c
           <Expression></Expression>
         </Bp>
       </Breakpoint>

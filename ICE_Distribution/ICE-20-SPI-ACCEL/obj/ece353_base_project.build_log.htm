@@ -21,8 +21,8 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-I:\ECE353\ICE_Distribution\ICE-20-SPI-ACCEL\ICE-SPI-ACCEL.uvprojx
-Project File Date:  11/26/2018
+I:\ECE 353\Final\ECE353\ICE_Distribution\ICE-20-SPI-ACCEL\ICE-SPI-ACCEL.uvprojx
+Project File Date:  12/01/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
@@ -30,7 +30,16 @@ Rebuild target 'ICE-SPI-ACCEL'
 compiling uart.c...
 ..\drivers\c\uart.c(184): warning:  #188-D: enumerated type mixed with another type
          return 0;
+<<<<<<< HEAD
 ..\drivers\c\uart.c: 1 warning, 0 errors
+=======
+..\drivers\c\uart.c(275): warning:  #550-D: variable "rcgc_mask"  was set but never used
+      uint32_t rcgc_mask;
+..\drivers\c\uart.c(276): warning:  #550-D: variable "pr_mask"  was set but never used
+      uint32_t pr_mask;
+..\drivers\c\uart.c: 3 warnings, 0 errors
+compiling main.c...
+>>>>>>> e8fbb8a20cdd1169ff780aa4a89c9acbab7fd57c
 compiling gpio_port.c...
 ..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
          return 0;
@@ -42,8 +51,13 @@ compiling accel.c...
 assembling startup_TM4C123.s...
 compiling system_TM4C123.c...
 linking...
+<<<<<<< HEAD
 Program Size: Code=5188 RO-data=744 RW-data=4 ZI-data=516  
 ".\obj\ece353_base_project.axf" - 0 Error(s), 2 Warning(s).
+=======
+Program Size: Code=5092 RO-data=744 RW-data=4 ZI-data=516  
+".\obj\ece353_base_project.axf" - 0 Error(s), 5 Warning(s).
+>>>>>>> e8fbb8a20cdd1169ff780aa4a89c9acbab7fd57c
 
 <h2>Software Packages used:</h2>
 
@@ -67,12 +81,17 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: Keil::Device:Startup:1.0.1
+<<<<<<< HEAD
       Include file:  Device\Include\TM4C123\TM4C123.h
       Source file:   Device\Source\ARM\startup_TM4C123.s
+=======
+>>>>>>> e8fbb8a20cdd1169ff780aa4a89c9acbab7fd57c
       Source file:   Device\Source\system_TM4C123.c
+      Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\ARM\startup_TM4C123.s
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>

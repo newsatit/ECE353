@@ -183,3 +183,52 @@ bool gp_timer_config_32(uint32_t base_addr, uint32_t mode, bool count_up, bool e
     
   return true;  
 }
+
+bool gp_timer_config_16(uint32_t base_addr, uint32_t mode, bool count_up, bool enable_interrupts){
+  uint32_t timer_rcgc_mask;
+  uint32_t timer_pr_mask;
+  TIMER0_Type *gp_timer;
+  
+  // Verify the base address.
+  if ( ! verify_base_addr(base_addr) )
+  {
+    return false;
+  }
+  
+  // get the correct RCGC and PR masks for the base address
+  get_clock_masks(base_addr, &timer_rcgc_mask, &timer_pr_mask);
+  
+  // Turn on the clock for the timer
+  SYSCTL->RCGCTIMER |= timer_rcgc_mask;
+
+  // Wait for the timer to turn on
+  while( (SYSCTL->PRTIMER & timer_pr_mask) == 0) {};
+  
+  // Type cast the base address to a TIMER0_Type struct
+  gp_timer = (TIMER0_Type *)base_addr;
+
+	gp_timer->CTL &= ~(TIMER_CTL_TAEN | TIMER_CTL_TBEN);
+		
+	gp_timer->CFG = TIMER_CFG_16_BIT;
+		
+	gp_timer->TAMR &= ~(TIMER_TAMR_TAMR_M);
+	gp_timer->TAMR |= (TIMER_TAMR_TAMR_M & mode);
+	if(count_up)
+	{
+		gp_timer->TAMR |= TIMER_TAMR_TACDIR;
+	}
+	else 
+	{
+		gp_timer->TAMR &= ~TIMER_TAMR_TACDIR;
+	}
+	
+		
+	if(enable_interrupts)
+	{
+		gp_timer->IMR |= TIMER_IMR_TATOIM;
+	} else {
+		gp_timer->IMR &= ~(TIMER_IMR_TATOIM);
+	}	
+    
+  return true;  
+}	

@@ -86,11 +86,11 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
     
     // ************* ADD CODE *********************** //
 		
-		// Turn on the SPI clock
-    SYSCTL->RCGCSSI |= SYSCTL_RCGCSSI_R0;
- 
-    // wait until SSI is ready 
-    while ((SYSCTL->PRSSI & SYSCTL_PRSSI_R0) == 0){}   
+//		// Turn on the SPI clock
+//    SYSCTL->RCGCSSI |= SYSCTL_RCGCSSI_R0;
+// 
+//    // wait until SSI is ready 
+//    while ((SYSCTL->PRSSI & SYSCTL_PRSSI_R0) == 0){}   
 		
     // Disable the SSI interface (Set entire register to 0).
 		mySSI->CR1 = 0;
@@ -107,7 +107,7 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
 
     // ************* ADD CODE *********************** //
     // Configure SPI control for freescale format, data width of 8 bits
-		mySSI->CR0 =   (SSI_CR0_DSS_8 | SSI_CR0_FRF_MOTO);
+		mySSI->CR0 = (SSI_CR0_DSS_8 | SSI_CR0_FRF_MOTO);
 
     // ************* ADD CODE *********************** //
     // Configure the SPI MODE in CR0
@@ -139,8 +139,7 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
     // ************* ADD CODE *********************** //
     //Enable SSI peripheral in master mode
 		mySSI->CR1 |= SSI_CR1_SSE;
-    
-
+  
   return true;
 }
 
