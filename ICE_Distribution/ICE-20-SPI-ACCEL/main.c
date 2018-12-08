@@ -35,11 +35,13 @@ main(void)
 	int i;
 	int16_t x,y,z;
 	char msg[80];
-    
-    initialize_serial_debug();
+
+    initialize_serial_debug();	
+	put_string("test eccel\n");
     accel_initialize();
     
 	
+
   while(1)
   {
 		// Read the Accelerometer data

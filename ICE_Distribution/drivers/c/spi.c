@@ -134,10 +134,11 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
         break;
       }
     }
+		
     
     // ************* ADD CODE *********************** //
     //Enable SSI peripheral in master mode
-		SSI0->CR1 |= SSI_CR1_SSE;
+		mySSI->CR1 |= SSI_CR1_SSE;
     
 
   return true;

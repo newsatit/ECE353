@@ -1,5 +1,5 @@
-#ifndef __WIRELESS_H__
-#define __WIRELESS_H__
+#ifndef __ACCEL_H__
+#define __ACCEL_H__
 
 #include <stdint.h>
 #include <stdio.h>

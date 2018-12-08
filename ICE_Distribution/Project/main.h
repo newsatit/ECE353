@@ -33,6 +33,9 @@
 #include "launchpad_io.h"
 
 #include "eeprom.h"
+#include "ft6x06.h"
+#include "IO_Expander.h"
+#include "accel.h"
 
 #define ADDR_START    256
 #define NUM_BYTES      20

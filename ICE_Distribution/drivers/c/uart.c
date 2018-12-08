@@ -284,8 +284,9 @@ bool uart_init(uint32_t uart_base, bool enable_rx_irq, bool enable_tx_irq)
     pr_mask = uart_get_pr_mask(uart_base);
     
     // ADD CODE
-		SYSCTL->RCGCUART |= SYSCTL_RCGCUART_R0;
-		while(!(SYSCTL->PRUART & SYSCTL_RCGCUART_R0)){}
+		
+		SYSCTL->RCGCUART |= rcgc_mask;
+		while(!(SYSCTL->PRUART & pr_mask)){}
 			
 		// disable UART
 		uart->CTL &= ~UART_CTL_UARTEN;

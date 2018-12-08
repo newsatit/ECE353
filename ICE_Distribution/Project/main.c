@@ -25,6 +25,10 @@
 /******************************************************************************
  * Global Variables
  *****************************************************************************/
+ 
+volatile uint8_t PUSH_BUTTONS = 0;
+volatile bool BUTTON_PUSHED = false;
+ 
 typedef enum 
 {
   DEBOUNCE_ONE,
@@ -40,6 +44,7 @@ typedef enum {
 	GREEN_ON
 } LED_STATES;
 static LED_STATES state = ALL_OFF;
+
 //*****************************************************************************
 //*****************************************************************************
 void DisableInterrupts(void)
@@ -148,6 +153,8 @@ void initializeBoard(void)
   DisableInterrupts();
   init_serial_debug(true, true);
   eeprom_init();
+	ft6x06_init();
+	accel_initialize();
   EnableInterrupts();
 }
 //*****************************************************************************
@@ -158,29 +165,59 @@ main(void)
 	uint16_t addr;
   uint8_t values[20];
   uint8_t read_val;
+	uint8_t push_val;
+	uint8_t touch_event;
+	int16_t accel;
 	bool pressed = false;
  
   lp_io_init();
 	initializeBoard();
+	MCP23017_config();
+//push_val = MCP23017_read_push_buttons();
+	//printf("%d\n", push_val)
+	printf("hello world\n");
+	push_val = MCP23017_read_push_buttons();
+	printf("%d\n", push_val);
+	
+	MCP23017_write_leds(0xAA);
+	
+	push_val = MCP23017_read_push_buttons();
+	printf("%d\n", push_val);
 	while(1){
       // Delay before entering the code to determine which FSM state to 
       // transistion to.
       debounce_wait();
 			pressed = sw1_debounce_fsm();		
-	if(pressed){
-		  for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
-  {
-      values[ addr - ADDR_START] = rand();
-      printf("Writing %i\n\r",values[addr-ADDR_START]);
-      eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START]);
-  }
-		  for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
-  {
-      eeprom_byte_read(I2C1_BASE,addr, &read_val);
-			printf("Reading %i\n\r",read_val);
-	}
-}
-}	
+			if(pressed){
+					for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
+					{
+							values[ addr - ADDR_START] = rand();
+							printf("Writing %i\n\r",values[addr-ADDR_START]);
+							eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START]);
+					}
+					for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
+					{
+							eeprom_byte_read(I2C1_BASE,addr, &read_val);
+							printf("Reading %i\n\r",read_val);
+					}
+			}
+			
+			// touch_event = ft6x06_read_td_status();
+			// printf("touch event: %d\n", touch_event);
+			
+			//push_val = MCP23017_read_push_buttons();
+			//printf("%d\n", push_val);
+			
+			accel = accel_read_x();
+			printf("%d\n", accel);
+			
+			if(BUTTON_PUSHED) {
+					BUTTON_PUSHED = false;
+					printf("%d\n", PUSH_BUTTONS);
+					EnableInterrupts();
+			}
+
+	}	
   // Reach infinite loop after the game is over.
   while(1){};
 }

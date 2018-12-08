@@ -18,3 +18,5 @@
 .\obj\interrupts.o: ..\drivers\include\adc.h
 .\obj\interrupts.o: ..\peripherals\include\lcd.h
 .\obj\interrupts.o: ..\drivers\include\timers.h
+.\obj\interrupts.o: IO_Expander.h
+.\obj\interrupts.o: ..\drivers\include\i2c.h

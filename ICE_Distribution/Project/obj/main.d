@@ -20,3 +20,8 @@
 .\obj\main.o: ..\peripherals\include\launchpad_io.h
 .\obj\main.o: ..\peripherals\include\eeprom.h
 .\obj\main.o: ..\drivers\include\i2c.h
+.\obj\main.o: ..\peripherals\include\ft6x06.h
+.\obj\main.o: IO_Expander.h
+.\obj\main.o: ..\peripherals\include\accel.h
+.\obj\main.o: ..\drivers\include\spi.h
+.\obj\main.o: ..\peripherals\include\spi_select.h
