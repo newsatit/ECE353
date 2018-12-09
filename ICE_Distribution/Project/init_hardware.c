@@ -80,6 +80,8 @@ void initializeBoard(void)
 {	
   DisableInterrupts();
   init_serial_debug(true, true);
+	spi_select_init();
+  SysTick_Config(10000);
   eeprom_init();
 	ft6x06_init();	
 	accel_initialize();

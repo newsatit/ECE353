@@ -16,6 +16,10 @@
 #include "IO_Expander.h"
 #include "accel.h"
 
+#include "wireless.h"
+#include "spi_select.h"
+#include "interrupts.h"
+
 #define ADDR_START    256
 #define NUM_BYTES      20
 

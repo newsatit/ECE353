@@ -405,6 +405,11 @@
               <FileType>5</FileType>
               <FilePath>.\hockey_main.h</FilePath>
             </File>
+            <File>
+              <FileName>ece353_nrf24l01p.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>.\ece353_nrf24l01p.lib</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
