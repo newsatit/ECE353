@@ -171,14 +171,10 @@ void hockey_main(){
   // Infinite Loop
   while(1)
   {
-			printf("loop\n");
-			spi_select(NORDIC);
-
       if(TX_MODE && AlertOneSec)
       {
           printf("Sending: %d\n\r",i);
-          status = wireless_send_32(true, true, i);
-					printf("status: %d\n", status);
+          status = wireless_send_32(false, false, i);
           if(status != NRF24L01_TX_SUCCESS)
           {
             printf("Error Message: %s\n\r",wireless_error_messages[status]);
@@ -188,25 +184,25 @@ void hockey_main(){
       }
       else if (!TX_MODE)
       {
-        status =  wireless_get_32(true, &data);
+        status =  wireless_get_32(false, &data);
         if(status == NRF24L01_RX_SUCCESS)
         {
-					printf("Received: %d\n\r", data);
+            printf("Received: %d\n\r", data);
         }
         
         AlertOneSec = false;
       }
 		
-			spi_select(MODULE_1);
+			//spi_select(MODULE_1);
 			
-			 accel = accel_read_x();
-			 printf("%d\n", accel);
+			 //accel = accel_read_x();
+			 //printf("%d\n", accel);
 			
-			if(button_pushed) {
-					button_pushed = false;
-					printf("%d\n", push_buttons);
-					EnableInterrupts();
-			}
+//			if(button_pushed) {
+//					button_pushed = false;
+//					printf("%d\n", push_buttons);
+//					EnableInterrupts();
+//			}
 
    }	
 	while(1){

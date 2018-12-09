@@ -100,8 +100,8 @@
     <MDIClientArea>
       <RegID>0</RegID>
       <MDITabState>
-        <Len>412</Len>
-        <Data>01000000040000000100000001000000010000000100000000000000020000000000000001000000010000000000000028000000280000000100000003000000010000000100000036493A5C4543453335335C4943455F446973747269627574696F6E5C6E524632344C3031705F44656D6F5C696E74657272757074732E63000000000C696E74657272757074732E6300000000FFDC7800FFFFFFFF30493A5C4543453335335C4943455F446973747269627574696F6E5C6E524632344C3031705F44656D6F5C6D61696E2E6300000000066D61696E2E6300000000F0A0A100FFFFFFFF36493A5C4543453335335C4943455F446973747269627574696F6E5C6E524632344C3031705F44656D6F5C696E74657272757074732E68000000000C696E74657272757074732E6800000000BCA8E100FFFFFFFF0100000010000000C5D4F200FFDC7800BECEA100F0A0A100BCA8E1009CC1B600F7B88600D9ADC200A5C2D700B3A6BE00EAD6A300F6FA7D00B5E99D005FC3CF00C1838300CACAD500010000000000000002000000F40000006600000080070000CF030000</Data>
+        <Len>497</Len>
+        <Data>01000000040000000100000001000000010000000100000000000000020000000000000001000000010000000000000028000000280000000100000004000000010000000100000036493A5C4543453335335C4943455F446973747269627574696F6E5C6E524632344C3031705F44656D6F5C696E74657272757074732E63000000000C696E74657272757074732E6300000000FFDC7800FFFFFFFF30493A5C4543453335335C4943455F446973747269627574696F6E5C6E524632344C3031705F44656D6F5C6D61696E2E6300000000066D61696E2E6300000000F0A0A100FFFFFFFF36493A5C4543453335335C4943455F446973747269627574696F6E5C6E524632344C3031705F44656D6F5C696E74657272757074732E68000000000C696E74657272757074732E6800000000BCA8E100FFFFFFFF39493A5C4543453335335C4943455F446973747269627574696F6E5C7065726970686572616C735C696E636C7564655C776972656C6573732E68000000000A776972656C6573732E6800000000F0A0A100FFFFFFFF0100000010000000C5D4F200FFDC7800BECEA100F0A0A100BCA8E1009CC1B600F7B88600D9ADC200A5C2D700B3A6BE00EAD6A300F6FA7D00B5E99D005FC3CF00C1838300CACAD500010000000000000002000000F40000006600000080070000CF030000</Data>
       </MDITabState>
     </MDIClientArea>
     <ViewEx>
@@ -516,7 +516,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1136,7 +1136,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1156,7 +1156,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1216,7 +1216,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1236,7 +1236,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -1815,9 +1815,9 @@
       <ActiveTab>1</ActiveTab>
       <Doc>
         <Name>.\interrupts.c</Name>
-        <ColumnNumber>0</ColumnNumber>
+        <ColumnNumber>23</ColumnNumber>
         <TopLine>1</TopLine>
-        <CurrentLine>3</CurrentLine>
+        <CurrentLine>17</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
@@ -1825,7 +1825,7 @@
       <Doc>
         <Name>.\main.c</Name>
         <ColumnNumber>21</ColumnNumber>
-        <TopLine>13</TopLine>
+        <TopLine>1</TopLine>
         <CurrentLine>29</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
@@ -1836,6 +1836,15 @@
         <ColumnNumber>0</ColumnNumber>
         <TopLine>1</TopLine>
         <CurrentLine>17</CurrentLine>
+        <Folding>1</Folding>
+        <ContractedFolders></ContractedFolders>
+        <PaneID>0</PaneID>
+      </Doc>
+      <Doc>
+        <Name>..\peripherals\include\wireless.h</Name>
+        <ColumnNumber>12</ColumnNumber>
+        <TopLine>202</TopLine>
+        <CurrentLine>183</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
