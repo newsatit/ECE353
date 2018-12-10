@@ -48,4 +48,11 @@ extern const uint8_t paddle2Bitmaps[];
 extern const uint8_t paddle2WidthPixels;
 extern const uint8_t paddle2HeightPixels;
 
+// Bitmap info for border
+extern const uint8_t borderBitmaps[];
+extern const uint8_t borderWidthPixels;
+extern const uint8_t borderHeightPixels;
+
+extern const uint8_t start[4][26];
+
 #endif

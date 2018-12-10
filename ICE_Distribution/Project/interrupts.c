@@ -28,6 +28,7 @@ void SysTick_Handler(void)
 	{
 			AlertOneSec = true;
 			count = 0;
+		printf("Systic");
 	}
 	else
 	{
@@ -57,6 +58,8 @@ void TIMER1A_Handler(void)
 		//set gp timer to timer2 base
 		gp_timer = (TIMER0_Type *)TIMER1_BASE;
 		//printf("timer1\n");
+	
+		AlertOneSec = true;
 		//clear interupt
 		gp_timer -> ICR |= 0x00000001;
 }

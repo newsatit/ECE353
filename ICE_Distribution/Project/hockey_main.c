@@ -4,7 +4,11 @@
 
 #define LCD_WIDTH 240
 #define LCD_HEIGHT 320
-#define WORD_START 80
+#define WORD_START 170
+#define	COLOR_START 80
+#define BORDER_HEIGHT 10
+#define START_WIDTH 85
+#define START_HEIGHT 160
 
 /******************************************************************************
  * Global Variables
@@ -35,6 +39,8 @@ volatile int32_t PUCK_DX = 1;
 volatile int32_t PUCK_DY = 1;
 
 static const Direction  MOV_DIR[] = {DIR_LEFT, DIR_RIGHT};
+
+uint32_t draw_color;
 
 
 
@@ -138,7 +144,14 @@ void debounce_wait(void)
   }
 }
 void start_screen(){
-	lcd_draw_image(LCD_WIDTH/2,puckWidthPixels,LCD_HEIGHT/2,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	uint16_t x_touch = 0;
+	uint16_t y_touch = 0;
+	int a;
+	lcd_draw_image(START_WIDTH,15,START_HEIGHT,13,start[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(START_WIDTH+16,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(START_WIDTH+32,15,START_HEIGHT,13,start[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(START_WIDTH+48,15,START_HEIGHT,13,start[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(START_WIDTH+64,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);		
 	while(!touch_start){
 			if(!ft6x06_read_td_status()){
 				touch_start = true;
@@ -146,45 +159,83 @@ void start_screen(){
 	}
 	lcd_clear_screen(LCD_COLOR_BLACK);
 	//print select color
-	lcd_draw_image(WORD_START,6,LCD_HEIGHT/2,7,letter_S,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+7,6,LCD_HEIGHT/2,7,letter_e,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+14,6,LCD_HEIGHT/2,7,letter_l,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+21,6,LCD_HEIGHT/2,7,letter_e,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+28,6,LCD_HEIGHT/2,7,letter_c,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+35,6,LCD_HEIGHT/2,7,letter_t,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+49,6,LCD_HEIGHT/2,7,letter_c,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+56,6,LCD_HEIGHT/2,7,letter_o,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+63,6,LCD_HEIGHT/2,7,letter_l,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+70,6,LCD_HEIGHT/2,7,letter_o,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+77,6,LCD_HEIGHT/2,7,letter_r,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START,6,LCD_HEIGHT/2,7,letter_S,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+7,6,LCD_HEIGHT/2,7,letter_e,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+14,6,LCD_HEIGHT/2,7,letter_l,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+21,6,LCD_HEIGHT/2,7,letter_e,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+28,6,LCD_HEIGHT/2,7,letter_c,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+35,6,LCD_HEIGHT/2,7,letter_t,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+49,6,LCD_HEIGHT/2,7,letter_c,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+56,6,LCD_HEIGHT/2,7,letter_o,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+63,6,LCD_HEIGHT/2,7,letter_l,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+70,6,LCD_HEIGHT/2,7,letter_o,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+77,6,LCD_HEIGHT/2,7,letter_r,LCD_COLOR_RED,LCD_COLOR_BLACK);
 	//print four colors
 	lcd_draw_image(60,colorboxWidthPixels,80,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_BLUE,LCD_COLOR_BLACK);
 	lcd_draw_image(180,colorboxWidthPixels,80,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(60,colorboxWidthPixels,240,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_GREEN,LCD_COLOR_BLACK);
 	lcd_draw_image(180,colorboxWidthPixels,240,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_YELLOW,LCD_COLOR_BLACK);
+	for(a = 0; a < 1000000; a = a+1){}
 	while(!color_selected){
-			
-		//wait for color selection
-		//once color has been selected 
+			if(!ft6x06_read_td_status()){
+				color_selected = true;
+				x_touch = ft6x06_read_x();
+				y_touch = ft6x06_read_x();
+				if(x_touch >= LCD_WIDTH/2){
+					if(y_touch >= LCD_HEIGHT/2){
+						draw_color = LCD_COLOR_YELLOW;
+					}else{
+						draw_color = LCD_COLOR_RED;
+					}
+				}else{
+					if(y_touch < LCD_HEIGHT/2){
+						draw_color = LCD_COLOR_BLUE;
+					}else{
+						draw_color = LCD_COLOR_GREEN;
+					}
+				}
+			}
 	}
 			//transmit that player is ready
 			//set player1_ready to true
-	while(!player2_ready){		
-		//wait for other player to be ready
-	}
+//	while(!player2_ready){		
+//		//wait for other player to be ready
+//	}
 	
 }
-void game_timer(){
-	uint16_t game_timer = 60;
-	lcd_draw_image(WORD_START,6,LCD_HEIGHT/2,7,letter_T,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+7,6,LCD_HEIGHT/2,7,letter_I,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+14,6,LCD_HEIGHT/2,7,letter_M,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+21,6,LCD_HEIGHT/2,7,letter_E,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+28,6,LCD_HEIGHT/2,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);
-//while(1){	
-	lcd_draw_image(WORD_START+35,7,LCD_HEIGHT/2,7,numbers[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+void draw_timer(uint16_t time_value){
+	uint16_t last_digit = 0;
+	uint16_t first_digit = 0;
+	//uint16_t game_timer = 75;
 	
-//}
+	//draw TIMER:
+	lcd_draw_image(WORD_START,6,4,7,letter_T,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+7,6,4,7,letter_I,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+14,6,4,7,letter_M,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+21,6,4,7,letter_E,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+28,6,4,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);	
+	
+	if(time_value >= 60){
+		last_digit = (time_value-60) %10;
+		first_digit = (time_value-60) / 10;
+		lcd_draw_image(WORD_START+35,7,4,7,numbers[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+43,6,4,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+50,7,4,7,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+57,7,4,7,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	}else{
+		last_digit = time_value %10;
+		first_digit = time_value / 10;
+		lcd_draw_image(WORD_START+35,7,4,7,numbers[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+43,6,4,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+50,7,4,7,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+57,7,4,7,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);	
+	}
+//	if(AlertOneSec){
+//		game_timer = game_timer - 1;
+//		//printf("time:%d\n\r",game_timer);
+//		AlertOneSec = false;
+//	}
+
 
 	
 }
@@ -276,6 +327,7 @@ void hockey_main(){
 	uint8_t push_val;
 	uint8_t touch_event;
 	int16_t accel;
+	uint16_t game_timer;
 	uint32_t i;
 	bool pressed = false;
 	int16_t x,y,z;
@@ -286,6 +338,8 @@ void hockey_main(){
   uint32_t data;
   bool validate;	 
 	i = 0;
+	
+	game_timer = 60;
 	
 	printf("========hockey main===============\n");
 	//lp_io_init();
@@ -380,23 +434,29 @@ void hockey_main(){
 
 //	}		
 				//DisableInterrupts();
-				PADDLE2_X_COORD = 120;
-				PADDLE2_Y_COORD = paddleHeightPixels/2 + PADDLE_PADDING;
-				PADDLE_X_COORD = 120;
-				PADDLE_Y_COORD = 319 - paddleHeightPixels/2 - PADDLE_PADDING;
-				
-				lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
-				lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
-				lcd_draw_image(PADDLE2_X_COORD,paddleWidthPixels,PADDLE2_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
-				
+
 				//EnableInterrupts();
 				//spi_select(NORDIC);
-	while(1){
+
+			start_screen();
+			lcd_clear_screen(LCD_COLOR_BLACK);
+			draw_timer(game_timer);
+			lcd_draw_image(LCD_WIDTH/2,borderWidthPixels,BORDER_HEIGHT,borderHeightPixels,borderBitmaps,draw_color,LCD_COLOR_BLACK);
+			PADDLE2_X_COORD = 120;
+			PADDLE2_Y_COORD = paddleHeightPixels/2 + PADDLE_PADDING;
+			PADDLE_X_COORD = 120;
+			PADDLE_Y_COORD = 319 - paddleHeightPixels/2 - PADDLE_PADDING;
 			
-			if(get_x_data){
-				update_paddle();
-			if(!scored)
-				update_puck();
+			lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+			lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+			lcd_draw_image(PADDLE2_X_COORD,paddleWidthPixels,PADDLE2_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				
+			while(game_timer != 0){
+				spi_select(MODULE_1);
+				if(get_x_data){
+					update_paddle();
+					if(!scored)
+					update_puck();
 			//send data
 //				if(SEND_FIRST){
 //						//spi_select(NORDIC);
@@ -448,7 +508,7 @@ void hockey_main(){
 //						}
 //				}
 					i++;
-			}
+				}
 			if(move_paddle){
 				DisableInterrupts();
 				lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
@@ -461,6 +521,19 @@ void hockey_main(){
 					lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
 					move_puck = false;
 					EnableInterrupts();						
+				}
+			if(AlertOneSec){
+				game_timer = game_timer - 1;
+				draw_timer(game_timer);
+				AlertOneSec = false;
+			}
+			if(button_pushed) {
+				button_pushed = false;
+				if(push_buttons == 247){
+					MCP23017_write_leds(0x08);
+				}
+				printf("%d\n", push_buttons);
+				EnableInterrupts();
 				}
 			}
 		}
