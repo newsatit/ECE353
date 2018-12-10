@@ -48,5 +48,7 @@ void EnableInterrupts(void)
 int main(void)
 {
 	initializeBoard();
+	//start_screen();
 	hockey_main();
+	//game_timer();
 };

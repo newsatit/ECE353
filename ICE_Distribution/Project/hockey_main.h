@@ -20,13 +20,24 @@
 #include "spi_select.h"
 #include "interrupts.h"
 
+#include "images.h"
+
 #define ADDR_START    256
 #define NUM_BYTES      20
 
 extern volatile uint8_t push_buttons;
 extern volatile bool button_pushed;
-extern volatile uint16_t x_data;
+extern volatile int16_t x_data;
 
 void hockey_main();
+
+void start_screen();
+
+void game_timer();
+
+typedef enum{
+  DIR_LEFT,
+  DIR_RIGHT,
+} Direction;
 
 #endif
