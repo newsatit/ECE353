@@ -146,6 +146,7 @@ void debounce_wait(void)
 void start_screen(){
 	uint16_t x_touch = 0;
 	uint16_t y_touch = 0;
+	uint8_t touch_event = 0;
 	int a;
 	lcd_draw_image(START_WIDTH,15,START_HEIGHT,13,start[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(START_WIDTH+16,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);
@@ -176,11 +177,14 @@ void start_screen(){
 	lcd_draw_image(60,colorboxWidthPixels,240,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_GREEN,LCD_COLOR_BLACK);
 	lcd_draw_image(180,colorboxWidthPixels,240,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_YELLOW,LCD_COLOR_BLACK);
 	for(a = 0; a < 1000000; a = a+1){}
-	while(!color_selected){
-			if(!ft6x06_read_td_status()){
+	while(!color_selected){ //!color_selected
+		touch_event = ft6x06_read_td_status();
+		printf("touch event: %d\n", touch_event);
+			if(touch_event > 0){
 				color_selected = true;
 				x_touch = ft6x06_read_x();
 				y_touch = ft6x06_read_x();
+				printf("x=%d, y=%d\n", x_touch, y_touch);
 				if(x_touch >= LCD_WIDTH/2){
 					if(y_touch >= LCD_HEIGHT/2){
 						draw_color = LCD_COLOR_YELLOW;
