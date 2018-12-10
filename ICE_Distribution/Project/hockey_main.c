@@ -21,14 +21,21 @@ bool player2_ready=false;
 bool color_selected = false;
 bool touch_start = false;
 bool move_paddle = false;
+bool move_puck = false;
+bool scored = false;
 
-volatile uint32_t PADDLE_X_COORD = 120;
-volatile uint32_t PADDLE_Y_COORD = 300;
-
-volatile uint32_t PADDLE2_X_COORD = 120;
-volatile uint32_t PADDLE2_Y_COORD = 20;
+volatile uint32_t PADDLE_X_COORD;
+volatile uint32_t PADDLE_Y_COORD;
+volatile uint32_t PADDLE2_X_COORD;
+volatile uint32_t PADDLE2_Y_COORD;
+volatile uint32_t PADDLE_PADDING = 20;
+volatile int32_t PUCK_X_COORD = 120;
+volatile int32_t PUCK_Y_COORD = 100;
+volatile int32_t PUCK_DX = 1;
+volatile int32_t PUCK_DY = 1;
 
 static const Direction  MOV_DIR[] = {DIR_LEFT, DIR_RIGHT};
+
 
 
 
@@ -198,6 +205,69 @@ void move_image(
 			break;
 	}
 }
+
+void update_puck(){
+	int32_t diff;
+	move_puck = true;
+	if(PUCK_Y_COORD + puckHeightPixels/2 == LCD_HEIGHT - 1){
+		scored = true;
+		lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_BLACK,LCD_COLOR_BLACK);
+	} else if(PUCK_Y_COORD  - puckHeightPixels/2 == 0){
+		scored = true;
+		lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_BLACK,LCD_COLOR_BLACK);
+	}else if(PUCK_X_COORD - puckWidthPixels/2 == 0 || 
+		(PUCK_X_COORD - puckWidthPixels/2 == PADDLE_X_COORD + paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
+		// left or right of paddle
+		if(PUCK_DX < 0) {
+			PUCK_DX = -PUCK_DX;
+		}
+	} else if(PUCK_X_COORD + puckWidthPixels/2 == LCD_WIDTH - 1 ||
+			(PUCK_X_COORD + puckWidthPixels/2 == PADDLE_X_COORD - paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
+		// right or left of paddle
+		if(PUCK_DX > 0) {
+			PUCK_DX = -PUCK_DX;
+		}
+	} else if(PUCK_Y_COORD + puckHeightPixels/2 + paddleHeightPixels + PADDLE_PADDING == LCD_HEIGHT - 1){
+		// top of the paddle
+		if(PUCK_DY > 0) {
+			if(PUCK_X_COORD + puckWidthPixels/2 >= (PADDLE_X_COORD - paddleWidthPixels/2) && PUCK_X_COORD - puckWidthPixels/2 <= (PADDLE_X_COORD + paddleWidthPixels/2)) {
+				diff = PUCK_X_COORD - PADDLE_X_COORD;
+				if(diff > paddleWidthPixels/4) {
+					// bounce to right
+					PUCK_DX = 1;
+				} else if( diff < -(int32_t)paddleWidthPixels/4 ) {
+					// bounce to left
+					PUCK_DX = -1;
+				} else {
+					// bounce to center
+					PUCK_DX = 0;
+				}
+				PUCK_DY = -PUCK_DY;	
+			} 
+		}
+	} else if(PUCK_Y_COORD - puckHeightPixels/2 == 0) {
+		// top
+		if(PUCK_DY < 0) {
+			PUCK_DY = -PUCK_DY;
+		}
+	}
+	PUCK_X_COORD += PUCK_DX;
+	PUCK_Y_COORD += PUCK_DY;
+}
+
+void update_paddle(){
+		spi_select(MODULE_1);
+		x_data = accel_read_x();	
+		if(x_data > 3000){
+			if(PADDLE_X_COORD - paddleWidthPixels/2 > 0)
+				move_image(DIR_LEFT,&PADDLE_X_COORD,&PADDLE_Y_COORD);	
+		}else if(x_data < -3000){
+			if(PADDLE_X_COORD + paddleWidthPixels/2 < LCD_WIDTH - 1)
+				move_image(DIR_RIGHT,&PADDLE_X_COORD,&PADDLE_Y_COORD);	
+		}
+		move_paddle = true;
+}
+
 void hockey_main(){
 	
 	uint16_t addr;
@@ -310,19 +380,23 @@ void hockey_main(){
 
 //	}		
 				//DisableInterrupts();
-				//lcd_draw_image(PADDLE_X_COORD,puckWidthPixels,PADDLE_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				PADDLE2_X_COORD = 120;
+				PADDLE2_Y_COORD = paddleHeightPixels/2 + PADDLE_PADDING;
+				PADDLE_X_COORD = 120;
+				PADDLE_Y_COORD = 319 - paddleHeightPixels/2 - PADDLE_PADDING;
+				
+				lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				lcd_draw_image(PADDLE2_X_COORD,paddleWidthPixels,PADDLE2_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				
 				//EnableInterrupts();
 				//spi_select(NORDIC);
-while(1){
+	while(1){
 			
 			if(get_x_data){
-			spi_select(MODULE_1);
-			x_data = accel_read_x();		
-				if(x_data > 3000){
-					move_image(DIR_LEFT,&PADDLE_X_COORD,&PADDLE_Y_COORD);	
-				}else if(x_data < -3000){
-					move_image(DIR_RIGHT,&PADDLE_X_COORD,&PADDLE_Y_COORD);	
-				}
+				update_paddle();
+			if(!scored)
+				update_puck();
 			//send data
 //				if(SEND_FIRST){
 //						//spi_select(NORDIC);
@@ -377,9 +451,17 @@ while(1){
 			}
 			if(move_paddle){
 				DisableInterrupts();
-				lcd_draw_image(PADDLE_X_COORD,paddle2WidthPixels,PADDLE_Y_COORD,paddle2HeightPixels,paddle2Bitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
 				move_paddle = false;
 				EnableInterrupts();			
+			}
+			if(move_puck){
+				if(!scored) {
+					DisableInterrupts();
+					lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+					move_puck = false;
+					EnableInterrupts();						
 				}
 			}
 		}
+}

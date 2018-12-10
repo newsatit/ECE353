@@ -37,7 +37,10 @@ void game_timer();
 
 typedef enum{
   DIR_LEFT,
-  DIR_RIGHT,
+  DIR_RIGHT
 } Direction;
+
+
+
 
 #endif
