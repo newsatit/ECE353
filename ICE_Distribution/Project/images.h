@@ -53,4 +53,6 @@ extern const uint8_t borderBitmaps[];
 extern const uint8_t borderWidthPixels;
 extern const uint8_t borderHeightPixels;
 
+extern const uint8_t start[4][26];
+
 #endif

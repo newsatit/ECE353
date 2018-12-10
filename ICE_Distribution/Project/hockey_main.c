@@ -7,6 +7,8 @@
 #define WORD_START 170
 #define	COLOR_START 80
 #define BORDER_HEIGHT 10
+#define START_WIDTH 85
+#define START_HEIGHT 160
 
 /******************************************************************************
  * Global Variables
@@ -31,6 +33,8 @@ volatile uint32_t PADDLE2_X_COORD = 120;
 volatile uint32_t PADDLE2_Y_COORD = 20;
 
 static const Direction  MOV_DIR[] = {DIR_LEFT, DIR_RIGHT};
+
+uint32_t draw_color;
 
 
 
@@ -133,7 +137,14 @@ void debounce_wait(void)
   }
 }
 void start_screen(){
-	lcd_draw_image(LCD_WIDTH/2,puckWidthPixels,LCD_HEIGHT/2,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	uint16_t x_touch = 0;
+	uint16_t y_touch = 0;
+	int a;
+	lcd_draw_image(START_WIDTH,15,START_HEIGHT,13,start[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(START_WIDTH+16,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(START_WIDTH+32,15,START_HEIGHT,13,start[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(START_WIDTH+48,15,START_HEIGHT,13,start[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(START_WIDTH+64,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);		
 	while(!touch_start){
 			if(!ft6x06_read_td_status()){
 				touch_start = true;
@@ -141,32 +152,48 @@ void start_screen(){
 	}
 	lcd_clear_screen(LCD_COLOR_BLACK);
 	//print select color
-	lcd_draw_image(WORD_START,6,LCD_HEIGHT/2,7,letter_S,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+7,6,LCD_HEIGHT/2,7,letter_e,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+14,6,LCD_HEIGHT/2,7,letter_l,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+21,6,LCD_HEIGHT/2,7,letter_e,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+28,6,LCD_HEIGHT/2,7,letter_c,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+35,6,LCD_HEIGHT/2,7,letter_t,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+49,6,LCD_HEIGHT/2,7,letter_c,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+56,6,LCD_HEIGHT/2,7,letter_o,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+63,6,LCD_HEIGHT/2,7,letter_l,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+70,6,LCD_HEIGHT/2,7,letter_o,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+77,6,LCD_HEIGHT/2,7,letter_r,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START,6,LCD_HEIGHT/2,7,letter_S,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+7,6,LCD_HEIGHT/2,7,letter_e,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+14,6,LCD_HEIGHT/2,7,letter_l,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+21,6,LCD_HEIGHT/2,7,letter_e,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+28,6,LCD_HEIGHT/2,7,letter_c,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+35,6,LCD_HEIGHT/2,7,letter_t,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+49,6,LCD_HEIGHT/2,7,letter_c,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+56,6,LCD_HEIGHT/2,7,letter_o,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+63,6,LCD_HEIGHT/2,7,letter_l,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+70,6,LCD_HEIGHT/2,7,letter_o,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(COLOR_START+77,6,LCD_HEIGHT/2,7,letter_r,LCD_COLOR_RED,LCD_COLOR_BLACK);
 	//print four colors
 	lcd_draw_image(60,colorboxWidthPixels,80,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_BLUE,LCD_COLOR_BLACK);
 	lcd_draw_image(180,colorboxWidthPixels,80,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(60,colorboxWidthPixels,240,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_GREEN,LCD_COLOR_BLACK);
 	lcd_draw_image(180,colorboxWidthPixels,240,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_YELLOW,LCD_COLOR_BLACK);
+	for(a = 0; a < 1000000; a = a+1){}
 	while(!color_selected){
-			
-		//wait for color selection
-		//once color has been selected 
+			if(!ft6x06_read_td_status()){
+				color_selected = true;
+				x_touch = ft6x06_read_x();
+				y_touch = ft6x06_read_x();
+				if(x_touch >= LCD_WIDTH/2){
+					if(y_touch >= LCD_HEIGHT/2){
+						draw_color = LCD_COLOR_YELLOW;
+					}else{
+						draw_color = LCD_COLOR_RED;
+					}
+				}else{
+					if(y_touch < LCD_HEIGHT/2){
+						draw_color = LCD_COLOR_BLUE;
+					}else{
+						draw_color = LCD_COLOR_GREEN;
+					}
+				}
+			}
 	}
 			//transmit that player is ready
 			//set player1_ready to true
-	while(!player2_ready){		
-		//wait for other player to be ready
-	}
+//	while(!player2_ready){		
+//		//wait for other player to be ready
+//	}
 	
 }
 void draw_timer(uint16_t time_value){
@@ -242,7 +269,7 @@ void hockey_main(){
   bool validate;	 
 	i = 0;
 	
-	game_timer = 10;
+	game_timer = 60;
 	
 	printf("========hockey main===============\n");
 	//lp_io_init();
@@ -340,8 +367,11 @@ void hockey_main(){
 				//lcd_draw_image(PADDLE_X_COORD,puckWidthPixels,PADDLE_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
 				//EnableInterrupts();
 				//spi_select(NORDIC);
+				start_screen();
+				lcd_clear_screen(LCD_COLOR_BLACK);
 				draw_timer(game_timer);
-				lcd_draw_image(LCD_WIDTH/2,borderWidthPixels,BORDER_HEIGHT,borderHeightPixels,borderBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				lcd_draw_image(LCD_WIDTH/2,borderWidthPixels,BORDER_HEIGHT,borderHeightPixels,borderBitmaps,draw_color,LCD_COLOR_BLACK);
+				lcd_draw_image(PADDLE_X_COORD,paddle2WidthPixels,PADDLE_Y_COORD,paddle2HeightPixels,paddle2Bitmaps,draw_color,LCD_COLOR_BLACK);
 while(game_timer != 0){
 			
 			if(get_x_data){
@@ -406,7 +436,7 @@ while(game_timer != 0){
 			}
 			if(move_paddle){
 				DisableInterrupts();
-				lcd_draw_image(PADDLE_X_COORD,paddle2WidthPixels,PADDLE_Y_COORD,paddle2HeightPixels,paddle2Bitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				lcd_draw_image(PADDLE_X_COORD,paddle2WidthPixels,PADDLE_Y_COORD,paddle2HeightPixels,paddle2Bitmaps,draw_color,LCD_COLOR_BLACK);
 				move_paddle = false;
 				EnableInterrupts();			
 				}
@@ -415,5 +445,13 @@ while(game_timer != 0){
 				draw_timer(game_timer);
 				AlertOneSec = false;
 				}
+			if(button_pushed) {
+			button_pushed = false;
+			if(push_buttons == 247){
+				MCP23017_write_leds(0x08);
+			}
+			printf("%d\n", push_buttons);
+			EnableInterrupts();
+			}
 			}
 		}
