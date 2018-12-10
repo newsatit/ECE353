@@ -5,6 +5,7 @@
 ".\obj\pc_buffer.o"
 ".\obj\spi.o"
 ".\obj\uart.o"
+".\obj\timers.o"
 ".\ece353_nrf24l01p.lib"
 ".\obj\serial_debug.o"
 ".\obj\spi_select.o"

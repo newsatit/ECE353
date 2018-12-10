@@ -32,5 +32,6 @@
 #include "serial_debug.h"
 #include "ft6x06.h"
 #include "timers.h"
+#include "lcd.h"
 
 #endif

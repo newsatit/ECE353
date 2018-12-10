@@ -60,6 +60,9 @@ void initializeBoard(void)
   DisableInterrupts();
   gp_timer_config_32(TIMER0_BASE, TIMER_TAMR_TAMR_1_SHOT, false, false);
   init_serial_debug(true, true);
+//	lcd_config_gpio();
+//  lcd_config_screen();
+//  lcd_clear_screen(LCD_COLOR_BLACK);
   ft6x06_init();
   EnableInterrupts();
 }

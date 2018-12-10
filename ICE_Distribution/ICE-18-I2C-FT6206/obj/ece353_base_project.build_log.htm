@@ -21,25 +21,25 @@ Target DLL:      lmidk-agdi.dll V???
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-I:\ECE 353\Final\ECE353\ICE_Distribution\ICE-18-I2C-FT6206\ICE-I2C-FT6206.uvprojx
+I:\ECE353\ICE_Distribution\ICE-18-I2C-FT6206\ICE-I2C-FT6206.uvprojx
 Project File Date:  12/10/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'ICE-I2C-FT6206'
-compiling i2c.c...
-compiling main.c...
-main.c(75): warning:  #177-D: variable "td_status"  was declared but never referenced
-    i2c_status_t td_status;
-main.c(76): warning:  #177-D: variable "x_status"  was declared but never referenced
-    i2c_status_t x_status;
-main.c(77): warning:  #177-D: variable "y_status"  was declared but never referenced
-    i2c_status_t y_status;
-main.c: 3 warnings, 0 errors
 compiling gpio_port.c...
 ..\drivers\c\gpio_port.c(82): warning:  #188-D: enumerated type mixed with another type
          return 0;
 ..\drivers\c\gpio_port.c: 1 warning, 0 errors
+compiling i2c.c...
+compiling main.c...
+main.c(78): warning:  #177-D: variable "td_status"  was declared but never referenced
+    i2c_status_t td_status;
+main.c(79): warning:  #177-D: variable "x_status"  was declared but never referenced
+    i2c_status_t x_status;
+main.c(80): warning:  #177-D: variable "y_status"  was declared but never referenced
+    i2c_status_t y_status;
+main.c: 3 warnings, 0 errors
 compiling pc_buffer.c...
 compiling uart.c...
 ..\drivers\c\uart.c(184): warning:  #188-D: enumerated type mixed with another type
@@ -54,6 +54,7 @@ compiling serial_debug.c...
 ..\peripherals\c\serial_debug.c: 2 warnings, 0 errors
 assembling startup_TM4C123.s...
 compiling ft6x06.c...
+compiling lcd.c...
 compiling system_TM4C123.c...
 linking...
 Program Size: Code=16200 RO-data=744 RW-data=952 ZI-data=8224  
@@ -82,11 +83,11 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:1.0.1
       Include file:  Device\Include\TM4C123\TM4C123.h
-      Source file:   Device\Source\system_TM4C123.c
       Source file:   Device\Source\ARM\startup_TM4C123.s
+      Source file:   Device\Source\system_TM4C123.c
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:11
+Build Time Elapsed:  00:00:07
 </pre>
 </body>
 </html>

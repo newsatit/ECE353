@@ -26,7 +26,7 @@
 //*****************************************************************************
 #include "main.h"
 
-#define TX_MODE  true
+#define TX_MODE  false
 
 /******************************************************************************
  * Global Variables
@@ -64,6 +64,7 @@ void initializeBoard(void)
 {
   DisableInterrupts();
   init_serial_debug(false, false);
+	gp_timer_config_32(TIMER0_BASE, TIMER_TAMR_TAMR_1_SHOT, false, false);
   spi_select_init();
   SysTick_Config(10000);
   EnableInterrupts();
@@ -161,7 +162,7 @@ main(void)
 					}else{
 						spi_select(NORDIC);
 						//DisableInterrupts();
-						status =  wireless_get_32(false, &data);
+						status =  wireless_get_32(true, &data);
 						//EnableInterrupts();
 						if(status == NRF24L01_RX_SUCCESS)
 						{
@@ -186,6 +187,8 @@ main(void)
 						i++;
 					}
 				AlertOneSec = false;
+				gp_timer_wait(TIMER0_BASE, 5000000);
 			}
+			
     }
 }
