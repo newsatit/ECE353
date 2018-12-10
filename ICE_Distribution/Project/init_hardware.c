@@ -3,7 +3,7 @@
 #define Timer1_ticks 250000000
 #define Timer4_ticks 100000
 
-const bool SEND_FIRST = true;
+const bool SEND_FIRST = false;
 
 /******************************************************************************
  * Global Variables

@@ -110,7 +110,7 @@ main(void)
   while(1)
   {
 
-      if(TX_MODE && AlertOneSec)
+     /* if(TX_MODE && AlertOneSec)
       {
           printf("Sending: %d\n\r",i);
           status = wireless_send_32(false, false, i);
@@ -130,6 +130,62 @@ main(void)
         }
         
         AlertOneSec = false;
-      }
+      }*/
+			if(AlertOneSec) {
+				if(TX_MODE){
+						
+						printf("Sent: %d\n\r",i);
+						//DisableInterrupts();
+						//do{
+						spi_select(NORDIC);
+							status = wireless_send_32(true, true, i);
+						//}while(status == NRF24L01_TX_PCK_LOST);
+						//EnableInterrupts();
+						if(status != NRF24L01_TX_SUCCESS)
+						{
+							printf("Error Message: %s\n\r",wireless_error_messages[status]);
+						}else if(status == NRF24L01_TX_SUCCESS){
+							printf("Sent message\n");
+						}
+						spi_select(NORDIC);
+						//DisableInterrupts();
+						status =  wireless_get_32(true, &data);
+						//EnableInterrupts();
+//						if(status == NRF24L01_RX_SUCCESS)
+//							{
+//								printf("Received: %d\n\r", PADDLE2_X_COORD);
+//							}else{
+//							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
+//						}
+						i++;
+					}else{
+						spi_select(NORDIC);
+						//DisableInterrupts();
+						status =  wireless_get_32(false, &data);
+						//EnableInterrupts();
+						if(status == NRF24L01_RX_SUCCESS)
+						{
+								printf("Received: %d\n\r", data);
+						}else{
+							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
+						}
+							
+						printf("Sent: %d\n\r",i);
+						spi_select(NORDIC);
+						//DisableInterrupts();
+						//do{
+							status = wireless_send_32(true, true, i);
+						//}while(status == NRF24L01_TX_PCK_LOST);
+						//EnableInterrupts();
+						if(status != NRF24L01_TX_SUCCESS)
+						{
+							printf("Error Message: %s\n\r",wireless_error_messages[status]);
+						}else if(status == NRF24L01_TX_SUCCESS){
+							printf("Sent message\n");
+						}
+						i++;
+					}
+				AlertOneSec = false;
+			}
     }
 }

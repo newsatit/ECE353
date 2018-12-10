@@ -442,7 +442,7 @@ void hockey_main(){
 				//EnableInterrupts();
 				//spi_select(NORDIC);
 
-			start_screen();
+			// start_screen();
 			lcd_clear_screen(LCD_COLOR_BLACK);
 			draw_timer(game_timer);
 			lcd_draw_image(LCD_WIDTH/2,borderWidthPixels,BORDER_HEIGHT,borderHeightPixels,borderBitmaps,draw_color,LCD_COLOR_BLACK);
@@ -458,24 +458,22 @@ void hockey_main(){
 			while(game_timer != 0){
 				spi_select(MODULE_1);
 				if(get_x_data){
-					update_paddle();
-					if(!scored)
-					update_puck();
+					get_x_data = false;
 			//send data
 				if(SEND_FIRST){
 						spi_select(NORDIC);
-						//printf("Sent: %d\n\r",i);
+						printf("Sent: %d\n\r",PADDLE_X_COORD);
 						//DisableInterrupts();
 						//do{
 							status = wireless_send_32(true, true, PADDLE_X_COORD);
 						//}while(status == NRF24L01_TX_PCK_LOST);
 						//EnableInterrupts();
-//						if(status != NRF24L01_TX_SUCCESS)
-//						{
-//							printf("Error Message: %s\n\r",wireless_error_messages[status]);
-//						}else if(status == NRF24L01_TX_SUCCESS){
-//							printf("Sent message\n");
-//						}
+						if(status != NRF24L01_TX_SUCCESS)
+						{
+							printf("Error Message: %s\n\r",wireless_error_messages[status]);
+						}else if(status == NRF24L01_TX_SUCCESS){
+							printf("Sent message\n");
+						}
 						spi_select(NORDIC);
 						//DisableInterrupts();
 						status =  wireless_get_32(true, &PADDLE2_X_COORD);
@@ -489,30 +487,34 @@ void hockey_main(){
 					}else{
 						spi_select(NORDIC);
 						//DisableInterrupts();
-						status =  wireless_get_32(true, &PADDLE2_X_COORD);
+						status =  wireless_get_32(false, &PADDLE2_X_COORD);
 						//EnableInterrupts();
-//						if(status == NRF24L01_RX_SUCCESS)
-//						{
-//								printf("Received: %d\n\r", PADDLE2_X_COORD);
-//						}else{
-//							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
-//						}
+						if(status == NRF24L01_RX_SUCCESS)
+						{
+								printf("Received: %d\n\r", PADDLE2_X_COORD);
+						}else{
+							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
+						}
 							spi_select(NORDIC);
-						//printf("Sent: %d\n\r",i);
+						printf("Sent: %d\n\r",PADDLE_X_COORD);
 						//DisableInterrupts();
 						//do{
-							status = wireless_send_32(false, false, i);
+							status = wireless_send_32(false, false, PADDLE_X_COORD);
 						//}while(status == NRF24L01_TX_PCK_LOST);
 						//EnableInterrupts();
-//						if(status != NRF24L01_TX_SUCCESS)
-//						{
-//							printf("Error Message: %s\n\r",wireless_error_messages[status]);
-//						}else if(status == NRF24L01_TX_SUCCESS){
-//							printf("Sent message\n");
-//						}
+						if(status != NRF24L01_TX_SUCCESS)
+						{
+							printf("Error Message: %s\n\r",wireless_error_messages[status]);
+						}else if(status == NRF24L01_TX_SUCCESS){
+							printf("Sent message\n");
+						}
 					}
 					//i++;
+					update_paddle();
+					if(!scored)
+					update_puck();				
 				}
+
 			if(move_paddle){
 				DisableInterrupts();
 				lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
