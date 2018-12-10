@@ -9,6 +9,7 @@
 #define BORDER_HEIGHT 10
 #define START_WIDTH 85
 #define START_HEIGHT 160
+#define TOUCH_MIN 200
 
 /******************************************************************************
  * Global Variables
@@ -147,6 +148,7 @@ void start_screen(){
 	uint16_t x_touch = 0;
 	uint16_t y_touch = 0;
 	uint8_t touch_event = 0;
+	uint8_t touch_counter = 0;
 	int a;
 	lcd_draw_image(START_WIDTH,15,START_HEIGHT,13,start[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(START_WIDTH+16,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);
@@ -154,7 +156,15 @@ void start_screen(){
 	lcd_draw_image(START_WIDTH+48,15,START_HEIGHT,13,start[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(START_WIDTH+64,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);		
 	while(!touch_start){
-			if(!ft6x06_read_td_status()){
+			touch_event = ft6x06_read_td_status();
+			if(touch_event == 1) {
+				touch_counter++;
+			} else {
+				touch_counter = 0;
+			}
+			//printf("touch event: %d\n", touch_event);
+			//printf("x=%d, y=%d\n", x_touch, y_touch);
+			if(touch_counter > TOUCH_MIN){
 				touch_start = true;
 			}
 	}
@@ -179,12 +189,17 @@ void start_screen(){
 	for(a = 0; a < 1000000; a = a+1){}
 	while(!color_selected){ //!color_selected
 		touch_event = ft6x06_read_td_status();
-		printf("touch event: %d\n", touch_event);
-			if(touch_event > 0){
-				color_selected = true;
-				x_touch = ft6x06_read_x();
-				y_touch = ft6x06_read_x();
-				printf("x=%d, y=%d\n", x_touch, y_touch);
+		x_touch = ft6x06_read_x();
+		y_touch = ft6x06_read_x();		
+		if(touch_event == 1) {
+			touch_counter++;
+		} else {
+			touch_counter = 0;
+		}
+		//printf("touch event: %d\n", touch_event);
+		//printf("x=%d, y=%d\n", x_touch, y_touch);
+		if(touch_counter > TOUCH_MIN){
+				//color_selected = true;
 				if(x_touch >= LCD_WIDTH/2){
 					if(y_touch >= LCD_HEIGHT/2){
 						draw_color = LCD_COLOR_YELLOW;
@@ -442,7 +457,7 @@ void hockey_main(){
 				//EnableInterrupts();
 				//spi_select(NORDIC);
 
-			// start_screen();
+			start_screen();
 			lcd_clear_screen(LCD_COLOR_BLACK);
 			draw_timer(game_timer);
 			lcd_draw_image(LCD_WIDTH/2,borderWidthPixels,BORDER_HEIGHT,borderHeightPixels,borderBitmaps,draw_color,LCD_COLOR_BLACK);

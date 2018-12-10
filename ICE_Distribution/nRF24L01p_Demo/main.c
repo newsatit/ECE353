@@ -187,7 +187,7 @@ main(void)
 						i++;
 					}
 				AlertOneSec = false;
-				gp_timer_wait(TIMER0_BASE, 5000000);
+				gp_timer_wait(TIMER0_BASE, 50000000);
 			}
 			
     }
