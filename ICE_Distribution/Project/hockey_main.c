@@ -4,7 +4,9 @@
 
 #define LCD_WIDTH 240
 #define LCD_HEIGHT 320
-#define WORD_START 80
+#define WORD_START 170
+#define	COLOR_START 80
+#define BORDER_HEIGHT 10
 
 /******************************************************************************
  * Global Variables
@@ -167,17 +169,39 @@ void start_screen(){
 	}
 	
 }
-void game_timer(){
-	uint16_t game_timer = 60;
-	lcd_draw_image(WORD_START,6,LCD_HEIGHT/2,7,letter_T,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+7,6,LCD_HEIGHT/2,7,letter_I,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+14,6,LCD_HEIGHT/2,7,letter_M,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+21,6,LCD_HEIGHT/2,7,letter_E,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+28,6,LCD_HEIGHT/2,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);
-//while(1){	
-	lcd_draw_image(WORD_START+35,7,LCD_HEIGHT/2,7,numbers[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+void draw_timer(uint16_t time_value){
+	uint16_t last_digit = 0;
+	uint16_t first_digit = 0;
+	//uint16_t game_timer = 75;
 	
-//}
+	//draw TIMER:
+	lcd_draw_image(WORD_START,6,4,7,letter_T,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+7,6,4,7,letter_I,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+14,6,4,7,letter_M,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+21,6,4,7,letter_E,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+28,6,4,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);	
+	
+	if(time_value >= 60){
+		last_digit = (time_value-60) %10;
+		first_digit = (time_value-60) / 10;
+		lcd_draw_image(WORD_START+35,7,4,7,numbers[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+43,6,4,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+50,7,4,7,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+57,7,4,7,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	}else{
+		last_digit = time_value %10;
+		first_digit = time_value / 10;
+		lcd_draw_image(WORD_START+35,7,4,7,numbers[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+43,6,4,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+50,7,4,7,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+57,7,4,7,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);	
+	}
+//	if(AlertOneSec){
+//		game_timer = game_timer - 1;
+//		//printf("time:%d\n\r",game_timer);
+//		AlertOneSec = false;
+//	}
+
 
 	
 }
@@ -206,6 +230,7 @@ void hockey_main(){
 	uint8_t push_val;
 	uint8_t touch_event;
 	int16_t accel;
+	uint16_t game_timer;
 	uint32_t i;
 	bool pressed = false;
 	int16_t x,y,z;
@@ -216,6 +241,8 @@ void hockey_main(){
   uint32_t data;
   bool validate;	 
 	i = 0;
+	
+	game_timer = 10;
 	
 	printf("========hockey main===============\n");
 	//lp_io_init();
@@ -313,14 +340,16 @@ void hockey_main(){
 				//lcd_draw_image(PADDLE_X_COORD,puckWidthPixels,PADDLE_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
 				//EnableInterrupts();
 				//spi_select(NORDIC);
-while(1){
+				draw_timer(game_timer);
+				lcd_draw_image(LCD_WIDTH/2,borderWidthPixels,BORDER_HEIGHT,borderHeightPixels,borderBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+while(game_timer != 0){
 			
 			if(get_x_data){
 			spi_select(MODULE_1);
 			x_data = accel_read_x();		
-				if(x_data > 3000){
+				if(x_data > 1000){
 					move_image(DIR_LEFT,&PADDLE_X_COORD,&PADDLE_Y_COORD);	
-				}else if(x_data < -3000){
+				}else if(x_data < -1000){
 					move_image(DIR_RIGHT,&PADDLE_X_COORD,&PADDLE_Y_COORD);	
 				}
 			//send data
@@ -380,6 +409,11 @@ while(1){
 				lcd_draw_image(PADDLE_X_COORD,paddle2WidthPixels,PADDLE_Y_COORD,paddle2HeightPixels,paddle2Bitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
 				move_paddle = false;
 				EnableInterrupts();			
+				}
+			if(AlertOneSec){
+				game_timer = game_timer - 1;
+				draw_timer(game_timer);
+				AlertOneSec = false;
 				}
 			}
 		}

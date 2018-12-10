@@ -30,7 +30,7 @@ void init_timer1(void){
 	
 	//set ticks to count down from
 	gp_timer->TAILR &= ~gp_timer->TAILR;
-	gp_timer->TAILR |= Timer1_ticks;
+	gp_timer->TAILR |= Core_frequency;
 	
 	//clear interupts
 	gp_timer->ICR |= TIMER_ICR_TATOCINT;
@@ -96,7 +96,7 @@ void initializeBoard(void)
 	//spi_select_init();
 	//spi_select(NORDIC);
   //wireless_configure_device(myID, remoteID );
-  SysTick_Config(10000);
+  //SysTick_Config(500000);
   eeprom_init();
 	ft6x06_init();	
 	accel_initialize();
