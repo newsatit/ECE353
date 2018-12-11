@@ -50,4 +50,5 @@ int main(void)
 	initializeBoard();
 	//start_screen();
 	hockey_main();
+	//wait_screen();
 };

@@ -41,7 +41,7 @@ extern const uint8_t letter_I[];
 extern const uint8_t letter_M[];
 extern const uint8_t letter_T[];
 
-extern const uint8_t numbers[10][7];
+extern const uint8_t numbers[17][32];
 
 // Bitmap info for paddle2
 extern const uint8_t paddle2Bitmaps[];
@@ -54,5 +54,17 @@ extern const uint8_t borderWidthPixels;
 extern const uint8_t borderHeightPixels;
 
 extern const uint8_t start[4][26];
+
+// Bitmap info for air_hockeypuck3
+extern const uint8_t air_hockeypuckBitmaps[];
+extern const uint8_t air_hockeypuckWidthPixels;
+extern const uint8_t air_hockeypuckHeightPixels;
+
+// Bitmap info for start_screen
+extern const uint8_t start_screenBitmaps[];
+extern const uint8_t start_screenWidthPixels;
+extern const uint8_t start_screenHeightPixels;
+
+extern const uint8_t text14ptBitmaps[28][63];
 
 #endif

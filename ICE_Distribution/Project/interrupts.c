@@ -4,9 +4,13 @@ extern volatile uint8_t push_buttons;
 extern volatile bool button_pushed;
 extern volatile int16_t x_data;
 extern volatile bool get_x_data;
+extern volatile bool draw_puck;
+extern volatile int speed_count;
 
 extern PC_Buffer UART0_Tx_Buffer;
 extern PC_Buffer UART0_Rx_Buffer;
+
+static int count = 0;
 
 
 volatile bool AlertOneSec = false;
@@ -59,7 +63,6 @@ void TIMER1A_Handler(void)
 		gp_timer = (TIMER0_Type *)TIMER1_BASE;
 		//printf("timer1\n");
 	
-		AlertOneSec = true;
 		//clear interupt
 		gp_timer -> ICR |= 0x00000001;
 }
@@ -87,6 +90,19 @@ void TIMER4A_Handler(void)
 
 void TIMER2A_Handler(void)
 {	 
-		//printf("timer2\n");
+		if(count == speed_count){
+				draw_puck = true;
+				count = 0;
+		}else{
+			count++;
+		}
+
 		TIMER2->ICR |= TIMER_ICR_TATOCINT; // Clear Interrupt
+}
+void TIMER3A_Handler(void)
+{	 
+		AlertOneSec = true;
+		// Clear Interrupt
+		TIMER3->ICR |= TIMER_ICR_TATOCINT;
+
 }

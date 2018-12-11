@@ -35,6 +35,8 @@ void start_screen();
 
 void game_timer();
 
+void wait_screen();
+
 typedef enum{
   DIR_LEFT,
   DIR_RIGHT

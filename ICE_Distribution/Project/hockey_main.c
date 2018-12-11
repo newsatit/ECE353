@@ -4,12 +4,20 @@
 
 #define LCD_WIDTH 240
 #define LCD_HEIGHT 320
-#define WORD_START 170
+#define WORD_START 150
+#define TIMER_HEIGHT 10
 #define	COLOR_START 80
-#define BORDER_HEIGHT 10
+#define BORDER_HEIGHT 20
 #define START_WIDTH 85
 #define START_HEIGHT 160
-#define TOUCH_MIN 200
+#define TOUCH_MIN 100
+#define TEN_PT_FONT_WIDTH 15
+#define TEN_PT_FONT_HEIGHT 16
+#define SCORE_X 10
+#define SCORE_Y 10
+#define FT_PT_FONT_WIDTH 21
+#define FT_PT_FONT_HEIGHT 21
+#define WAITING_START 20
 
 /******************************************************************************
  * Global Variables
@@ -21,6 +29,7 @@ volatile bool button_pushed = false;
 volatile int16_t x_data = 0;
 extern const bool SEND_FIRST;
 volatile bool get_x_data;
+volatile bool draw_puck = false;
 bool player1_ready=false;
 bool player2_ready=false;
 bool color_selected = false;
@@ -28,6 +37,8 @@ bool touch_start = false;
 bool move_paddle = false;
 bool move_puck = false;
 bool scored = false;
+
+volatile int speed_count;
 
 volatile uint32_t PADDLE_X_COORD;
 volatile uint32_t PADDLE_Y_COORD;
@@ -150,20 +161,20 @@ void start_screen(){
 	uint8_t touch_event = 0;
 	uint8_t touch_counter = 0;
 	int a;
-	lcd_draw_image(START_WIDTH,15,START_HEIGHT,13,start[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(START_WIDTH+16,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(START_WIDTH+32,15,START_HEIGHT,13,start[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(START_WIDTH+48,15,START_HEIGHT,13,start[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(START_WIDTH+64,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);		
+	//lcd_draw_image(START_WIDTH,15,START_HEIGHT,13,start[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	//lcd_draw_image(START_WIDTH+16,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	//lcd_draw_image(START_WIDTH+32,15,START_HEIGHT,13,start[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	//lcd_draw_image(START_WIDTH+48,15,START_HEIGHT,13,start[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	//lcd_draw_image(START_WIDTH+64,15,START_HEIGHT,13,start[3],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(LCD_WIDTH/2,start_screenWidthPixels,LCD_HEIGHT/2,start_screenHeightPixels,start_screenBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
 	while(!touch_start){
 			touch_event = ft6x06_read_td_status();
-			if(touch_event == 1) {
+			if(touch_event == 1 | touch_event == 2) {
 				touch_counter++;
 			} else {
 				touch_counter = 0;
 			}
-			//printf("touch event: %d\n", touch_event);
-			//printf("x=%d, y=%d\n", x_touch, y_touch);
+			printf("touch event: %d\n", touch_event);
 			if(touch_counter > TOUCH_MIN){
 				touch_start = true;
 			}
@@ -187,19 +198,19 @@ void start_screen(){
 	lcd_draw_image(60,colorboxWidthPixels,240,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_GREEN,LCD_COLOR_BLACK);
 	lcd_draw_image(180,colorboxWidthPixels,240,colorboxHeightPixels,colorboxBitmaps,LCD_COLOR_YELLOW,LCD_COLOR_BLACK);
 	for(a = 0; a < 1000000; a = a+1){}
-	while(!color_selected){ //!color_selected
+	while(!color_selected){
 		touch_event = ft6x06_read_td_status();
 		x_touch = ft6x06_read_x();
-		y_touch = ft6x06_read_x();		
-		if(touch_event == 1) {
+		y_touch = ft6x06_read_y();		
+		if(touch_event == 1 | touch_event == 2) {
 			touch_counter++;
 		} else {
 			touch_counter = 0;
 		}
-		//printf("touch event: %d\n", touch_event);
+		printf("touch event: %d\n", touch_event);
 		//printf("x=%d, y=%d\n", x_touch, y_touch);
 		if(touch_counter > TOUCH_MIN){
-				//color_selected = true;
+				color_selected = true;
 				if(x_touch >= LCD_WIDTH/2){
 					if(y_touch >= LCD_HEIGHT/2){
 						draw_color = LCD_COLOR_YELLOW;
@@ -225,38 +236,43 @@ void start_screen(){
 void draw_timer(uint16_t time_value){
 	uint16_t last_digit = 0;
 	uint16_t first_digit = 0;
-	//uint16_t game_timer = 75;
 	
 	//draw TIMER:
-	lcd_draw_image(WORD_START,6,4,7,letter_T,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+7,6,4,7,letter_I,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+14,6,4,7,letter_M,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+21,6,4,7,letter_E,LCD_COLOR_RED,LCD_COLOR_BLACK);
-	lcd_draw_image(WORD_START+28,6,4,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);	
+	lcd_draw_image(WORD_START,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[14],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+12,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[12],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+22,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[13],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+32,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[11],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WORD_START+42,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[10],LCD_COLOR_RED,LCD_COLOR_BLACK);	
 	
 	if(time_value >= 60){
 		last_digit = (time_value-60) %10;
 		first_digit = (time_value-60) / 10;
-		lcd_draw_image(WORD_START+35,7,4,7,numbers[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
-		lcd_draw_image(WORD_START+43,6,4,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);
-		lcd_draw_image(WORD_START+50,7,4,7,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
-		lcd_draw_image(WORD_START+57,7,4,7,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+52,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+62,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[10],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+72,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+82,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	}else{
 		last_digit = time_value %10;
 		first_digit = time_value / 10;
-		lcd_draw_image(WORD_START+35,7,4,7,numbers[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
-		lcd_draw_image(WORD_START+43,6,4,7,colon,LCD_COLOR_RED,LCD_COLOR_BLACK);
-		lcd_draw_image(WORD_START+50,7,4,7,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
-		lcd_draw_image(WORD_START+57,7,4,7,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);	
+		lcd_draw_image(WORD_START+52,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+62,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[10],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+72,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(WORD_START+82,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);	
 	}
-//	if(AlertOneSec){
-//		game_timer = game_timer - 1;
-//		//printf("time:%d\n\r",game_timer);
-//		AlertOneSec = false;
-//	}
 
 
 	
+}
+void draw_score(uint16_t my_score, uint16_t their_score){
+		lcd_draw_image(SCORE_X,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[13],draw_color,LCD_COLOR_BLACK);
+		lcd_draw_image(SCORE_X+10,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[11],draw_color,LCD_COLOR_BLACK);
+		lcd_draw_image(SCORE_X+20,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[10],draw_color,LCD_COLOR_BLACK);
+		lcd_draw_image(SCORE_X+30,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[my_score],LCD_COLOR_WHITE,LCD_COLOR_BLACK);
+		lcd_draw_image(SCORE_X+45,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[15],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(SCORE_X+57,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[16],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(SCORE_X+67,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[16],LCD_COLOR_RED,LCD_COLOR_BLACK);
+		lcd_draw_image(SCORE_X+77,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[10],LCD_COLOR_RED,LCD_COLOR_BLACK);	
+		lcd_draw_image(SCORE_X+87,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[their_score],LCD_COLOR_WHITE,LCD_COLOR_BLACK);	
 }
 void move_image(
         volatile Direction direction,
@@ -337,7 +353,54 @@ void update_paddle(){
 		}
 		move_paddle = true;
 }
-
+void wait_screen(){
+	int wait_count = 0;
+	int loop_counter = 0;
+	wireless_com_status_t status;
+	bool recieved = false;
+	uint32_t data;
+	
+	lcd_draw_image(WAITING_START,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[24],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WAITING_START+21,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WAITING_START+42,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[10],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WAITING_START+63,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[21],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WAITING_START+85,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[10],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WAITING_START+107,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[15],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(WAITING_START+129,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[8],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	
+	do{
+		//printf("while");
+		spi_select(NORDIC);
+		status = wireless_get_32(false, &data);
+		printf("%s\n\r",wireless_error_messages[status]);
+		if(AlertOneSec){
+			AlertOneSec = false;
+			switch(wait_count){
+				case 0:
+					lcd_draw_image(WAITING_START+151,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[0],LCD_COLOR_BLACK,LCD_COLOR_BLACK);
+					lcd_draw_image(WAITING_START+173,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[0],LCD_COLOR_BLACK,LCD_COLOR_BLACK);
+					lcd_draw_image(WAITING_START+194,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[0],LCD_COLOR_BLACK,LCD_COLOR_BLACK);
+					wait_count++;
+					break;
+				case 1:
+					lcd_draw_image(WAITING_START+151,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+					wait_count++;
+					break;
+				case 2:
+					lcd_draw_image(WAITING_START+151,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+					lcd_draw_image(WAITING_START+173,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+					wait_count++;
+					break;
+				case 3:
+					lcd_draw_image(WAITING_START+151,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+					lcd_draw_image(WAITING_START+173,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+					lcd_draw_image(WAITING_START+194,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
+					wait_count = 0;
+					break;
+			}		
+		}	
+	}while(status != NRF24L01_RX_SUCCESS);
+}
 void hockey_main(){
 	
 	uint16_t addr;
@@ -467,69 +530,74 @@ void hockey_main(){
 			PADDLE_Y_COORD = 319 - paddleHeightPixels/2 - PADDLE_PADDING;
 			
 			lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
-			lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+			lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,draw_color,LCD_COLOR_BLACK);
 			lcd_draw_image(PADDLE2_X_COORD,paddleWidthPixels,PADDLE2_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+			
+			draw_score(2,9);
+			speed_count = 5;
 				
 			while(game_timer != 0){
 				spi_select(MODULE_1);
 				if(get_x_data){
 					get_x_data = false;
 			//send data
-				if(SEND_FIRST){
-						spi_select(NORDIC);
-						printf("Sent: %d\n\r",PADDLE_X_COORD);
-						//DisableInterrupts();
-						//do{
-							status = wireless_send_32(true, true, PADDLE_X_COORD);
-						//}while(status == NRF24L01_TX_PCK_LOST);
-						//EnableInterrupts();
-						if(status != NRF24L01_TX_SUCCESS)
-						{
-							printf("Error Message: %s\n\r",wireless_error_messages[status]);
-						}else if(status == NRF24L01_TX_SUCCESS){
-							printf("Sent message\n");
-						}
-						spi_select(NORDIC);
-						//DisableInterrupts();
-						status =  wireless_get_32(true, &PADDLE2_X_COORD);
-						//EnableInterrupts();
+//				if(SEND_FIRST){
+//						spi_select(NORDIC);
+//						printf("Sent: %d\n\r",PADDLE_X_COORD);
+//						//DisableInterrupts();
+//						//do{
+//							status = wireless_send_32(true, true, PADDLE_X_COORD);
+//						//}while(status == NRF24L01_TX_PCK_LOST);
+//						//EnableInterrupts();
+//						if(status != NRF24L01_TX_SUCCESS)
+//						{
+//							printf("Error Message: %s\n\r",wireless_error_messages[status]);
+//						}else if(status == NRF24L01_TX_SUCCESS){
+//							printf("Sent message\n");
+//						}
+//						spi_select(NORDIC);
+//						//DisableInterrupts();
+//						status =  wireless_get_32(true, &PADDLE2_X_COORD);
+//						//EnableInterrupts();
+////						if(status == NRF24L01_RX_SUCCESS)
+////							{
+////								printf("Received: %d\n\r", PADDLE2_X_COORD);
+////							}else{
+////							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
+////						}
+//					}else{
+//						spi_select(NORDIC);
+//						//DisableInterrupts();
+//						status =  wireless_get_32(false, &PADDLE2_X_COORD);
+//						//EnableInterrupts();
 //						if(status == NRF24L01_RX_SUCCESS)
-//							{
+//						{
 //								printf("Received: %d\n\r", PADDLE2_X_COORD);
-//							}else{
+//						}else{
 //							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
 //						}
-					}else{
-						spi_select(NORDIC);
-						//DisableInterrupts();
-						status =  wireless_get_32(false, &PADDLE2_X_COORD);
-						//EnableInterrupts();
-						if(status == NRF24L01_RX_SUCCESS)
-						{
-								printf("Received: %d\n\r", PADDLE2_X_COORD);
-						}else{
-							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
-						}
-							spi_select(NORDIC);
-						printf("Sent: %d\n\r",PADDLE_X_COORD);
-						//DisableInterrupts();
-						//do{
-							status = wireless_send_32(false, false, PADDLE_X_COORD);
-						//}while(status == NRF24L01_TX_PCK_LOST);
-						//EnableInterrupts();
-						if(status != NRF24L01_TX_SUCCESS)
-						{
-							printf("Error Message: %s\n\r",wireless_error_messages[status]);
-						}else if(status == NRF24L01_TX_SUCCESS){
-							printf("Sent message\n");
-						}
-					}
+//							spi_select(NORDIC);
+//						printf("Sent: %d\n\r",PADDLE_X_COORD);
+//						//DisableInterrupts();
+//						//do{
+//							status = wireless_send_32(false, false, PADDLE_X_COORD);
+//						//}while(status == NRF24L01_TX_PCK_LOST);
+//						//EnableInterrupts();
+//						if(status != NRF24L01_TX_SUCCESS)
+//						{
+//							printf("Error Message: %s\n\r",wireless_error_messages[status]);
+//						}else if(status == NRF24L01_TX_SUCCESS){
+//							printf("Sent message\n");
+//						}
+//					}
 					//i++;
-					update_paddle();
-					if(!scored)
-					update_puck();				
+					update_paddle();				
 				}
-
+			if(draw_puck){
+					if(!scored)
+					update_puck();
+					draw_puck = false;
+			}
 			if(move_paddle){
 				DisableInterrupts();
 				lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
