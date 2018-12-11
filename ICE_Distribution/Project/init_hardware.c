@@ -3,7 +3,7 @@
 #define Timer1_ticks 250000000
 #define Timer4_ticks 100000
 
-const bool SEND_FIRST = false;
+const bool SEND_FIRST = true;
 
 /******************************************************************************
  * Global Variables
@@ -93,10 +93,9 @@ void initializeBoard(void)
 {	
   DisableInterrupts();
   init_serial_debug(true, true);
-	//spi_select_init();
-	//spi_select(NORDIC);
-  //wireless_configure_device(myID, remoteID );
-  //SysTick_Config(500000);
+	spi_select_init();
+	spi_select(NORDIC);
+  wireless_configure_device(myID, remoteID );
   eeprom_init();
 	ft6x06_init();	
 	accel_initialize();

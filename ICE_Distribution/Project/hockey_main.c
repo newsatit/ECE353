@@ -10,6 +10,7 @@
 #define START_WIDTH 85
 #define START_HEIGHT 160
 #define TOUCH_MIN 200
+#define TOP_PADDING 30
 
 /******************************************************************************
  * Global Variables
@@ -21,13 +22,17 @@ volatile bool button_pushed = false;
 volatile int16_t x_data = 0;
 extern const bool SEND_FIRST;
 volatile bool get_x_data;
-bool player1_ready=false;
-bool player2_ready=false;
 bool color_selected = false;
 bool touch_start = false;
 bool move_paddle = false;
 bool move_puck = false;
-bool scored = false;
+bool puck_here = false;
+bool fast = false;
+
+bool scored = 0;
+bool send = false;
+uint16_t my_score = 0;
+uint16_t opponent_score = 0;
 
 volatile uint32_t PADDLE_X_COORD;
 volatile uint32_t PADDLE_Y_COORD;
@@ -35,16 +40,13 @@ volatile uint32_t PADDLE2_X_COORD;
 volatile uint32_t PADDLE2_Y_COORD;
 volatile uint32_t PADDLE_PADDING = 20;
 volatile int32_t PUCK_X_COORD = 120;
-volatile int32_t PUCK_Y_COORD = 100;
+volatile int32_t PUCK_Y_COORD = TOP_PADDING;
 volatile int32_t PUCK_DX = 1;
 volatile int32_t PUCK_DY = 1;
 
 static const Direction  MOV_DIR[] = {DIR_LEFT, DIR_RIGHT};
 
 uint32_t draw_color;
-
-
-
 
 typedef enum 
 {
@@ -145,6 +147,8 @@ void debounce_wait(void)
   }
 }
 void start_screen(){
+	wireless_com_status_t status;
+	uint32_t data;
 	uint16_t x_touch = 0;
 	uint16_t y_touch = 0;
 	uint8_t touch_event = 0;
@@ -196,10 +200,8 @@ void start_screen(){
 		} else {
 			touch_counter = 0;
 		}
-		//printf("touch event: %d\n", touch_event);
-		//printf("x=%d, y=%d\n", x_touch, y_touch);
-		if(touch_counter > TOUCH_MIN){
-				//color_selected = true;
+		if(touch_counter > 0){
+				color_selected = true;
 				if(x_touch >= LCD_WIDTH/2){
 					if(y_touch >= LCD_HEIGHT/2){
 						draw_color = LCD_COLOR_YELLOW;
@@ -215,6 +217,25 @@ void start_screen(){
 				}
 			}
 	}
+	
+	lcd_clear_screen(LCD_COLOR_BLACK);
+	printf("Sending\n");
+	spi_select(NORDIC);
+	status = wireless_send_32(true, true, 1);
+	if(status != NRF24L01_TX_SUCCESS) {
+			printf("Send Message: %s\n\r",wireless_error_messages[status]);
+	} else {
+			printf("Sent succesfully!\n");
+	}
+	spi_select(NORDIC);
+	printf("Receving\n");
+	status = wireless_get_32(true, &data);
+	if(status == NRF24L01_RX_SUCCESS) {
+			printf("Received Succesfully!\n");
+	} else {
+			printf("Error Message: %s\n\r",wireless_error_messages[status]);
+	}
+	
 			//transmit that player is ready
 			//set player1_ready to true
 //	while(!player2_ready){		
@@ -254,9 +275,6 @@ void draw_timer(uint16_t time_value){
 //		//printf("time:%d\n\r",game_timer);
 //		AlertOneSec = false;
 //	}
-
-
-	
 }
 void move_image(
         volatile Direction direction,
@@ -280,11 +298,21 @@ void update_puck(){
 	int32_t diff;
 	move_puck = true;
 	if(PUCK_Y_COORD + puckHeightPixels/2 == LCD_HEIGHT - 1){
-		scored = true;
+		scored++;
 		lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_BLACK,LCD_COLOR_BLACK);
-	} else if(PUCK_Y_COORD  - puckHeightPixels/2 == 0){
-		scored = true;
+		PUCK_X_COORD = LCD_WIDTH/2;
+		PUCK_Y_COORD = LCD_HEIGHT/2;
+		PUCK_DX = 1;
+		PUCK_DY = 1;
+		printf("You conceded a goal!\n");
+		opponent_score++;
+		return;
+	} else if(PUCK_Y_COORD  - puckHeightPixels/2 == TOP_PADDING && PUCK_DY == -1){
+		printf("Reaches Top!!!\n");
 		lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_BLACK,LCD_COLOR_BLACK);
+		send = true;
+		puck_here = false;
+		return;
 	}else if(PUCK_X_COORD - puckWidthPixels/2 == 0 || 
 		(PUCK_X_COORD - puckWidthPixels/2 == PADDLE_X_COORD + paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
 		// left or right of paddle
@@ -315,11 +343,6 @@ void update_puck(){
 				PUCK_DY = -PUCK_DY;	
 			} 
 		}
-	} else if(PUCK_Y_COORD - puckHeightPixels/2 == 0) {
-		// top
-		if(PUCK_DY < 0) {
-			PUCK_DY = -PUCK_DY;
-		}
 	}
 	PUCK_X_COORD += PUCK_DX;
 	PUCK_Y_COORD += PUCK_DY;
@@ -338,6 +361,56 @@ void update_paddle(){
 		move_paddle = true;
 }
 
+void receive() {
+		uint32_t receive_data;
+		wireless_com_status_t status;
+		spi_select(NORDIC);
+		status = wireless_get_32(false, &receive_data);
+		if(status == NRF24L01_RX_SUCCESS) {
+			printf("data receive %d\n", receive_data);
+			scored = 0;
+			puck_here = true;
+			PUCK_X_COORD = receive_data & 0xFF;
+			PUCK_X_COORD = LCD_WIDTH - 1 - PUCK_X_COORD;
+			PUCK_Y_COORD = TOP_PADDING + puckHeightPixels/2;
+			// determine the x-direction of the puck
+			if(receive_data & MID_DIR_M) {
+				PUCK_DX = 0;
+			} else if(receive_data & X_DIR_M) {
+				PUCK_DX = -1;
+			} else {
+				PUCK_DX = 1;	
+			}						
+			PUCK_DY = 1;
+			// determine if you scored one more points
+			my_score += (receive_data & SCORED_M) ? (receive_data & SCORED_M) >> SCORED_SH : 0;
+			fast = (receive_data & FAST_M) ? true : false;
+		}
+}
+
+void transmit() {
+	uint32_t send_data;
+	wireless_com_status_t status;
+	if(send) {
+		send_data = (PUCK_X_COORD & 0xFF) | (PUCK_DX == 0 ? MID_DIR_M : 0) | (PUCK_DX == 1 ? X_DIR_M : 0) | 
+		(fast ? FAST_M : 0) | ((scored << SCORED_SH) & SCORED_M);
+		printf("x: %d\n", PUCK_X_COORD);
+		printf("xx: %d\n", PUCK_X_COORD & 0xFF);
+		printf("Sending data %d\n", send_data);
+		printf("score %d\n", (send_data & SCORED_M) >> SCORED_SH);
+		spi_select(NORDIC);
+		status = wireless_send_32(true, true, send_data);
+		if(status != NRF24L01_TX_SUCCESS) {
+				printf("Send Message: %s\n\r",wireless_error_messages[status]);
+		} else {
+				printf("Sent succesfully!\n");
+		}
+		scored = false;
+		send = false;
+		puck_here = false;
+	}	
+}
+
 void hockey_main(){
 	
 	uint16_t addr;
@@ -353,7 +426,6 @@ void hockey_main(){
 	char msg[80];
 	
 	// wireless demo var
-  wireless_com_status_t status;
   uint32_t data;
   bool validate;	 
 	i = 0;
@@ -361,8 +433,8 @@ void hockey_main(){
 	game_timer = 60;
 	
 	printf("========hockey main===============\n");
-	//lp_io_init();
-	//MCP23017_write_leds(0xAA);
+	lp_io_init();
+	MCP23017_write_leds(0xAA);
 
   printf("\n\r");
   printf("**************************************\n\r");
@@ -374,49 +446,7 @@ void hockey_main(){
   //printf("RmID:%i%i%i%i%i\n\r",remoteID[0],remoteID[1],remoteID[2],remoteID[3],remoteID[4]);
   
   printf("\n\r");
-
-  // Infinite Loop
-//  while(1)
-//  {
-//			
-//      if(TX_MODE && AlertOneSec)
-//      {
-//          printf("Sending: %d\n\r",i);
-//					spi_select(NORDIC);
-//					DisableInterrupts();
-//          status = wireless_send_32(false, false, i);
-//					EnableInterrupts();
-//          if(status != NRF24L01_TX_SUCCESS)
-//          {
-//            printf("Error Message: %s\n\r",wireless_error_messages[status]);
-//          }
-//          AlertOneSec = false;
-//          i++;
-//      }
-//      else if (!TX_MODE)
-//      {
-//				spi_select(NORDIC);
-//        status =  wireless_get_32(false, &data);
-//        if(status == NRF24L01_RX_SUCCESS)
-//        {
-//            printf("Received: %d\n\r", data);
-//        }
-//        
-//        AlertOneSec = false;
-//      }
-
-//			if(get_x_data){
-//			spi_select(MODULE_1);
-//			x_data = accel_read_x();
-//			printf("%d\n", x_data);
-//			}
-//			if(button_pushed) {
-//					button_pushed = false;
-//					printf("%d\n", push_buttons);
-//					EnableInterrupts();
-//			}
-
-//   }	
+	
 //	while(1){
 //      // Delay before entering the code to determine which FSM state to 
 //      // transistion to.
@@ -461,101 +491,48 @@ void hockey_main(){
 			lcd_clear_screen(LCD_COLOR_BLACK);
 			draw_timer(game_timer);
 			lcd_draw_image(LCD_WIDTH/2,borderWidthPixels,BORDER_HEIGHT,borderHeightPixels,borderBitmaps,draw_color,LCD_COLOR_BLACK);
-			PADDLE2_X_COORD = 120;
-			PADDLE2_Y_COORD = paddleHeightPixels/2 + PADDLE_PADDING;
 			PADDLE_X_COORD = 120;
 			PADDLE_Y_COORD = 319 - paddleHeightPixels/2 - PADDLE_PADDING;
 			
-			lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
 			lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
-			lcd_draw_image(PADDLE2_X_COORD,paddleWidthPixels,PADDLE2_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				
+			puck_here = (SEND_FIRST ? true : false);		
 				
 			while(game_timer != 0){
 				spi_select(MODULE_1);
 				if(get_x_data){
 					get_x_data = false;
-			//send data
-				if(SEND_FIRST){
-						spi_select(NORDIC);
-						printf("Sent: %d\n\r",PADDLE_X_COORD);
-						//DisableInterrupts();
-						//do{
-							status = wireless_send_32(true, true, PADDLE_X_COORD);
-						//}while(status == NRF24L01_TX_PCK_LOST);
-						//EnableInterrupts();
-						if(status != NRF24L01_TX_SUCCESS)
-						{
-							printf("Error Message: %s\n\r",wireless_error_messages[status]);
-						}else if(status == NRF24L01_TX_SUCCESS){
-							printf("Sent message\n");
-						}
-						spi_select(NORDIC);
-						//DisableInterrupts();
-						status =  wireless_get_32(true, &PADDLE2_X_COORD);
-						//EnableInterrupts();
-//						if(status == NRF24L01_RX_SUCCESS)
-//							{
-//								printf("Received: %d\n\r", PADDLE2_X_COORD);
-//							}else{
-//							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
-//						}
-					}else{
-						spi_select(NORDIC);
-						//DisableInterrupts();
-						status =  wireless_get_32(false, &PADDLE2_X_COORD);
-						//EnableInterrupts();
-						if(status == NRF24L01_RX_SUCCESS)
-						{
-								printf("Received: %d\n\r", PADDLE2_X_COORD);
-						}else{
-							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
-						}
-							spi_select(NORDIC);
-						printf("Sent: %d\n\r",PADDLE_X_COORD);
-						//DisableInterrupts();
-						//do{
-							status = wireless_send_32(false, false, PADDLE_X_COORD);
-						//}while(status == NRF24L01_TX_PCK_LOST);
-						//EnableInterrupts();
-						if(status != NRF24L01_TX_SUCCESS)
-						{
-							printf("Error Message: %s\n\r",wireless_error_messages[status]);
-						}else if(status == NRF24L01_TX_SUCCESS){
-							printf("Sent message\n");
-						}
-					}
-					//i++;
+					// get data from other board
+					receive();
 					update_paddle();
-					if(!scored)
-					update_puck();				
+					if(puck_here) {
+						update_puck();		
+					}		
 				}
-
-			if(move_paddle){
-				DisableInterrupts();
-				lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
-				move_paddle = false;
-				EnableInterrupts();			
+				if(move_paddle){
+					lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+					move_paddle = false;
+				}
+				if(move_puck && puck_here){
+						lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+						move_puck = false;						
+				}
+				if(AlertOneSec){
+					game_timer = game_timer - 1;
+					draw_timer(game_timer);
+					printf("My score %d\n", my_score);
+					printf("Opponent score %d\n", opponent_score);
+					AlertOneSec = false;					
+				}
+				if(button_pushed) {
+					button_pushed = false;
+					if(push_buttons == 247){
+						MCP23017_write_leds(0x08);
+					}
+					printf("%d\n", push_buttons);
+					EnableInterrupts();
+				}
+				// send the data to other board if required
+				transmit();
 			}
-			if(move_puck){
-				if(!scored) {
-					DisableInterrupts();
-					lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
-					move_puck = false;
-					EnableInterrupts();						
-				}
-			if(AlertOneSec){
-				game_timer = game_timer - 1;
-				draw_timer(game_timer);
-				AlertOneSec = false;
-			}
-			if(button_pushed) {
-				button_pushed = false;
-				if(push_buttons == 247){
-					MCP23017_write_leds(0x08);
-				}
-				printf("%d\n", push_buttons);
-				EnableInterrupts();
-				}
-			}
-		}
 }
