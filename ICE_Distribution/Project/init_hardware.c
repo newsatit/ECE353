@@ -15,7 +15,10 @@ uint8_t remoteID[]  = { 2,2,3,1,4};
 uint8_t myID[]      = { 2,2,3,1,4};
 uint8_t remoteID[]  = { 1,1,1,2,3};
 #endif
-
+/******************************************************************************
+ * Timer1 is initialized to be a 32 bit count down timer
+ * It generates an interrupt every 5 seconds
+ *****************************************************************************/
 void init_timer1(void){
 	TIMER0_Type *gp_timer;
 
@@ -30,7 +33,7 @@ void init_timer1(void){
 	
 	//set ticks to count down from
 	gp_timer->TAILR &= ~gp_timer->TAILR;
-	gp_timer->TAILR |= Core_frequency;
+	gp_timer->TAILR |= Timer1_ticks;
 	
 	//clear interupts
 	gp_timer->ICR |= TIMER_ICR_TATOCINT;
@@ -38,20 +41,43 @@ void init_timer1(void){
 	//enable timer
 	gp_timer->CTL |= TIMER_CTL_TAEN;
 	
-	NVIC_SetPriority(TIMER1A_IRQn, 2);
+	NVIC_SetPriority(TIMER1A_IRQn, 0);
 	NVIC_EnableIRQ(TIMER1A_IRQn);
 }
+/******************************************************************************
+ * Timer2 is initialized to be a 32 bit count down timer
+ * It generates an interrupt every 1 ms
+ *****************************************************************************/
 void init_timer2(void){
 	gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
 	// every 20 ms
-	TIMER2->TAILR = (Core_frequency * 20)/1000;
+	TIMER2->TAILR = (Core_frequency * 1)/1000;
 	// start timer
 	TIMER2->CTL = TIMER_CTL_TAEN;
   // Set the Priority 0
-  NVIC_SetPriority(TIMER2A_IRQn, 1);
+  NVIC_SetPriority(TIMER2A_IRQn, 2);
   // Enable the Interrupt in the NVIC
   NVIC_EnableIRQ(TIMER2A_IRQn);
 }
+/******************************************************************************
+ * Timer3 is initialized to be a 32 bit count down timer
+ * It generates an interrupt every 1 Second
+ *****************************************************************************/
+void init_timer3(void){
+	gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
+	// every 1 second
+	TIMER3->TAILR = Core_frequency;
+	// start timer
+	TIMER3->CTL = TIMER_CTL_TAEN;
+  // Set the Priority 1
+  NVIC_SetPriority(TIMER3A_IRQn, 1);
+  // Enable the Interrupt in the NVIC
+  NVIC_EnableIRQ(TIMER3A_IRQn);
+}
+/******************************************************************************
+ * Timer4 is initialized to be a 16 bit count down timer
+ * It uses a prescaler to generate an interrupt every 8 ms
+ *****************************************************************************/
 void init_timer4(void){
 	
 	TIMER0_Type *gp_timer;
@@ -79,7 +105,7 @@ void init_timer4(void){
 	//enable timer	
 	gp_timer->CTL |= TIMER_CTL_TAEN;
 		
-	NVIC_SetPriority(TIMER4A_IRQn, 0);
+	NVIC_SetPriority(TIMER4A_IRQn, 3);
 	NVIC_EnableIRQ(TIMER4A_IRQn);			
 }
 
@@ -102,6 +128,7 @@ void initializeBoard(void)
 	MCP23017_init();
 	init_timer1();
 	init_timer4();
+	init_timer3();
 	init_lcd();
   EnableInterrupts();
 }

@@ -19,6 +19,7 @@
 #include "wireless.h"
 #include "spi_select.h"
 #include "interrupts.h"
+#include "init_hardware.h"
 
 #include "images.h"
 
@@ -40,6 +41,8 @@ void hockey_main();
 void start_screen();
 
 void game_timer();
+
+void wait_screen();
 
 typedef enum{
   DIR_LEFT,
