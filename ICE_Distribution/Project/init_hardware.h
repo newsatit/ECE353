@@ -31,3 +31,8 @@
 
 
 void initializeBoard(void);
+/******************************************************************************
+ * Timer2 is initialized to be a 32 bit count down timer
+ * It generates an interrupt every 1 ms
+ *****************************************************************************/
+void init_timer2(void);

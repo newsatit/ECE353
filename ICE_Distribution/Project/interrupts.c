@@ -6,6 +6,7 @@ extern volatile int16_t x_data;
 extern volatile bool get_x_data;
 extern volatile bool draw_puck;
 extern volatile int speed_count;
+extern volatile bool print_bytes;
 
 extern PC_Buffer UART0_Tx_Buffer;
 extern PC_Buffer UART0_Rx_Buffer;
@@ -62,7 +63,7 @@ void TIMER1A_Handler(void)
 		//set gp timer to timer2 base
 		gp_timer = (TIMER0_Type *)TIMER1_BASE;
 		//printf("timer1\n");
-	
+		print_bytes = true;
 		//clear interupt
 		gp_timer -> ICR |= 0x00000001;
 }
