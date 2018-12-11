@@ -3,7 +3,7 @@
 #define Timer1_ticks 250000000
 #define Timer4_ticks 100000
 
-const bool SEND_FIRST = true;
+const bool SEND_FIRST = false;
 
 /******************************************************************************
  * Global Variables
@@ -52,6 +52,8 @@ void init_timer2(void){
 	gp_timer_config_32(TIMER2_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
 	// every 20 ms
 	TIMER2->TAILR = (Core_frequency * 1)/1000;
+	//clear interupts
+	TIMER2->ICR |= TIMER_ICR_TATOCINT;
 	// start timer
 	TIMER2->CTL = TIMER_CTL_TAEN;
   // Set the Priority 0
@@ -67,6 +69,8 @@ void init_timer3(void){
 	gp_timer_config_32(TIMER3_BASE, TIMER_TAMR_TAMR_PERIOD, false, true);
 	// every 1 second
 	TIMER3->TAILR = Core_frequency;
+	//clear interupts
+	TIMER3->ICR |= TIMER_ICR_TATOCINT;
 	// start timer
 	TIMER3->CTL = TIMER_CTL_TAEN;
   // Set the Priority 1
@@ -92,7 +96,7 @@ void init_timer4(void){
 	gp_timer->CTL &= ~TIMER_CTL_TBEN;	
 	
 	//set prescalar to 3
-	gp_timer->TAPR |= 00000010;
+	gp_timer->TAPR |= 00000011;
 	//gp_timer->TAPR |= 11111111;
 
 	//set ticks to count down from	
@@ -128,6 +132,7 @@ void initializeBoard(void)
 	MCP23017_init();
 	init_timer1();
 	init_timer4();
+	init_timer2();
 	init_timer3();
 	init_lcd();
   EnableInterrupts();
