@@ -90,7 +90,7 @@ void TIMER4A_Handler(void)
 
 void TIMER2A_Handler(void)
 {	 
-		if(count == speed_count){
+		if(count >= speed_count){
 				draw_puck = true;
 				count = 0;
 		}else{

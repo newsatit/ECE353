@@ -18,6 +18,8 @@
 #define FT_PT_FONT_WIDTH 21
 #define FT_PT_FONT_HEIGHT 21
 #define WAITING_START 20
+#define GAME_OVER_X 60
+#define GAME_OVER_Y 100
 
 /******************************************************************************
  * Global Variables
@@ -79,7 +81,7 @@ bool sw1_debounce_fsm(void)
   static DEBOUNCE_STATES state = DEBOUNCE_ONE;
   bool pin_logic_level;
   
-  pin_logic_level = lp_io_read_pin(SW1_BIT);
+  pin_logic_level = lp_io_read_pin(SW2_BIT);
   
   switch (state)
   {
@@ -401,6 +403,57 @@ void wait_screen(){
 		}	
 	}while(status != NRF24L01_RX_SUCCESS);
 }
+
+void game_over(uint16_t my_score, uint16_t their_score){
+	bool pressed = false;
+	uint8_t values[20];
+	uint16_t addr;
+	uint8_t read_val;
+	
+	
+	//game_over
+	lcd_draw_image(GAME_OVER_X,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[8],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+15,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+30,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[14],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+45,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[6],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+70,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[16],LCD_COLOR_RED,LCD_COLOR_BLACK);	
+	lcd_draw_image(GAME_OVER_X+85,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[23],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+100,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[6],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+115,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[19],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	
+	//you
+	lcd_draw_image(GAME_OVER_X+15,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[26],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+30,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[16],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+45,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[22],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	
+	if(my_score > their_score){
+	//win
+	lcd_draw_image(GAME_OVER_X+70,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[24],LCD_COLOR_GREEN,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+85,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[10],LCD_COLOR_GREEN,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+100,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[15],LCD_COLOR_GREEN,LCD_COLOR_BLACK);
+	}else if(my_score < their_score){
+	//lose
+	lcd_draw_image(GAME_OVER_X+70,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[13],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+85,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[16],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+100,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[20],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+115,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[6],LCD_COLOR_RED,LCD_COLOR_BLACK);
+	}else{
+	//tie
+	lcd_draw_image(GAME_OVER_X+70,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[21],LCD_COLOR_CYAN,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+85,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[10],LCD_COLOR_CYAN,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+100,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[6],LCD_COLOR_CYAN,LCD_COLOR_BLACK);
+	lcd_draw_image(GAME_OVER_X+115,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[5],LCD_COLOR_CYAN,LCD_COLOR_BLACK);
+	}
+				for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
+		{
+				values[ addr - ADDR_START] = rand();
+				printf("Writing %i\n\r",values[addr-ADDR_START]);
+				eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START]);
+		}
+		while(1){
+		
+		}
+}		
 void hockey_main(){
 	
 	uint16_t addr;
@@ -540,57 +593,6 @@ void hockey_main(){
 				spi_select(MODULE_1);
 				if(get_x_data){
 					get_x_data = false;
-			//send data
-//				if(SEND_FIRST){
-//						spi_select(NORDIC);
-//						printf("Sent: %d\n\r",PADDLE_X_COORD);
-//						//DisableInterrupts();
-//						//do{
-//							status = wireless_send_32(true, true, PADDLE_X_COORD);
-//						//}while(status == NRF24L01_TX_PCK_LOST);
-//						//EnableInterrupts();
-//						if(status != NRF24L01_TX_SUCCESS)
-//						{
-//							printf("Error Message: %s\n\r",wireless_error_messages[status]);
-//						}else if(status == NRF24L01_TX_SUCCESS){
-//							printf("Sent message\n");
-//						}
-//						spi_select(NORDIC);
-//						//DisableInterrupts();
-//						status =  wireless_get_32(true, &PADDLE2_X_COORD);
-//						//EnableInterrupts();
-////						if(status == NRF24L01_RX_SUCCESS)
-////							{
-////								printf("Received: %d\n\r", PADDLE2_X_COORD);
-////							}else{
-////							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
-////						}
-//					}else{
-//						spi_select(NORDIC);
-//						//DisableInterrupts();
-//						status =  wireless_get_32(false, &PADDLE2_X_COORD);
-//						//EnableInterrupts();
-//						if(status == NRF24L01_RX_SUCCESS)
-//						{
-//								printf("Received: %d\n\r", PADDLE2_X_COORD);
-//						}else{
-//							printf("Recieve Error: %s\n\r",wireless_error_messages[status]);
-//						}
-//							spi_select(NORDIC);
-//						printf("Sent: %d\n\r",PADDLE_X_COORD);
-//						//DisableInterrupts();
-//						//do{
-//							status = wireless_send_32(false, false, PADDLE_X_COORD);
-//						//}while(status == NRF24L01_TX_PCK_LOST);
-//						//EnableInterrupts();
-//						if(status != NRF24L01_TX_SUCCESS)
-//						{
-//							printf("Error Message: %s\n\r",wireless_error_messages[status]);
-//						}else if(status == NRF24L01_TX_SUCCESS){
-//							printf("Sent message\n");
-//						}
-//					}
-					//i++;
 					update_paddle();				
 				}
 			if(draw_puck){
@@ -625,5 +627,22 @@ void hockey_main(){
 				EnableInterrupts();
 				}
 			}
+			DisableInterrupts();
+      debounce_wait();
+			pressed = sw1_debounce_fsm();		
+			if(pressed){
+					for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
+					{
+							values[ addr - ADDR_START] = rand();
+							printf("Writing %i\n\r",values[addr-ADDR_START]);
+							eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START]);
+					}
+					for(addr = ADDR_START; addr <(ADDR_START+NUM_BYTES); addr++)
+					{
+							eeprom_byte_read(I2C1_BASE,addr, &read_val);
+							printf("Reading %i\n\r",read_val);
+					}
+			}
+			EnableInterrupts();
 		}
 }

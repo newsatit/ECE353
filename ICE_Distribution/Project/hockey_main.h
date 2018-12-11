@@ -37,6 +37,8 @@ void game_timer();
 
 void wait_screen();
 
+void game_over(uint16_t my_score, uint16_t their_score);
+
 typedef enum{
   DIR_LEFT,
   DIR_RIGHT
