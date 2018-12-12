@@ -95,7 +95,7 @@ typedef enum {
 static LED_STATES state = ALL_OFF;
 
 
-bool sw1_debounce_fsm(void)
+bool sw2_debounce_fsm(void)
 {
   static DEBOUNCE_STATES state = DEBOUNCE_ONE;
   bool pin_logic_level;
@@ -353,10 +353,16 @@ void move_image(
 	}
 }
 
+//*****************************************************************************
+// This function updates the x and y coordinates of the puck and
+// direction of the puck as well as change the speed of the puck if the puck is
+// fast and contact a paddle
+//*****************************************************************************
 void update_puck(){
 	int32_t diff;
 	move_puck = true;
-	if(PUCK_Y_COORD + puckHeightPixels/2 == LCD_HEIGHT - 1){
+	// check if the player concede a goal
+	if(PUCK_Y_COORD + puckHeightPixels/2 >= LCD_HEIGHT - 1){
 		pause = true;
 		fast = false;
 		speed_count = 5;
@@ -366,27 +372,31 @@ void update_puck(){
 		PUCK_Y_COORD = TOP_PADDING + puckHeightPixels/2;
 		PUCK_DX = 1;
 		PUCK_DY = 1;
+		// update and draw the score
 		opponent_score++;
 		draw_score(my_score, opponent_score);
 		return;
-	} else if(PUCK_Y_COORD  - puckHeightPixels/2 == TOP_PADDING && PUCK_DY == -1){
+	// check if the puck pass the half-field line
+	// the player will no longer be able to see the puck until the puck comes back
+	} else if(PUCK_Y_COORD  - puckHeightPixels/2 <= TOP_PADDING && PUCK_DY == -1){
 		lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_BLACK,LCD_COLOR_BLACK);
+		// have to send the pos of the puck to the other board
 		send = true;
 		puck_here = false;
 		return;
-	}else if(PUCK_X_COORD - puckWidthPixels/2 == 0 || 
-		(PUCK_X_COORD - puckWidthPixels/2 == PADDLE_X_COORD + paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
-		// left or right of paddle
+	}else if(PUCK_X_COORD - puckWidthPixels/2 <= 0 || 
+		(PUCK_X_COORD - puckWidthPixels/2 <= PADDLE_X_COORD + paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
+		// left edge of the screen or right of paddle
 		if(PUCK_DX < 0) {
 			PUCK_DX = -PUCK_DX;
 		}
-	} else if(PUCK_X_COORD + puckWidthPixels/2 == LCD_WIDTH - 1 ||
-			(PUCK_X_COORD + puckWidthPixels/2 == PADDLE_X_COORD - paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
-		// right or left of paddle
+	} else if(PUCK_X_COORD + puckWidthPixels/2 >= LCD_WIDTH - 1 ||
+			(PUCK_X_COORD + puckWidthPixels/2 >= PADDLE_X_COORD - paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
+		// right edge of the screen or left of paddle
 		if(PUCK_DX > 0) {
 			PUCK_DX = -PUCK_DX;
 		}
-	} else if(PUCK_Y_COORD + puckHeightPixels/2 + paddleHeightPixels + PADDLE_PADDING == LCD_HEIGHT - 1){
+	} else if(PUCK_Y_COORD + puckHeightPixels/2 + paddleHeightPixels + PADDLE_PADDING >= LCD_HEIGHT - 1){
 		// top of the paddle
 		if(PUCK_DY > 0) {
 			if(PUCK_X_COORD + puckWidthPixels/2 >= (PADDLE_X_COORD - paddleWidthPixels/2) && PUCK_X_COORD - puckWidthPixels/2 <= (PADDLE_X_COORD + paddleWidthPixels/2)) {
@@ -413,18 +423,30 @@ void update_puck(){
 	PUCK_Y_COORD += PUCK_DY;
 }
 
+
+//*****************************************************************************
+// This function check the acceloremeter to determine if the direction of 
+// the paddle have to be changed
+//*****************************************************************************
 void update_paddle(){
 		spi_select(MODULE_1);
 		x_data = accel_read_x();	
+		
+		// to the left
 		if(x_data > 3000){
 			if(PADDLE_X_COORD - paddleWidthPixels/2 > 0)
 				move_image(DIR_LEFT,&PADDLE_X_COORD,&PADDLE_Y_COORD);	
+		// to the right
 		}else if(x_data < -3000){
 			if(PADDLE_X_COORD + paddleWidthPixels/2 < LCD_WIDTH - 1)
 				move_image(DIR_RIGHT,&PADDLE_X_COORD,&PADDLE_Y_COORD);	
 		}
 		move_paddle = true;
 }
+
+//*****************************************************************************
+// This function tries to received the info of the puck if there is any
+//*****************************************************************************
 void receive() {
 		uint32_t receive_data;
 		wireless_com_status_t status;
@@ -449,15 +471,22 @@ void receive() {
 			// determine if you scored one more points
 			my_score += (receive_data & SCORED_M) ? (receive_data & SCORED_M) >> SCORED_SH : 0;
 			draw_score(my_score, opponent_score);
+			// determine if the puck is in fast mode and update the speed
 			fast = (receive_data & FAST_M) ? true : false;
 			speed_count = fast ? 2 : 5;
 		}
 }
 
+//*****************************************************************************
+// This function send the info of the puck when it get pass to the other 
+// player's side consisting of the x-pos, direction, speed, and score that
+// have been changed
+//*****************************************************************************
 void transmit() {
 	uint32_t send_data;
 	wireless_com_status_t status;
 	if(send) {
+		//
 		send_data = (PUCK_X_COORD & 0xFF) | (PUCK_DX == 0 ? MID_DIR_M : 0) | (PUCK_DX == 1 ? X_DIR_M : 0) | 
 		(fast ? FAST_M : 0) | ((scored << SCORED_SH) & SCORED_M) | (fast ? FAST_M : 0);
 		spi_select(NORDIC);
@@ -620,110 +649,126 @@ void hockey_main(){
 	//init_EEPROM();
 	
 	game_timer = 75;
-  
-  
-			printf("\n\r");
 		
-			lcd_clear_screen(LCD_COLOR_BLACK);
-			draw_timer(game_timer);
-			lcd_draw_image(LCD_WIDTH/2,borderWidthPixels,BORDER_HEIGHT,borderHeightPixels,borderBitmaps,draw_color,LCD_COLOR_BLACK);
-			PADDLE_X_COORD = 120;
-			PADDLE_Y_COORD = 319 - paddleHeightPixels/2 - PADDLE_PADDING;
-			
-			puck_here = (SEND_FIRST ? true : false);		
-			if(SEND_FIRST)
-				lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
-			lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,draw_color,LCD_COLOR_BLACK);
-			
-			draw_score(0,0);
-			speed_count = 5;
+	lcd_clear_screen(LCD_COLOR_BLACK);
 	
-			while(game_timer > 0){
-				spi_select(MODULE_1);
-				if(get_x_data){
-					get_x_data = false;
+	// intialize the pos of the paddle to be the center
+	PADDLE_X_COORD = 120;
+	PADDLE_Y_COORD = 319 - paddleHeightPixels/2 - PADDLE_PADDING;	
+	
+	// draw border and game timer
+	lcd_draw_image(LCD_WIDTH/2,borderWidthPixels,BORDER_HEIGHT,borderHeightPixels,borderBitmaps,draw_color,LCD_COLOR_BLACK);
+	draw_timer(game_timer);
+	
+	// determine whether the player is the person who get the puck first
+	puck_here = (SEND_FIRST ? true : false);		
+	if(SEND_FIRST)
+		lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+	// draw the initial paddle pos
+	lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,draw_color,LCD_COLOR_BLACK);
+	
+	draw_score(0,0);
+	speed_count = 5;
 
-					// get data from other board
-					receive();
-					update_paddle();		
-				}
-				if(move_paddle){
-					lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,draw_color,LCD_COLOR_BLACK);
-					move_paddle = false;	
-				}
-				if(draw_puck){
-					draw_puck = false;
-					if(puck_here && !pause) {
-						update_puck();		
-						move_puck = true;					
-					}		
-				}
-				if(move_puck && puck_here && !pause){
-						DisableInterrupts();
-						lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
-						EnableInterrupts();
-						move_puck = false;	
-				}
-				if(AlertOneSec){
-					game_timer = game_timer - 1;
-					draw_timer(game_timer); 
-					if(game_timer == 0)
-						break;
-					AlertOneSec = false;					
-				}
-				if(button_pushed) {
-					button_pushed = false;
-					if(push_buttons == UP_BUTTON && power == FULL_POWER){
-						power = 0;
-						fast = true;
-						speed_count = 2;
-						MCP23017_write_leds(0x00);
-					} else if(push_buttons == DOWN_BUTTON) {
-						pause = false;
-					}
-					EnableInterrupts();
-				}
-				if(print_bytes) {
-					print_bytes = false;
-					printf("bytes_sent : %d\n", bytes_sent);
-					printf("bytes_received: %d\n", bytes_received);
-				}
+	// keep playing when the timer is not over
+	while(game_timer > 0){
+		spi_select(MODULE_1);
+		
+		// read the acceloremeter every 8 ms
+		if(get_x_data){
+			get_x_data = false;
+			// try getting data from other board
+			receive();
+			update_paddle();		
+		}
+		// draw paddle if the pos have been changed
+		if(move_paddle){
+			lcd_draw_image(PADDLE_X_COORD,paddleWidthPixels,PADDLE_Y_COORD,paddleHeightPixels,paddleBitmaps,draw_color,LCD_COLOR_BLACK);
+			move_paddle = false;	
+		}
+		// update puck when the timer interrupt and the puck is in the player's side
+		if(draw_puck){
+			draw_puck = false;
+			if(puck_here && !pause) {
+				update_puck();		
+				move_puck = true;					
+			}		
+		}
+		// draw the puck if the pos has been changed
+		if(move_puck && puck_here && !pause){
 				DisableInterrupts();
-				debounce_wait();
-				pressed = sw1_debounce_fsm();		
-				if(pressed){
-						eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START]);
-						printf("Writing \n");	
-						index = 0;
-						for(addr = ADDR_START; addr <(ADDR_START+80); addr++)
-						{
-								printf("%c",first_line[index]);
-								eeprom_byte_write(I2C1_BASE, addr, first_line[index]);
-								index++;
-						}
-						printf("\n");
-						index = 0;
-						for(addr = ADDR_START+80; addr <(ADDR_START+160); addr++)
-						{
-								printf("%c",second_line[index]);
-								eeprom_byte_write(I2C1_BASE, addr, second_line[index]);
-								index++;
-						}
-						printf("\n");
-						index = 0;
-						for(addr = ADDR_START+160; addr <(ADDR_START+240); addr++)
-						{
-								printf("%c",third_line[index]);
-								eeprom_byte_write(I2C1_BASE, addr, third_line[index]);
-								index++;
-						}
-						printf("\n");
-				}
-				EnableInterrupts();				
-				// send the data to other board if required
-				transmit();		
-			
+				lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_RED,LCD_COLOR_BLACK);
+				EnableInterrupts();
+				move_puck = false;	
+		}
+		// display timer every one second
+		if(AlertOneSec){
+			game_timer = game_timer - 1;
+			draw_timer(game_timer); 
+			// stop the game when timer is up
+			if(game_timer == 0)
+				break;
+			AlertOneSec = false;					
+		}
+		
+		if(button_pushed) {
+			button_pushed = false;
+			// increase the speed of the puck
+			if(push_buttons == UP_BUTTON && power == FULL_POWER){
+				power = 0;
+				fast = true;
+				speed_count = 2;
+				MCP23017_write_leds(0x00);
+			// release the ball after concede a goal
+			} else if(push_buttons == DOWN_BUTTON) {
+				pause = false;
 			}
-			game_over(my_score,opponent_score);
+			EnableInterrupts();
+		}
+		// print bytes received and sent every
+		if(print_bytes) {
+			print_bytes = false;
+			printf("bytes_sent : %d\n", bytes_sent);
+			printf("bytes_received: %d\n", bytes_received);
+		}
+		// write data to the eeprom
+		DisableInterrupts();
+		debounce_wait();
+		pressed = sw2_debounce_fsm();		
+		if(pressed){
+				eeprom_byte_write(I2C1_BASE,addr, values[addr-ADDR_START]);
+				printf("Writing \n");	
+				index = 0;
+				for(addr = ADDR_START; addr <(ADDR_START+80); addr++)
+				{
+						printf("%c",first_line[index]);
+						eeprom_byte_write(I2C1_BASE, addr, first_line[index]);
+						index++;
+				}
+				printf("\n");
+				index = 0;
+				for(addr = ADDR_START+80; addr <(ADDR_START+160); addr++)
+				{
+						printf("%c",second_line[index]);
+						eeprom_byte_write(I2C1_BASE, addr, second_line[index]);
+						index++;
+				}
+				printf("\n");
+				index = 0;
+				for(addr = ADDR_START+160; addr <(ADDR_START+240); addr++)
+				{
+						printf("%c",third_line[index]);
+						eeprom_byte_write(I2C1_BASE, addr, third_line[index]);
+						index++;
+				}
+				printf("\n");
+		}
+		EnableInterrupts();				
+		// send the data to other board if required
+		transmit();		
+	}
+	
+	// display the game over screen
+	game_over(my_score,opponent_score);
 
 }
