@@ -385,6 +385,28 @@ void update_puck(){
 		send = true;
 		puck_here = false;
 		return;
+	} else if(PUCK_Y_COORD + puckHeightPixels/2 + paddleHeightPixels + PADDLE_PADDING >= LCD_HEIGHT - 1){
+		// top of the paddle
+		if(PUCK_DY > 0) {
+			if(PUCK_X_COORD + puckWidthPixels/2 >= (PADDLE_X_COORD - paddleWidthPixels/2) && PUCK_X_COORD - puckWidthPixels/2 <= (PADDLE_X_COORD + paddleWidthPixels/2)) {
+				speed_count = 5;
+				fast = false;
+				power = (power == 0) ? 1 : (power << 1) + 1;
+				MCP23017_write_leds(power);
+				diff = PUCK_X_COORD - PADDLE_X_COORD;
+				if(diff > paddleWidthPixels/4) {
+					// bounce to right
+					PUCK_DX = 1;
+				} else if( diff < -(int32_t)paddleWidthPixels/4 ) {
+					// bounce to left
+					PUCK_DX = -1;
+				} else {
+					// bounce to center
+					PUCK_DX = 0;
+				}
+				PUCK_DY = -PUCK_DY;	
+			} 
+		}
 	}else if(PUCK_X_COORD - puckWidthPixels/2 <= 0 || 
 		(PUCK_X_COORD - puckWidthPixels/2 <= PADDLE_X_COORD + paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
 		// left edge of the screen or right of paddle

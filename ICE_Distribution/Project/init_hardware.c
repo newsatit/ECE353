@@ -4,7 +4,7 @@
 #define Timer4_ticks 100000
 
 //used to set the wireless address of the board
-const bool SEND_FIRST = false;
+const bool SEND_FIRST = true;
 
 /******************************************************************************
  * Global Variables
