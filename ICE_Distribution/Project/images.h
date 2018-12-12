@@ -13,6 +13,7 @@ extern const uint8_t paddleBitmaps[];
 extern const uint8_t paddleWidthPixels;
 extern const uint8_t paddleHeightPixels;
 
+//Bitmap info for select color letters
 extern const uint8_t letter_S[];
 extern const uint8_t letter_c[];
 extern const uint8_t letter_e[];
@@ -21,10 +22,12 @@ extern const uint8_t letter_o[];
 extern const uint8_t letter_r[];
 extern const uint8_t letter_t[];
 
+//Bitmap info for colorbox
 extern const uint8_t colorboxBitmaps[];
 extern const uint8_t colorboxWidthPixels;
 extern const uint8_t colorboxHeightPixels;
 
+//Bitmap info for timer letters and numbers
 extern const uint8_t number_0[];
 extern const uint8_t number_1[];
 extern const uint8_t number_2[];
@@ -41,6 +44,7 @@ extern const uint8_t letter_I[];
 extern const uint8_t letter_M[];
 extern const uint8_t letter_T[];
 
+//bitmap info for numbers
 extern const uint8_t numbers[17][32];
 
 // Bitmap info for paddle2
@@ -53,6 +57,7 @@ extern const uint8_t borderBitmaps[];
 extern const uint8_t borderWidthPixels;
 extern const uint8_t borderHeightPixels;
 
+//bitmap info for start letters
 extern const uint8_t start[4][26];
 
 // Bitmap info for air_hockeypuck3
@@ -65,6 +70,7 @@ extern const uint8_t start_screenBitmaps[];
 extern const uint8_t start_screenWidthPixels;
 extern const uint8_t start_screenHeightPixels;
 
+//bitmap info for size 14 letters
 extern const uint8_t text14ptBitmaps[28][63];
 
 #endif

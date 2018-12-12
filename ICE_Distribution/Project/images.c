@@ -1,50 +1,8 @@
 #include "images.h"
 
-
-
-// 
-//  Image data for puck4
-// 
-
-//const uint8_t puckBitmaps[] =
-//{
-//	0x00, 0x00, 0x00, 0x00, 0x00, //                                       
-//	0x00, 0x03, 0xFF, 0x00, 0x00, //               ##########              
-//	0x00, 0x1F, 0xFF, 0xE0, 0x00, //            ################           
-//	0x00, 0xFF, 0xFF, 0xFC, 0x00, //         ######################        
-//	0x03, 0xFF, 0xFF, 0xFE, 0x00, //       #########################       
-//	0x07, 0xFF, 0xFF, 0xFF, 0x80, //      ############################     
-//	0x0F, 0xFF, 0xFF, 0xFF, 0xC0, //     ##############################    
-//	0x1F, 0xFF, 0xFF, 0xFF, 0xE0, //    ################################   
-//	0x1F, 0xFF, 0xFF, 0xFF, 0xF0, //    #################################  
-//	0x3F, 0xFF, 0xFF, 0xFF, 0xF0, //   ##################################  
-//	0x3F, 0xFF, 0xFF, 0xFF, 0xF0, //   ##################################  
-//	0x7F, 0xFF, 0xFF, 0xFF, 0xF8, //  #################################### 
-//	0x7F, 0xFF, 0xFF, 0xFF, 0xF8, //  #################################### 
-//	0x7F, 0xFF, 0xFF, 0xFF, 0xF8, //  #################################### 
-//	0x7F, 0xFF, 0xFF, 0xFF, 0xF8, //  #################################### 
-//	0x7F, 0xFF, 0xFF, 0xFF, 0xF8, //  #################################### 
-//	0x3F, 0xFF, 0xFF, 0xFF, 0xF8, //   ################################### 
-//	0x3F, 0xFF, 0xFF, 0xFF, 0xF0, //   ##################################  
-//	0x3F, 0xFF, 0xFF, 0xFF, 0xF0, //   ##################################  
-//	0x1F, 0xFF, 0xFF, 0xFF, 0xE0, //    ################################   
-//	0x0F, 0xFF, 0xFF, 0xFF, 0xC0, //     ##############################    
-//	0x07, 0xFF, 0xFF, 0xFF, 0x80, //      ############################     
-//	0x03, 0xFF, 0xFF, 0xFF, 0x00, //       ##########################      
-//	0x00, 0xFF, 0xFF, 0xFC, 0x00, //         ######################        
-//	0x00, 0x3F, 0xFF, 0xF0, 0x00, //           ##################          
-//	0x00, 0x03, 0xFF, 0x00, 0x00, //               ##########              
-//	0x00, 0x00, 0x00, 0x00, 0x00, //                                       
-//};
-
-//// Bitmap sizes for puck
-//const uint8_t puckWidthPixels = 38;
-//const uint8_t puckHeightPixels = 27;
-
-// 
-//  Image data for paddle
-// 
-
+//
+//	Image data for the paddle
+//
 const uint8_t paddleBitmaps[] =
 {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //                                                             
@@ -69,7 +27,7 @@ const uint8_t paddleBitmaps[] =
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //                                                             
 };
 
-// Bitmap sizes for paddle2
+// Bitmap sizes for paddle
 const uint8_t paddleWidthPixels = 60;
 const uint8_t paddleHeightPixels = 20;
 
@@ -79,211 +37,161 @@ const uint8_t paddleHeightPixels = 20;
 // 
 
 // Character bitmaps for Courier New 8pt
-const uint8_t number_0[] =
-{
-	// @0 '0' (7 pixels wide)
-	0x38, //   ###  
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x38, //   ###  
-};
-const uint8_t number_1[] = {
-	// @7 '1' (7 pixels wide)
-	0x18, //    ##  
-	0x78, //  ####  
-	0x18, //    ##  
-	0x18, //    ##  
-	0x18, //    ##  
-	0x18, //    ##  
-	0x7E, //  ######
-};
-const uint8_t number_2[] = {
-	// @14 '2' (7 pixels wide)
-	0x38, //   ###  
-	0x6C, //  ## ## 
-	0x0C, //     ## 
-	0x18, //    ##  
-	0x30, //   ##   
-	0x60, //  ##    
-	0x7C, //  ##### 
-};
-const uint8_t number_3[] = {
-	// @21 '3' (7 pixels wide)
-	0x38, //   ###  
-	0x4C, //  #  ## 
-	0x0C, //     ## 
-	0x38, //   ###  
-	0x0C, //     ## 
-	0x4C, //  #  ## 
-	0x38, //   ###  
-};
-const uint8_t number_4[] = {
-	// @28 '4' (7 pixels wide)
-	0x18, //    ##  
-	0x38, //   ###  
-	0x58, //  # ##  
-	0x98, // #  ##  
-	0xFC, // ###### 
-	0x18, //    ##  
-	0x3C, //   #### 
-};
-const uint8_t number_5[] = {
-	// @35 '5' (7 pixels wide)
-	0x7C, //  ##### 
-	0x60, //  ##    
-	0x78, //  ####  
-	0x4C, //  #  ## 
-	0x0C, //     ## 
-	0x4C, //  #  ## 
-	0x38, //   ###  
-};
-const uint8_t number_6[] = {
-	// @42 '6' (7 pixels wide)
-	0x1C, //    ### 
-	0x30, //   ##   
-	0x60, //  ##    
-	0x78, //  ####  
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x38, //   ###  
-};
-const uint8_t number_7[] = {
-	// @49 '7' (7 pixels wide)
-	0x7C, //  ##### 
-	0x4C, //  #  ## 
-	0x0C, //     ## 
-	0x0C, //     ## 
-	0x18, //    ##  
-	0x18, //    ##  
-	0x18, //    ##  
-};
-const uint8_t number_8[] = {
-	// @56 '8' (7 pixels wide)
-	0x38, //   ###  
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x38, //   ###  
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x38, //   ###  
-};
-const uint8_t number_9[] = {
-	// @63 '9' (7 pixels wide)
-	0x38, //   ###  
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x3C, //   #### 
-	0x0C, //     ## 
-	0x18, //    ##  
-	0x70, //  ###   
-};
-const uint8_t colon[] = {
-	// @70 ':' (7 pixels wide)
-	0x00, //        
-	0x00, //        
-	0x30, //   ##   
-	0x00, //        
-	0x00, //        
-	0x00, //        
-	0x30, //   ##   
-};
-const uint8_t letter_E[] = {
-	// @77 'E' (7 pixels wide)
-	0xFC, // ###### 
-	0x64, //  ##  # 
-	0x68, //  ## #  
-	0x78, //  ####  
-	0x68, //  ## #  
-	0x64, //  ##  # 
-	0xFC, // ###### 
-};
-const uint8_t letter_I[] = {
-	// @84 'I' (7 pixels wide)
-	0xFC, // ###### 
-	0x30, //   ##   
-	0x30, //   ##   
-	0x30, //   ##   
-	0x30, //   ##   
-	0x30, //   ##   
-	0xFC, // ###### 
-};
-const uint8_t letter_M[] = {
-	// @91 'M' (7 pixels wide)
-	0xC6, // ##   ##
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x6C, //  ## ## 
-	0x54, //  # # # 
-	0x54, //  # # # 
-	0xEE, // ### ###
-};
-const uint8_t letter_T[] = {
-	// @98 'T' (7 pixels wide)
-	0xFC, // ###### 
-	0xB4, // # ## # 
-	0xB4, // # ## # 
-	0x30, //   ##   
-	0x30, //   ##   
-	0x30, //   ##   
-	0x78, //  ####  
-};
-
-//// Character descriptors for Courier New 8pt
-//// { [Char width in bytes], [Offset into courierNew_8ptCharBitmaps in bytes] }
-//const FONT_CHAR_INFO courierNew_8ptDescriptors[] = 
+//const uint8_t number_0[] =
 //{
-//	{1, 0}, 		// 0 
-//	{1, 7}, 		// 1 
-//	{1, 14}, 		// 2 
-//	{1, 21}, 		// 3 
-//	{1, 28}, 		// 4 
-//	{1, 35}, 		// 5 
-//	{1, 42}, 		// 6 
-//	{1, 49}, 		// 7 
-//	{1, 56}, 		// 8 
-//	{1, 63}, 		// 9 
-//	{1, 70}, 		// : 
-//	{0, 0}, 		// ; 
-//	{0, 0}, 		// < 
-//	{0, 0}, 		// = 
-//	{0, 0}, 		// > 
-//	{0, 0}, 		// ? 
-//	{0, 0}, 		// @ 
-//	{0, 0}, 		// A 
-//	{0, 0}, 		// B 
-//	{0, 0}, 		// C 
-//	{0, 0}, 		// D 
-//	{1, 77}, 		// E 
-//	{0, 0}, 		// F 
-//	{0, 0}, 		// G 
-//	{0, 0}, 		// H 
-//	{1, 84}, 		// I 
-//	{0, 0}, 		// J 
-//	{0, 0}, 		// K 
-//	{0, 0}, 		// L 
-//	{1, 91}, 		// M 
-//	{0, 0}, 		// N 
-//	{0, 0}, 		// O 
-//	{0, 0}, 		// P 
-//	{0, 0}, 		// Q 
-//	{0, 0}, 		// R 
-//	{0, 0}, 		// S 
-//	{1, 98}, 		// T 
+//	// @0 '0' (7 pixels wide)
+//	0x38, //   ###  
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x38, //   ###  
+//};
+//const uint8_t number_1[] = {
+//	// @7 '1' (7 pixels wide)
+//	0x18, //    ##  
+//	0x78, //  ####  
+//	0x18, //    ##  
+//	0x18, //    ##  
+//	0x18, //    ##  
+//	0x18, //    ##  
+//	0x7E, //  ######
+//};
+//const uint8_t number_2[] = {
+//	// @14 '2' (7 pixels wide)
+//	0x38, //   ###  
+//	0x6C, //  ## ## 
+//	0x0C, //     ## 
+//	0x18, //    ##  
+//	0x30, //   ##   
+//	0x60, //  ##    
+//	0x7C, //  ##### 
+//};
+//const uint8_t number_3[] = {
+//	// @21 '3' (7 pixels wide)
+//	0x38, //   ###  
+//	0x4C, //  #  ## 
+//	0x0C, //     ## 
+//	0x38, //   ###  
+//	0x0C, //     ## 
+//	0x4C, //  #  ## 
+//	0x38, //   ###  
+//};
+//const uint8_t number_4[] = {
+//	// @28 '4' (7 pixels wide)
+//	0x18, //    ##  
+//	0x38, //   ###  
+//	0x58, //  # ##  
+//	0x98, // #  ##  
+//	0xFC, // ###### 
+//	0x18, //    ##  
+//	0x3C, //   #### 
+//};
+//const uint8_t number_5[] = {
+//	// @35 '5' (7 pixels wide)
+//	0x7C, //  ##### 
+//	0x60, //  ##    
+//	0x78, //  ####  
+//	0x4C, //  #  ## 
+//	0x0C, //     ## 
+//	0x4C, //  #  ## 
+//	0x38, //   ###  
+//};
+//const uint8_t number_6[] = {
+//	// @42 '6' (7 pixels wide)
+//	0x1C, //    ### 
+//	0x30, //   ##   
+//	0x60, //  ##    
+//	0x78, //  ####  
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x38, //   ###  
+//};
+//const uint8_t number_7[] = {
+//	// @49 '7' (7 pixels wide)
+//	0x7C, //  ##### 
+//	0x4C, //  #  ## 
+//	0x0C, //     ## 
+//	0x0C, //     ## 
+//	0x18, //    ##  
+//	0x18, //    ##  
+//	0x18, //    ##  
+//};
+//const uint8_t number_8[] = {
+//	// @56 '8' (7 pixels wide)
+//	0x38, //   ###  
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x38, //   ###  
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x38, //   ###  
+//};
+//const uint8_t number_9[] = {
+//	// @63 '9' (7 pixels wide)
+//	0x38, //   ###  
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x3C, //   #### 
+//	0x0C, //     ## 
+//	0x18, //    ##  
+//	0x70, //  ###   
+//};
+//const uint8_t colon[] = {
+//	// @70 ':' (7 pixels wide)
+//	0x00, //        
+//	0x00, //        
+//	0x30, //   ##   
+//	0x00, //        
+//	0x00, //        
+//	0x00, //        
+//	0x30, //   ##   
+//};
+//const uint8_t letter_E[] = {
+//	// @77 'E' (7 pixels wide)
+//	0xFC, // ###### 
+//	0x64, //  ##  # 
+//	0x68, //  ## #  
+//	0x78, //  ####  
+//	0x68, //  ## #  
+//	0x64, //  ##  # 
+//	0xFC, // ###### 
+//};
+//const uint8_t letter_I[] = {
+//	// @84 'I' (7 pixels wide)
+//	0xFC, // ###### 
+//	0x30, //   ##   
+//	0x30, //   ##   
+//	0x30, //   ##   
+//	0x30, //   ##   
+//	0x30, //   ##   
+//	0xFC, // ###### 
+//};
+//const uint8_t letter_M[] = {
+//	// @91 'M' (7 pixels wide)
+//	0xC6, // ##   ##
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x6C, //  ## ## 
+//	0x54, //  # # # 
+//	0x54, //  # # # 
+//	0xEE, // ### ###
+//};
+//const uint8_t letter_T[] = {
+//	// @98 'T' (7 pixels wide)
+//	0xFC, // ###### 
+//	0xB4, // # ## # 
+//	0xB4, // # ## # 
+//	0x30, //   ##   
+//	0x30, //   ##   
+//	0x30, //   ##   
+//	0x78, //  ####  
 //};
 
-//// Font information for Courier New 8pt
-//const FONT_INFO courierNew_8ptFontInfo =
-//{
-//	1, //  Character height
-//	'0', //  Start character
-//	'T', //  End character
-//	2, //  Width, in pixels, of space character
-//	courierNew_8ptDescriptors, //  Character descriptor array
-//	courierNew_8ptBitmaps, //  Character bitmap array
-//};
+//
+// Select color letters
+//
 
 const uint8_t letter_S[] = 
 {
@@ -357,56 +265,9 @@ const uint8_t letter_t[] = {
 	0x38, //   ### 
 };
 
-// Character descriptors for Courier New 8pt
-// { [Char width in bytes], [Offset into courierNew_8ptCharBitmaps in bytes] }
-//const FONT_CHAR_INFO courierNew_8ptDescriptors[] = 
-//{
-//	{1, 0}, 		// S 
-//	{0, 0}, 		// T 
-//	{0, 0}, 		// U 
-//	{0, 0}, 		// V 
-//	{0, 0}, 		// W 
-//	{0, 0}, 		// X 
-//	{0, 0}, 		// Y 
-//	{0, 0}, 		// Z 
-//	{0, 0}, 		// [ 
-//	{0, 0}, 		// \ 
-//	{0, 0}, 		// ] 
-//	{0, 0}, 		// ^ 
-//	{0, 0}, 		// _ 
-//	{0, 0}, 		// ` 
-//	{0, 0}, 		// a 
-//	{0, 0}, 		// b 
-//	{1, 7}, 		// c 
-//	{0, 0}, 		// d 
-//	{1, 14}, 		// e 
-//	{0, 0}, 		// f 
-//	{0, 0}, 		// g 
-//	{0, 0}, 		// h 
-//	{0, 0}, 		// i 
-//	{0, 0}, 		// j 
-//	{0, 0}, 		// k 
-//	{1, 21}, 		// l 
-//	{0, 0}, 		// m 
-//	{0, 0}, 		// n 
-//	{1, 28}, 		// o 
-//	{0, 0}, 		// p 
-//	{0, 0}, 		// q 
-//	{1, 35}, 		// r 
-//	{0, 0}, 		// s 
-//	{1, 42}, 		// t 
-//};
-
-//// Font information for Courier New 8pt
-//const FONT_INFO courierNew_8ptFontInfo =
-//{
-//	1, //  Character height
-//	'S', //  Start character
-//	't', //  End character
-//	2, //  Width, in pixels, of space character
-//	courierNew_8ptDescriptors, //  Character descriptor array
-//	courierNew_8ptBitmaps, //  Character bitmap array
-//};
+//
+// image information for the color box
+//
 
 const uint8_t colorboxBitmaps[] =
 {
@@ -511,6 +372,10 @@ const uint8_t colorboxBitmaps[] =
 const uint8_t colorboxWidthPixels = 108;
 const uint8_t colorboxHeightPixels = 97;
 
+//
+// image information for the border bitmap
+//
+
 const uint8_t borderBitmaps[] =
 {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, //                                                                                                                                                                                                                                               
@@ -523,73 +388,77 @@ const uint8_t borderBitmaps[] =
 const uint8_t borderWidthPixels = 238;
 const uint8_t borderHeightPixels = 4;
 
-const uint8_t start[4][26] = 
-{
-{
-	// @0 'A' (15 pixels wide)
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-	0x01, 0x00, //        #       
-	0x01, 0x00, //        #       
-	0x02, 0x80, //       # #      
-	0x02, 0x80, //       # #      
-	0x04, 0x40, //      #   #     
-	0x04, 0x40, //      #   #     
-	0x07, 0xC0, //      #####     
-	0x08, 0x20, //     #     #    
-	0x08, 0x20, //     #     #    
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-},
-{
-	// @26 'R' (15 pixels wide)
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-	0x0F, 0x80, //     #####      
-	0x08, 0x40, //     #    #     
-	0x08, 0x40, //     #    #     
-	0x08, 0x40, //     #    #     
-	0x0F, 0x80, //     #####      
-	0x08, 0x40, //     #    #     
-	0x08, 0x40, //     #    #     
-	0x08, 0x40, //     #    #     
-	0x08, 0x40, //     #    #     
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-},
-{
-	// @52 'S' (15 pixels wide)
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-	0x03, 0x80, //       ###      
-	0x04, 0x40, //      #   #     
-	0x04, 0x00, //      #         
-	0x04, 0x00, //      #         
-	0x03, 0x80, //       ###      
-	0x00, 0x40, //          #     
-	0x00, 0x40, //          #     
-	0x04, 0x40, //      #   #     
-	0x03, 0x80, //       ###      
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-},
-{
-	// @78 'T' (15 pixels wide)
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-	0x07, 0xC0, //      #####     
-	0x01, 0x00, //        #       
-	0x01, 0x00, //        #       
-	0x01, 0x00, //        #       
-	0x01, 0x00, //        #       
-	0x01, 0x00, //        #       
-	0x01, 0x00, //        #       
-	0x01, 0x00, //        #       
-	0x01, 0x00, //        #       
-	0x00, 0x00, //                
-	0x00, 0x00, //                
-}
-};
+////
+//// image information for start word
+////
+
+//const uint8_t start[4][26] = 
+//{
+//{
+//	// @0 'A' (15 pixels wide)
+//	0x00, 0x00, //                
+//	0x00, 0x00, //                
+//	0x01, 0x00, //        #       
+//	0x01, 0x00, //        #       
+//	0x02, 0x80, //       # #      
+//	0x02, 0x80, //       # #      
+//	0x04, 0x40, //      #   #     
+//	0x04, 0x40, //      #   #     
+//	0x07, 0xC0, //      #####     
+//	0x08, 0x20, //     #     #    
+//	0x08, 0x20, //     #     #    
+//	0x00, 0x00, //                
+//	0x00, 0x00, //                
+//},
+//{
+//	// @26 'R' (15 pixels wide)
+//	0x00, 0x00, //                
+//	0x00, 0x00, //                
+//	0x0F, 0x80, //     #####      
+//	0x08, 0x40, //     #    #     
+//	0x08, 0x40, //     #    #     
+//	0x08, 0x40, //     #    #     
+//	0x0F, 0x80, //     #####      
+//	0x08, 0x40, //     #    #     
+//	0x08, 0x40, //     #    #     
+//	0x08, 0x40, //     #    #     
+//	0x08, 0x40, //     #    #     
+//	0x00, 0x00, //                
+//	0x00, 0x00, //                
+//},
+//{
+//	// @52 'S' (15 pixels wide)
+//	0x00, 0x00, //                
+//	0x00, 0x00, //                
+//	0x03, 0x80, //       ###      
+//	0x04, 0x40, //      #   #     
+//	0x04, 0x00, //      #         
+//	0x04, 0x00, //      #         
+//	0x03, 0x80, //       ###      
+//	0x00, 0x40, //          #     
+//	0x00, 0x40, //          #     
+//	0x04, 0x40, //      #   #     
+//	0x03, 0x80, //       ###      
+//	0x00, 0x00, //                
+//	0x00, 0x00, //                
+//},
+//{
+//	// @78 'T' (15 pixels wide)
+//	0x00, 0x00, //                
+//	0x00, 0x00, //                
+//	0x07, 0xC0, //      #####     
+//	0x01, 0x00, //        #       
+//	0x01, 0x00, //        #       
+//	0x01, 0x00, //        #       
+//	0x01, 0x00, //        #       
+//	0x01, 0x00, //        #       
+//	0x01, 0x00, //        #       
+//	0x01, 0x00, //        #       
+//	0x01, 0x00, //        #       
+//	0x00, 0x00, //                
+//	0x00, 0x00, //                
+//}
+//};
 
 // 
 //  Image data for puck
@@ -952,7 +821,7 @@ const uint8_t numbers[17][32] =
 }
 };
 // 
-//  Image data for start_screen
+//  Image data for start_screen image
 // 
 
 const uint8_t start_screenBitmaps[] =

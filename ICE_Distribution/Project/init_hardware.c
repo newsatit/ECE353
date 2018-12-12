@@ -3,6 +3,7 @@
 #define Timer1_ticks 250000000
 #define Timer4_ticks 100000
 
+//used to set the wireless address of the board
 const bool SEND_FIRST = false;
 
 /******************************************************************************
@@ -112,13 +113,17 @@ void init_timer4(void){
 	NVIC_SetPriority(TIMER4A_IRQn, 3);
 	NVIC_EnableIRQ(TIMER4A_IRQn);			
 }
-
+/******************************************************************************
+ * initializes the LCD
+ *****************************************************************************/
 void init_lcd(void){
 	lcd_config_gpio();
   lcd_config_screen();
   lcd_clear_screen(LCD_COLOR_BLACK);
 }
-
+/******************************************************************************
+ * initializes all hardware used by the program
+ *****************************************************************************/
 void initializeBoard(void)
 {	
   DisableInterrupts();
