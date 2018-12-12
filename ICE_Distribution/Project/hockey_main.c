@@ -362,8 +362,9 @@ void move_image(
 void update_puck(){
 	int32_t diff;
 	move_puck = true;
-	// check if the player concede a goal
-	if(PUCK_Y_COORD + puckHeightPixels/2 >= LCD_HEIGHT - 1){
+	
+	// puck passed to the other side
+	if(PUCK_Y_COORD + puckHeightPixels/2 == LCD_HEIGHT - 1){
 		pause = true;
 		fast = false;
 		speed_count = 5;
@@ -373,53 +374,28 @@ void update_puck(){
 		PUCK_Y_COORD = TOP_PADDING + puckHeightPixels/2;
 		PUCK_DX = 1;
 		PUCK_DY = 1;
-		// update and draw the score
 		opponent_score++;
 		draw_score(my_score, opponent_score);
 		return;
-	// check if the puck pass the half-field line
-	// the player will no longer be able to see the puck until the puck comes back
-	} else if(PUCK_Y_COORD  - puckHeightPixels/2 <= TOP_PADDING && PUCK_DY == -1){
+	// concede a goal
+	} else if(PUCK_Y_COORD  - puckHeightPixels/2 == TOP_PADDING && PUCK_DY == -1){
 		lcd_draw_image(PUCK_X_COORD,puckWidthPixels,PUCK_Y_COORD,puckHeightPixels,puckBitmaps,LCD_COLOR_BLACK,LCD_COLOR_BLACK);
-		// have to send the pos of the puck to the other board
 		send = true;
 		puck_here = false;
 		return;
-	} else if(PUCK_Y_COORD + puckHeightPixels/2 + paddleHeightPixels + PADDLE_PADDING >= LCD_HEIGHT - 1){
-		// top of the paddle
-		if(PUCK_DY > 0) {
-			if(PUCK_X_COORD + puckWidthPixels/2 >= (PADDLE_X_COORD - paddleWidthPixels/2) && PUCK_X_COORD - puckWidthPixels/2 <= (PADDLE_X_COORD + paddleWidthPixels/2)) {
-				speed_count = 5;
-				fast = false;
-				power = (power == 0) ? 1 : (power << 1) + 1;
-				MCP23017_write_leds(power);
-				diff = PUCK_X_COORD - PADDLE_X_COORD;
-				if(diff > paddleWidthPixels/4) {
-					// bounce to right
-					PUCK_DX = 1;
-				} else if( diff < -(int32_t)paddleWidthPixels/4 ) {
-					// bounce to left
-					PUCK_DX = -1;
-				} else {
-					// bounce to center
-					PUCK_DX = 0;
-				}
-				PUCK_DY = -PUCK_DY;	
-			} 
-		}
-	}else if(PUCK_X_COORD - puckWidthPixels/2 <= 0 || 
-		(PUCK_X_COORD - puckWidthPixels/2 <= PADDLE_X_COORD + paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
-		// left edge of the screen or right of paddle
+	}else if(PUCK_X_COORD - puckWidthPixels/2 == 0 || 
+		(PUCK_X_COORD - puckWidthPixels/2 == PADDLE_X_COORD + paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
+		// left or right of paddle
 		if(PUCK_DX < 0) {
 			PUCK_DX = -PUCK_DX;
 		}
-	} else if(PUCK_X_COORD + puckWidthPixels/2 >= LCD_WIDTH - 1 ||
-			(PUCK_X_COORD + puckWidthPixels/2 >= PADDLE_X_COORD - paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
-		// right edge of the screen or left of paddle
+	} else if(PUCK_X_COORD + puckWidthPixels/2 == LCD_WIDTH - 1 ||
+			(PUCK_X_COORD + puckWidthPixels/2 == PADDLE_X_COORD - paddleWidthPixels/2 && PADDLE_Y_COORD - paddleHeightPixels/2 <= PUCK_Y_COORD + puckHeightPixels/2 )){
+		// right or left of paddle
 		if(PUCK_DX > 0) {
 			PUCK_DX = -PUCK_DX;
 		}
-	} else if(PUCK_Y_COORD + puckHeightPixels/2 + paddleHeightPixels + PADDLE_PADDING >= LCD_HEIGHT - 1){
+	} else if(PUCK_Y_COORD + puckHeightPixels/2 + paddleHeightPixels + PADDLE_PADDING == LCD_HEIGHT - 1){
 		// top of the paddle
 		if(PUCK_DY > 0) {
 			if(PUCK_X_COORD + puckWidthPixels/2 >= (PADDLE_X_COORD - paddleWidthPixels/2) && PUCK_X_COORD - puckWidthPixels/2 <= (PADDLE_X_COORD + paddleWidthPixels/2)) {
