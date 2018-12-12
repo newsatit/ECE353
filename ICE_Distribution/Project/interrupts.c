@@ -54,7 +54,11 @@ void GPIOF_Handler()
 	push_buttons = MCP23017_read_push_buttons();
 	GPIOF->ICR |= SW2_IO_EXPANDER_INT;
 }
-
+//*****************************************************************************
+// Timer 1A interrupts every 5 seconds
+// It is used to determine when to send number of bytes that have been wirelessly
+// transmitted
+//*****************************************************************************
 void TIMER1A_Handler(void)
 {	
 		
@@ -67,7 +71,10 @@ void TIMER1A_Handler(void)
 		//clear interupt
 		gp_timer -> ICR |= 0x00000001;
 }
-
+//*****************************************************************************
+// Timer 4A interrupts every 8 ms
+// It is used to determine when to get new accelerometer data
+//*****************************************************************************
 void TIMER4A_Handler(void)
 {	
 		
@@ -88,7 +95,11 @@ void TIMER4A_Handler(void)
 		//clear interupt
 		gp_timer -> ICR |= 0x00000001;
 }
-
+//*****************************************************************************
+// Timer 2A interrupts every 1 ms
+// It updates the speed counter which is used to determine how often to draw
+// the puck
+//*****************************************************************************
 void TIMER2A_Handler(void)
 {	 
 		if(count >= speed_count){
@@ -100,6 +111,10 @@ void TIMER2A_Handler(void)
 
 		TIMER2->ICR |= TIMER_ICR_TATOCINT; // Clear Interrupt
 }
+//*****************************************************************************
+// Timer 3A interrupts every 1 second
+// It is used to decrement the game clock
+//*****************************************************************************
 void TIMER3A_Handler(void)
 {	 
 		AlertOneSec = true;

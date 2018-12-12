@@ -47,9 +47,9 @@ void EnableInterrupts(void)
 //*****************************************************************************
 int main(void)
 {
-	initializeBoard();
-	start_screen();
-	wait_screen();
-	hockey_main();
+	initializeBoard(); //initialize all hardware
+	start_screen();	//Go to start screen to set up game
+	wait_screen();	//after player has selected color go to wait screen until boards connected
+	hockey_main();	//main game loop
 
 };

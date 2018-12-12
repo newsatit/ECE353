@@ -2,25 +2,25 @@
 
 // for wireless
 
-#define LCD_WIDTH 240
-#define LCD_HEIGHT 320
-#define WORD_START 150
-#define TIMER_HEIGHT 10
-#define	COLOR_START 80
-#define BORDER_HEIGHT 20
-#define START_WIDTH 85
+#define LCD_WIDTH 240								//width of LCD screen in pixels
+#define LCD_HEIGHT 320							//height of LCD screen in pixels
+#define WORD_START 150							//starting x drawing position of game clock timer
+#define TIMER_HEIGHT 10							//starting y drawing position of game clock timer
+#define	COLOR_START 80							//starting x drawing position of "select color" word
+#define BORDER_HEIGHT 20						//starting y drawing position of top game border
+#define START_WIDTH 85							
 #define START_HEIGHT 160
-#define TOUCH_MIN 200
-#define TOP_PADDING 30
-#define TEN_PT_FONT_WIDTH 15
-#define TEN_PT_FONT_HEIGHT 16
-#define SCORE_X 10
-#define SCORE_Y 10
-#define FT_PT_FONT_WIDTH 21
-#define FT_PT_FONT_HEIGHT 21
+#define TOUCH_MIN 200								//number of capacitive touch events necessary before game registers a touch
+#define TOP_PADDING 30				
+#define TEN_PT_FONT_WIDTH 15				//Letter width in pixels for 10 point font
+#define TEN_PT_FONT_HEIGHT 16				//Letter height in pixels for 10 point font
+#define SCORE_X 10									//starting x drawing position of game score
+#define SCORE_Y 10									//starting y drawing position of game score
+#define FT_PT_FONT_WIDTH 21					//Letter width in pixels for 14 point font
+#define FT_PT_FONT_HEIGHT 21				//Letter height in pixels for 14 point font
 #define WAITING_START 20
-#define GAME_OVER_X 60
-#define GAME_OVER_Y 100
+#define GAME_OVER_X 60							//starting x drawing position of game over
+#define GAME_OVER_Y 100							//starting y drawing position of game over
 #define UP_BUTTON 254
 #define DOWN_BUTTON 253
 #define FULL_POWER 0xFF
@@ -29,10 +29,13 @@
  * Global Variables
  *****************************************************************************/
  
+ 
+ //data to write to EEPROM
  char first_line[80] = "Student 1: Dawanit Satitsumpun";
  char second_line[80] = "Student 2: Joshua Newman";
  char third_line[80] = "Team Number: 26";
 
+//records the number of bytes sent and recieved 
 uint32_t bytes_sent = 0;
 uint32_t bytes_received = 0;
 
@@ -173,6 +176,12 @@ void debounce_wait(void)
     i--;
   }
 }
+//*****************************************************************************
+// This function is called at the beginning of each game. It allows players to
+// chose the color of their paddles. It also reads data from the EEPROM.
+// type - Void
+// inputs - None
+//*****************************************************************************
 void start_screen(){
 	wireless_com_status_t status;
 	uint32_t data;
@@ -268,44 +277,64 @@ void start_screen(){
 	}
 	
 }
+//*****************************************************************************
+// This function draws the current value of the game timer on the LCD
+// type - Void
+// input(s) - uint16_t time_value -> current value of game_timer
+//*****************************************************************************
 void draw_timer(uint16_t time_value){
 	uint16_t last_digit = 0;
 	uint16_t first_digit = 0;
 	
-	//draw TIMER:
+	//draw the word "TIMER:" in the top right corner of LCD screen
 	lcd_draw_image(WORD_START,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[14],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(WORD_START+12,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[12],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(WORD_START+22,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[13],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(WORD_START+32,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[11],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(WORD_START+42,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[10],LCD_COLOR_RED,LCD_COLOR_BLACK);	
 	
+	//determine if the time remaining is over a minute
 	if(time_value >= 60){
-		last_digit = (time_value-60) %10;
-		first_digit = (time_value-60) / 10;
+		last_digit = (time_value-60) %10; 		//grab last digit of time_value (in seconds)
+		first_digit = (time_value-60) / 10;  	//grab first digit of time_value (in seconds)
+		//Draw time remaining in form 0:00
 		lcd_draw_image(WORD_START+52,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[1],LCD_COLOR_RED,LCD_COLOR_BLACK);
 		lcd_draw_image(WORD_START+62,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[10],LCD_COLOR_RED,LCD_COLOR_BLACK);
 		lcd_draw_image(WORD_START+72,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
 		lcd_draw_image(WORD_START+82,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	}else{
-		last_digit = time_value %10;
-		first_digit = time_value / 10;
+		last_digit = time_value %10;			//grab last digit of time_value (in seconds)
+		first_digit = time_value / 10;		//grab first digit of time_value (in seconds)
+		//Draw time remaining in form 0:00
 		lcd_draw_image(WORD_START+52,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[0],LCD_COLOR_RED,LCD_COLOR_BLACK);
 		lcd_draw_image(WORD_START+62,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[10],LCD_COLOR_RED,LCD_COLOR_BLACK);
 		lcd_draw_image(WORD_START+72,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[first_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);
 		lcd_draw_image(WORD_START+82,TEN_PT_FONT_WIDTH,TIMER_HEIGHT,TEN_PT_FONT_HEIGHT,numbers[last_digit],LCD_COLOR_RED,LCD_COLOR_BLACK);	
 	}
 }
+//*****************************************************************************
+// This function draws the current score of the game timer on the LCD
+// type - Void
+// input(s) - uint16_t my_score -> current score of player,
+// uint16_t thier_score -> current score of opposing player
+//*****************************************************************************
 void draw_score(uint16_t my_score, uint16_t their_score){
-		lcd_draw_image(SCORE_X,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[13],draw_color,LCD_COLOR_BLACK);
-		lcd_draw_image(SCORE_X+10,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[11],draw_color,LCD_COLOR_BLACK);
-		lcd_draw_image(SCORE_X+20,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[10],draw_color,LCD_COLOR_BLACK);
-		lcd_draw_image(SCORE_X+30,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[my_score],LCD_COLOR_WHITE,LCD_COLOR_BLACK);
-		lcd_draw_image(SCORE_X+45,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[15],LCD_COLOR_RED,LCD_COLOR_BLACK);
-		lcd_draw_image(SCORE_X+57,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[16],LCD_COLOR_RED,LCD_COLOR_BLACK);
-		lcd_draw_image(SCORE_X+67,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[16],LCD_COLOR_RED,LCD_COLOR_BLACK);
-		lcd_draw_image(SCORE_X+77,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[10],LCD_COLOR_RED,LCD_COLOR_BLACK);	
-		lcd_draw_image(SCORE_X+87,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[their_score],LCD_COLOR_WHITE,LCD_COLOR_BLACK);	
+		lcd_draw_image(SCORE_X,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[13],draw_color,LCD_COLOR_BLACK);											//M
+		lcd_draw_image(SCORE_X+10,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[11],draw_color,LCD_COLOR_BLACK);										//E
+		lcd_draw_image(SCORE_X+20,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[10],draw_color,LCD_COLOR_BLACK);										//:
+		lcd_draw_image(SCORE_X+30,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[my_score],LCD_COLOR_WHITE,LCD_COLOR_BLACK);				//"score"
+		lcd_draw_image(SCORE_X+45,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[15],LCD_COLOR_RED,LCD_COLOR_BLACK);								//O
+		lcd_draw_image(SCORE_X+57,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[16],LCD_COLOR_RED,LCD_COLOR_BLACK);								//P
+		lcd_draw_image(SCORE_X+67,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[16],LCD_COLOR_RED,LCD_COLOR_BLACK);								//P
+		lcd_draw_image(SCORE_X+77,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[10],LCD_COLOR_RED,LCD_COLOR_BLACK);								//:
+		lcd_draw_image(SCORE_X+87,TEN_PT_FONT_WIDTH,SCORE_Y,TEN_PT_FONT_HEIGHT,numbers[their_score],LCD_COLOR_WHITE,LCD_COLOR_BLACK);			//"score"
 }
+//*****************************************************************************
+// This function updates the x and y coordinates of the paddle
+// Type - Void
+// input(s) - Direction direction -> direction to move the paddle
+//					- uint32_t *x_coord
+//*****************************************************************************
 void move_image(
         volatile Direction direction,
         volatile uint32_t *x_coord, 
