@@ -333,7 +333,8 @@ void draw_score(uint16_t my_score, uint16_t their_score){
 // This function updates the x and y coordinates of the paddle
 // Type - Void
 // input(s) - Direction direction -> direction to move the paddle
-//					- uint32_t *x_coord
+//					- uint32_t *x_coord -> location of x_coord variable
+//					- uint32_t *y_coord -> location of y_coord variable
 //*****************************************************************************
 void move_image(
         volatile Direction direction,
@@ -470,20 +471,31 @@ void transmit() {
 		puck_here = false;
 	}	
 }
+//*****************************************************************************
+// This function is called after the player has choosen the color and is ready
+// to start the game. It first transmits to the opposing player that the player
+// is ready. It then listens for the a transmision from the opposing player. Once
+// a transmision is recieved the funtion exits.
 
+// While the player is waiting it displays a waiting annimation
+// Type - Void
+// input(s) - none
+//*****************************************************************************
 void wait_screen(){
-	int wait_count = 0;
-	int loop_counter = 0;
-	wireless_com_status_t status;
-	bool recieved = false;
-	uint32_t data;
+	int wait_count = 0;      				//used to animate the wait screen
+	//int loop_counter = 0;					
+	wireless_com_status_t status;		//wireless com status variable
+	bool recieved = false;					//check is message from opposing player has been revieved
+	uint32_t data;									//stores data recieved from opposing player
 	
 	lcd_clear_screen(LCD_COLOR_BLACK);
 	spi_select(NORDIC);
-	status = wireless_send_32(true, true, 1);
+	status = wireless_send_32(true, true, 1);			//send any data to opposing player to notify that this player is ready to start game
 	if(status == NRF24L01_TX_SUCCESS) {
-			bytes_sent++;
+			bytes_sent++;															//update number of bytes sent
 	}
+	
+	//draw "WAITING"
 	lcd_draw_image(WAITING_START,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[24],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(WAITING_START+21,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(WAITING_START+42,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[10],LCD_COLOR_RED,LCD_COLOR_BLACK);
@@ -492,10 +504,12 @@ void wait_screen(){
 	lcd_draw_image(WAITING_START+107,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[15],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(WAITING_START+129,FT_PT_FONT_WIDTH,LCD_HEIGHT/2,FT_PT_FONT_HEIGHT,text14ptBitmaps[8],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	
+	//wait for data from opposing player to be recieved
 	do{
 		spi_select(NORDIC);
 		status = wireless_get_32(false, &data);
 		printf("%s\n\r",wireless_error_messages[status]);
+		//animate waiting image every one second
 		if(AlertOneSec){
 			AlertOneSec = false;
 			switch(wait_count){
@@ -525,17 +539,22 @@ void wait_screen(){
 	}while(status != NRF24L01_RX_SUCCESS);
 	bytes_received++;
 }
-
-
+//*****************************************************************************
+// This function is called whe the game timer reaches zero. It displays the
+// winner and updates the record of Wins/losses/ties in the EEPROM. It then 
+// enters an infinite loop
+// Type - Void
+// input(s) - uint16_t my_score, uint16_t their_score
+//*****************************************************************************
 void game_over(uint16_t my_score, uint16_t their_score){
-	bool pressed = false;
-	uint8_t values[20];
-	uint16_t addr;
-	uint8_t read_val;
-	int8_t result;
+	//bool pressed = false;
+	//uint8_t values[20];
+	uint16_t addr;						//address to write to EEPROM
+	uint8_t read_val;					//value read from EEPROM
+	int8_t result;						//records if game was a win, loss or tie
 	
 	
-	//game_over
+	//Draw "game_over"
 	lcd_draw_image(GAME_OVER_X,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[8],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+15,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[2],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+30,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[14],LCD_COLOR_RED,LCD_COLOR_BLACK);
@@ -545,20 +564,22 @@ void game_over(uint16_t my_score, uint16_t their_score){
 	lcd_draw_image(GAME_OVER_X+100,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[6],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+115,FT_PT_FONT_WIDTH,GAME_OVER_Y,FT_PT_FONT_HEIGHT,text14ptBitmaps[19],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	
-	//you
+	// Draw "you"
 	lcd_draw_image(GAME_OVER_X+15,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[26],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+30,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[16],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+45,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[22],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	
+	//if game was won, draw "win", if lost draw "lost", if tied draw "tie"
 	if(my_score > their_score){
-	//win
 	result = 1;
+	// draw win
 	lcd_draw_image(GAME_OVER_X+70,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[24],LCD_COLOR_GREEN,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+85,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[10],LCD_COLOR_GREEN,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+100,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[15],LCD_COLOR_GREEN,LCD_COLOR_BLACK);
 	}else if(my_score < their_score){
 	//lose
 	result = -1;
+		// draw lost
 	lcd_draw_image(GAME_OVER_X+70,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[13],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+85,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[16],LCD_COLOR_RED,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+100,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[20],LCD_COLOR_RED,LCD_COLOR_BLACK);
@@ -566,11 +587,13 @@ void game_over(uint16_t my_score, uint16_t their_score){
 	}else{
 	//tie
 	result = 0;
+		// draw tied
 	lcd_draw_image(GAME_OVER_X+70,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[21],LCD_COLOR_CYAN,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+85,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[10],LCD_COLOR_CYAN,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+100,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[6],LCD_COLOR_CYAN,LCD_COLOR_BLACK);
 	lcd_draw_image(GAME_OVER_X+115,FT_PT_FONT_WIDTH,GAME_OVER_Y+20,FT_PT_FONT_HEIGHT,text14ptBitmaps[5],LCD_COLOR_CYAN,LCD_COLOR_BLACK);
 	}
+	//update records in EEPROM
 	if(result == 1) {
 		addr = ADDR_START + 240;
 		eeprom_byte_read(I2C1_BASE,addr, &read_val);
@@ -590,7 +613,12 @@ void game_over(uint16_t my_score, uint16_t their_score){
 		
 		}
 }		
-
+//*****************************************************************************
+// This function initializes the data in EEPROM at the addresses used to zero
+// should only be used the first time the a board is loaded with this program
+// Type - Void
+// input(s) - None
+//*****************************************************************************
 void init_EEPROM() {
 	uint16_t addr;
 	for(addr = ADDR_START; addr <(ADDR_START+243); addr++)
@@ -673,6 +701,7 @@ void hockey_main(){
 				}
 				if(button_pushed) {
 					button_pushed = false;
+					push_buttons = MCP23017_read_push_buttons();
 					if(push_buttons == UP_BUTTON && power == FULL_POWER){
 						power = 0;
 						fast = true;
